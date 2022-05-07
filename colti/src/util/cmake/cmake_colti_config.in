@@ -1,0 +1,15 @@
+#ifndef COLTI_CONFIG
+#define COLTI_CONFIG
+
+//Major version of Colti
+#define COLTI_VERSION_MAJOR 		${PROJECT_VERSION_MAJOR}
+//Minor version of Colti
+#define COLTI_VERSION_MINOR 		${PROJECT_VERSION_MINOR}
+//Patch version of Colti
+#define COLTI_VERSION_PATCH 		${PROJECT_VERSION_PATCH}
+//Tweak version of Colti
+#define COLTI_VERSION_TWEAK 		${PROJECT_VERSION_TWEAK}
+//The project version as a string
+#define COLTI_VERSION_STRING 		"${PROJECT_VERSION}"
+
+#endif //COLTI_CONFIG
