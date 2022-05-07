@@ -1,0 +1,4 @@
+# CMAKE FILES
+build/
+# CMAKE CONFIGURED FILE
+colti_config.h
