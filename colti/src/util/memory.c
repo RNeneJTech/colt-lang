@@ -8,3 +8,13 @@ void* checked_malloc(size_t size)
     printf("Error: Couldn't allocate memory!");
     exit(2);
 }
+
+void checked_free(void* ptr)
+{
+    if (ptr)
+    {
+        free(ptr); return;
+    }
+    printf("Error: Pointer was NULL when it shouldn't be!");
+    exit(2);
+}
