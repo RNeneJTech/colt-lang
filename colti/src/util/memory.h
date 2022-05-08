@@ -1,7 +1,8 @@
 #ifndef HG_COLTI_MEMORY
 #define HG_COLTI_MEMORY
 
-#include "common.h"
+#include "console_colors.h"
+#include <stdio.h>
 
 /// @brief Allocates a block of size 'size' from the heap, but terminates if the pointer is NULL
 /// @param size The size of the block to allocate

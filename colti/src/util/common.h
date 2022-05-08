@@ -11,14 +11,26 @@
 
 #include <string.h>
 
+#include "colti_config.h"
 #include "memory.h"
+#include "console_colors.h"
+
+#ifdef COLTI_WINDOWS
+	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
+#else
+	#define COLTI_CURRENT_FILENAME (strrchr("/" __FILE__, '/') + 1)
+#endif
 
 #ifdef COLTI_DEBUG_BUILD
-	//Terminates the program if 'cond' is not true
+	//Terminates the program if 'cond' is not true, and in that case prints error with useful debug info
 	#define colti_assert(cond, error) do { \
 	if (!(cond)) { \
-		printf("\nAssertion failed from file %s, at line %d:\nFunction: %s\nError: %s\n", __FILE__, __LINE__, __FUNCTION__, (error)); \
-		getc(stdin); \
+		printf(CONSOLE_FOREGROUND_BRIGHT_RED "\nAssertion failed from file " CONSOLE_FOREGROUND_BRIGHT_WHITE "\"%s\"" \
+			CONSOLE_FOREGROUND_BRIGHT_RED ", at line " CONSOLE_FOREGROUND_BRIGHT_MAGENTA "%d" \
+			CONSOLE_FOREGROUND_BRIGHT_RED " in function " CONSOLE_FOREGROUND_BRIGHT_WHITE "\"%s\"" \
+			CONSOLE_FOREGROUND_BRIGHT_RED ":\nError: " CONSOLE_FOREGROUND_BRIGHT_CYAN "%s\n" CONSOLE_COLOR_RESET, \
+			COLTI_CURRENT_FILENAME, __LINE__, __FUNCTION__, (error)); \
+		(void)getc(stdin); \
 		exit(1); \
 	} } while (0)
 	
