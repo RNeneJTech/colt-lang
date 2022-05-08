@@ -5,7 +5,7 @@ void ChunkPrintBytes(const Chunk* chunk)
 	//TODO: maybe optimize?
 	for (uint32_t i = 0; i < chunk->count; i++)
 	{
-		if (i > 0) printf(":");
+		if (i > 0) printf(" ");
 		printf("%02X", chunk->code[i]);
 	}
 	printf("\n");
@@ -13,7 +13,7 @@ void ChunkPrintBytes(const Chunk* chunk)
 
 void ChunkDisassemble(const Chunk* chunk, const char* name)
 {
-	printf("========== %s ==========\n", name);
+	printf("============ %s ============\n", name);
 
 	if (chunk->count == 0)
 	{
