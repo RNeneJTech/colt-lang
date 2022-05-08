@@ -49,7 +49,7 @@ void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size)
 	chunk->count += size;
 }
 
-void ChunkWriteInt16(Chunk* chunk, int16_t value)
+void ChunkWriteWord(Chunk* chunk, uint16_t value)
 {
 	//We need to pad if needed
 	uint64_t offset = (uint64_t)(chunk->code + chunk->count) & 1; //same as % 2
@@ -65,45 +65,92 @@ void ChunkWriteInt16(Chunk* chunk, int16_t value)
 	chunk->count += sizeof(uint16_t);
 }
 
-void ChunkWriteInt32(Chunk* chunk, int32_t value)
+void ChunkWriteDWord(Chunk* chunk, uint32_t value)
 {
-	//TODO: add code
+	uint64_t offset = (uint64_t)(chunk->code + chunk->count) % 4;
+	if (!(chunk->count + offset + sizeof(uint32_t) < chunk->capacity)) //Grow if needed
+		impl_chunk_grow_double(chunk);
+
+	//Set the padding bytes to CD on Debug build
+	DO_IF_DEBUG_BUILD(if (offset != 0) memset(chunk->code + chunk->count, 205, offset););
+
+	//Copy the bytes of the integer to the aligned memory
+	memcpy(chunk->code + (chunk->count += offset), &value, sizeof(uint32_t));
+	//We already added offset to 'count' ^
+	chunk->count += sizeof(uint32_t);
 }
 
-void ChunkWriteInt64(Chunk* chunk, int64_t value)
-{
-	//TODO: add code
+void ChunkWriteQWord(Chunk* chunk, uint64_t value)
+{	
+	uint64_t offset = (uint64_t)(chunk->code + chunk->count) % 8;
+	if (!(chunk->count + offset + sizeof(uint64_t) < chunk->capacity)) //Grow if needed
+		impl_chunk_grow_double(chunk);
+
+	//Set the padding bytes to CD on Debug build
+	DO_IF_DEBUG_BUILD(if (offset != 0) memset(chunk->code + chunk->count, 205, offset););
+
+	//Copy the bytes of the integer to the aligned memory
+	memcpy(chunk->code + (chunk->count += offset), &value, sizeof(uint64_t));
+	//We already added offset to 'count' ^
+	chunk->count += sizeof(uint64_t);
 }
 
-int16_t ChunkGetInt16(const Chunk* chunk, int* offset)
+uint16_t ChunkGetByte(const Chunk* chunk, int* offset)
 {
-	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_INT16, "'offset' should point to an OP_IMMEDIATE_INT16!");
+	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_BYTE, "'offset' should point to an OP_IMMEDIATE_BYTE!");
+	++(*offset);
+	return chunk->code[*offset];
+}
+
+uint16_t ChunkGetWord(const Chunk* chunk, int* offset)
+{
+	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_WORD, "'offset' should point to an OP_IMMEDIATE_WORD!");
 
 	//Local variable which will be used to store a copy of the offset, than write only one time to *offset
-	//As the offset points to OP_IMMEDIATE_INT16, we also need to add 1
+	//As the offset points to OP_IMMEDIATE_WORD, we also need to add 1
 	int local_offset = *offset + 1;
 	//We add the padding to the offset, which means we are now pointing to the int16
 	local_offset += ((uint64_t)(chunk->code + local_offset) & 1);
 
 	//Extract the int16 from the bytes
-	int16_t return_val = *(int16_t*)(chunk->code + local_offset);
+	uint16_t return_val = *(int16_t*)(chunk->code + local_offset);
 	//Update the value of the offset
 	*offset = local_offset + sizeof(int16_t);
 	return return_val;
 }
 
-int32_t ChunkGetInt32(const Chunk* chunk, int* offset)
+uint32_t ChunkGetDWord(const Chunk* chunk, int* offset)
 {
-	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_INT32, "'offset' should point to an OP_IMMEDIATE_INT32!");
+	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_DWORD, "'offset' should point to an OP_IMMEDIATE_DWORD!");
 
-	//TODO: add code
+	//Local variable which will be used to store a copy of the offset, than write only one time to *offset
+	//As the offset points to OP_IMMEDIATE_DWORD, we also need to add 1
+	int local_offset = *offset + 1;
+	//We add the padding to the offset, which means we are now pointing to the int32
+	local_offset += (uint64_t)(chunk->code + local_offset) % 4;
+
+	//Extract the int16 from the bytes
+	uint32_t return_val = *(int32_t*)(chunk->code + local_offset);
+	//Update the value of the offset
+	*offset = local_offset + sizeof(int32_t);
+	return return_val;
 }
 
-int64_t ChunkGetInt64(const Chunk* chunk, int* offset)
+uint64_t ChunkGetQWord(const Chunk* chunk, int* offset)
 {
-	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_INT64, "'offset' should point to an OP_IMMEDIATE_INT64!");
+	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_QWORD, "'offset' should point to an OP_IMMEDIATE_QWORD!");
 
-	//TODO: add code
+	//Local variable which will be used to store a copy of the offset, than write only one time to *offset
+	//As the offset points to OP_IMMEDIATE_QWORD, we also need to add 1
+	int local_offset = *offset + 1;
+	//We add the padding to the offset, which means we are now pointing to the int64
+	local_offset += (uint64_t)(chunk->code + local_offset) % 8;
+
+	//Extract the int16 from the bytes
+	uint64_t return_val = *(int64_t*)(chunk->code + local_offset);
+	//Update the value of the offset
+	*offset = local_offset + sizeof(int64_t);
+	return return_val;
 }
 
 void ChunkFree(Chunk* chunk)
@@ -165,20 +212,23 @@ int impl_chunk_print_code(const Chunk* chunk, int offset)
 
 	case OP_IMMEDIATE_BYTE:
 		colti_assert(offset + 1 <= chunk->count, "Missing byte after OP_IMMEDIATE_BYTE!");
-		return impl_print_byte_instruction("OP_IMMEDIATE_BYTE", chunk->code[offset + 1], offset);
-
-	case OP_IMMEDIATE_INT16:
-		colti_assert(offset + ((uint64_t)(chunk->code + offset) & 1) + sizeof(int16_t) <= chunk->count, "Missing int16 after OP_IMMEDIATE_INT16");
-		impl_print_int_instruction("OP_IMMEDIATE_INT16", ChunkGetInt16(chunk, &offset));
+		impl_print_hex_instruction("OP_IMMEDIATE_BYTE", ChunkGetByte(chunk, &offset));
 		return offset;
 
-	case OP_IMMEDIATE_INT32:
-		/*colti_assert(offset + 1 <= chunk->count, "Missing int32 after OP_IMMEDIATE_INT32");
-		return impl_print_int_instruction("OP_IMMEDIATE_BYTE", chunk->code[offset + 1], offset);*/
+	case OP_IMMEDIATE_WORD:
+		colti_assert(offset + ((uint64_t)(chunk->code + offset) & 1) + sizeof(int16_t) <= chunk->count, "Missing int16 after OP_IMMEDIATE_WORD");
+		impl_print_hex_instruction("OP_IMMEDIATE_WORD", ChunkGetWord(chunk, &offset));
+		return offset;
 
-	case OP_IMMEDIATE_INT64:
-		/*colti_assert(offset + 1 <= chunk->count, "Missing int64 after OP_IMMEDIATE_INT64!");
-		return impl_print_int_instruction("OP_IMMEDIATE_BYTE", chunk->code[offset + 1], offset);*/
+	case OP_IMMEDIATE_DWORD:
+		colti_assert(offset + ((uint64_t)(chunk->code + offset) % 4) + sizeof(int32_t) <= chunk->count, "Missing int32 after OP_IMMEDIATE_DWORD");
+		impl_print_hex_instruction("OP_IMMEDIATE_DWORD", ChunkGetDWord(chunk, &offset));
+		return offset;
+
+	case OP_IMMEDIATE_QWORD:
+		colti_assert(offset + ((uint64_t)(chunk->code + offset) % 8) + sizeof(int64_t) <= chunk->count, "Missing int64 after OP_IMMEDIATE_QWORD");
+		impl_print_hex_instruction("OP_IMMEDIATE_QWORD", ChunkGetQWord(chunk, &offset));
+		return offset;
 
 	default:
 		printf("UNKOWN OPCODE: '%d'\n", instruction);
@@ -200,5 +250,10 @@ int impl_print_byte_instruction(const char* name, uint8_t byte, int offset)
 
 void impl_print_int_instruction(const char* name, int64_t value)
 {
-	printf("%s '%"PRId64"'\n", name, value);
+	printf("%s '%"PRId64"'", name, value);
+}
+
+void impl_print_hex_instruction(const char* name, uint64_t value)
+{
+	printf("%s '%"PRIX64"'\n", name, value);
 }

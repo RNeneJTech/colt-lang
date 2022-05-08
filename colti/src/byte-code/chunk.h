@@ -6,9 +6,9 @@
 /// @brief Represents an instruction to be executed by the VM
 typedef enum {
 	OP_IMMEDIATE_BYTE,
-	OP_IMMEDIATE_INT16,
-	OP_IMMEDIATE_INT32,
-	OP_IMMEDIATE_INT64,
+	OP_IMMEDIATE_WORD,
+	OP_IMMEDIATE_DWORD,
+	OP_IMMEDIATE_QWORD,
 	OP_RETURN,
 } OperationCode;
 
@@ -51,35 +51,74 @@ void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size);
 /// @brief Writes an int16 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteInt16(Chunk* chunk, int16_t value);
+void ChunkWriteWord(Chunk* chunk, uint16_t value);
 
 /// @brief Writes an int32 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteInt32(Chunk* chunk, int32_t value);
+void ChunkWriteDWord(Chunk* chunk, uint32_t value);
 
 /// @brief Writes an int64 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteInt64(Chunk* chunk, int64_t value);
+void ChunkWriteQWord(Chunk* chunk, uint64_t value);
 
 /// @brief Gets an int16 from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
-/// @param offset The offset should point to the OP_IMMEDIATE_INT16, is modified by this function
+/// @param offset The offset should point to the OP_IMMEDIATE_WORD, is modified by this function
 /// @return The int at that offset
-int16_t ChunkGetInt16(const Chunk* chunk, int* offset);
+int16_t ChunkGetWord(const Chunk* chunk, int* offset);
 
 /// @brief Gets an int32 from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
-/// @param offset The offset should point to the OP_IMMEDIATE_INT32
+/// @param offset The offset should point to the OP_IMMEDIATE_DWORD
 /// @return The int at that offset
-int32_t ChunkGetInt32(const Chunk* chunk, int* offset);
+int32_t ChunkGetDWord(const Chunk* chunk, int* offset);
 
 /// @brief Gets an int64 from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
-/// @param offset The offset should point to the OP_IMMEDIATE_INT64
+/// @param offset The offset should point to the OP_IMMEDIATE_QWORD
 /// @return The int at that offset
-int64_t ChunkGetInt64(const Chunk* chunk, int* offset);
+int64_t ChunkGetQWord(const Chunk* chunk, int* offset);
+
+/// @brief Writes an int16 to the end of a chunk, padding if necessary
+/// @param chunk The chunk to append to
+/// @param value The value to write
+void ChunkWriteWord(Chunk* chunk, uint16_t value);
+
+/// @brief Writes an int32 to the end of a chunk, padding if necessary
+/// @param chunk The chunk to append to
+/// @param value The value to write
+void ChunkWriteDWord(Chunk* chunk, uint32_t value);
+
+/// @brief Writes an int64 to the end of a chunk, padding if necessary
+/// @param chunk The chunk to append to
+/// @param value The value to write
+void ChunkWriteQWord(Chunk* chunk, uint64_t value);
+
+/// @brief Gets a byte from the offset specified
+/// @param chunk The chunk to get the value from
+/// @param offset The offset should point to the OP_IMMEDIATE_BYTE, is modified by this function
+/// @return The byte at that offset
+uint16_t ChunkGetByte(const Chunk* chunk, int* offset);
+
+/// @brief Gets a word from the offset specified, aligning the access
+/// @param chunk The chunk to get the value from
+/// @param offset The offset should point to the OP_IMMEDIATE_WORD, is modified by this function
+/// @return The word at that offset
+uint16_t ChunkGetWord(const Chunk* chunk, int* offset);
+
+/// @brief Gets a double word from the offset specified, aligning the access
+/// @param chunk The chunk to get the value from
+/// @param offset The offset should point to the OP_IMMEDIATE_DWORD
+/// @return The double word at that offset
+uint32_t ChunkGetDWord(const Chunk* chunk, int* offset);
+
+/// @brief Gets a quad word from the offset specified, aligning the access
+/// @param chunk The chunk to get the value from
+/// @param offset The offset should point to the OP_IMMEDIATE_QWORD
+/// @return The quad word at that offset
+uint64_t ChunkGetQWord(const Chunk* chunk, int* offset);
 
 /// @brief Frees memory used by a chunk
 /// @param chunk The chunk to free
@@ -110,8 +149,25 @@ int impl_chunk_print_code(const Chunk* chunk, int offset);
 /// @return The current byte offset + 1
 int impl_print_simple_instruction(const char* name, int offset);
 
+/// @brief Prints a one byte instruction followed by the byte following it
+/// @param name The name of the instruction
+/// @param byte The byte that follows it
+/// @param offset The current byte offset
+/// @return The current byte offset + 2
 int impl_print_byte_instruction(const char* name, uint8_t byte, int offset);
 
+/// @brief Prints a one byte instruction followed by the int following it.
+/// There is no offset to pass to this function, but rather, the 'value' argument
+/// should be ChunkGetInt[16|32|64](..., &offset).
+/// @param name The name of the instruction
+/// @param value The int following the instruction
 void impl_print_int_instruction(const char* name, int64_t value);
+
+/// @brief Prints a one byte instruction followed by the int following it.
+/// There is no offset to pass to this function, but rather, the 'value' argument
+/// should be ChunkGetUInt[16|32|64](..., &offset).
+/// @param name The name of the instruction
+/// @param value The int following the instruction
+void impl_print_hex_instruction(const char* name, uint64_t value);
 
 #endif //HG_COLTI_CHUNK
