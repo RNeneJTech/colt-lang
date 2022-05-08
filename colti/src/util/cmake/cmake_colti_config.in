@@ -12,4 +12,28 @@
 //The project version as a string
 #define COLTI_VERSION_STRING 		"${PROJECT_VERSION}"
 
+#define COLTI_OS_STRING				"${IMPL_COLTI_OS_STRING}"
+
+//Determine the current operating system
+#if ${IMPL_COLTI_OS_WINDOWS} == 1
+	#define COLTI_WINDOWS
+#elif ${IMPL_COLTI_OS_APPLE} == 1
+	#define COLTI_APPLE
+#elif ${IMPL_COLTI_OS_LINUX} == 1
+	#define COLTI_LINUX
+#else
+	#error "Unsupported platform!"
+#endif
+
+//Determine the current compiler
+#if ${IMPL_COLTI_CLANG} == 1
+	#define COLTI_CLANG
+#elif ${IMPL_COLTI_GNU} == 1
+	#define COLTI_GNU
+#elif ${IMPL_COLTI_INTEL} == 1
+	#define COLTI_INTEL
+#elif ${IMPL_COLTI_MSVC} == 1
+	#define COLTI_MSVC
+#endif
+
 #endif //COLTI_CONFIG
