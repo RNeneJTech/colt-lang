@@ -14,6 +14,7 @@
 #include "colti_config.h"
 #include "memory.h"
 #include "console_colors.h"
+#include "values/colti_floating_value.h"
 
 typedef enum
 {
@@ -21,6 +22,22 @@ typedef enum
 	INTERPRET_COMPILE_ERROR,
 	INTERPRET_RUNTIME_ERROR
 } InterpretResult;
+
+/// @brief Represents a 
+typedef union
+{
+	ColtiFloat f;
+	int32_t   i32;
+	uint32_t ui32;
+} DWORD;
+
+/// @brief Represents a Quad Word, which can be type-punned to a double 'd' or [u]int64
+typedef union
+{
+	ColtiDouble d;
+	int64_t	  i64;
+	uint64_t ui64;
+} QWORD;
 
 #ifdef COLTI_WINDOWS
 	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
