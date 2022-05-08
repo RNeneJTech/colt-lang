@@ -4,16 +4,20 @@
 #include "common.h"
 
 /// @brief Represents an instruction to be executed by the VM
-typedef enum {
+enum OpCode
+{
 	OP_IMMEDIATE_BYTE,
 	OP_IMMEDIATE_WORD,
 	OP_IMMEDIATE_DWORD,
 	OP_IMMEDIATE_QWORD,
 	OP_RETURN,
-} OperationCode;
+};
+
+typedef OpCode OpCode;
 
 /// @brief Represents a stream of instructions
-typedef struct {
+struct Chunk
+{
 	/// @brief Number of items pointed to
 	uint64_t count;
 	/// @brief Capacity of the current allocated code_buffer
@@ -23,7 +27,9 @@ typedef struct {
 	uint8_t* code;
 	/// @brief Small-code_buffer optimization for code
 	uint8_t code_buffer[8];
-} Chunk;
+};
+
+typedef Chunk Chunk;
 
 /// @brief Prints the byte content of a Chunk
 /// @param chunk The chunk whose content to print

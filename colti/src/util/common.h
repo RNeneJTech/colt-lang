@@ -15,6 +15,14 @@
 #include "memory.h"
 #include "console_colors.h"
 
+typedef enum
+{
+	INTERPRET_OK,
+	INTERPRET_COMPILE_ERROR,
+	INTERPRET_RUNTIME_ERROR
+}
+InterpretResult;
+
 #ifdef COLTI_WINDOWS
 	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
 #else
