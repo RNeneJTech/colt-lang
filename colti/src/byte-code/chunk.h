@@ -15,14 +15,14 @@ typedef enum {
 /// @brief Represents a stream of instructions
 typedef struct {
 	/// @brief Number of items pointed to
-	uint32_t count;
+	uint64_t count;
 	/// @brief Capacity of the current allocated code_buffer
-	uint32_t capacity;
+	uint64_t capacity;
 
 	/// @brief Pointer to the beginning of the byte-code
 	uint8_t* code;
 	/// @brief Small-code_buffer optimization for code
-	uint8_t code_buffer[4];
+	uint8_t code_buffer[8];
 } Chunk;
 
 /// @brief Prints the byte content of a Chunk
@@ -67,19 +67,19 @@ void ChunkWriteInt64(Chunk* chunk, int64_t value);
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_INT16, is modified by this function
 /// @return The int at that offset
-int16_t ChunkGetInt16(Chunk* chunk, int* offset);
+int16_t ChunkGetInt16(const Chunk* chunk, int* offset);
 
 /// @brief Gets an int32 from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_INT32
 /// @return The int at that offset
-int32_t ChunkGetInt32(Chunk* chunk, int* offset);
+int32_t ChunkGetInt32(const Chunk* chunk, int* offset);
 
 /// @brief Gets an int64 from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_INT64
 /// @return The int at that offset
-int64_t ChunkGetInt64(Chunk* chunk, int* offset);
+int64_t ChunkGetInt64(const Chunk* chunk, int* offset);
 
 /// @brief Frees memory used by a chunk
 /// @param chunk The chunk to free
