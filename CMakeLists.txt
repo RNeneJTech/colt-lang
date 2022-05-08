@@ -9,7 +9,7 @@ add_executable(colti
 	${ColtiHeaders} ${ColtiUnits}
 )
 
-target_include_directories(colti PUBLIC "${CMAKE_SOURCE_DIR}/colti/src/util" "${CMAKE_SOURCE_DIR}/colti/src/byte-code")
+target_include_directories(colti PUBLIC "${CMAKE_SOURCE_DIR}/colti/src/util" "${CMAKE_SOURCE_DIR}/colti/src/byte-code" "${CMAKE_SOURCE_DIR}/colti/src")
 
 set(VS_STARTUP_PROJECT colti)
 
