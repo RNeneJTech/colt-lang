@@ -2,6 +2,11 @@
 ### The `colt` interpreter:
 An interpreter in development for the `colt` language.
 
+## Error Codes:
+- 0: Successful
+- 1: Assertion related failure
+- 2: Allocation related failure
+
 ## Coding Style:
 - Header include guards should use `HG_COLTI_{FILENAME}`, no `pragma once`
 - Free Functions that do not expect preconditions should be in `camelCase`
