@@ -33,6 +33,11 @@ void ChunkInit(Chunk* chunk)
 	chunk->code = chunk->code_buffer;
 }
 
+void ChunkWriteOpCode(Chunk* chunk, OpCode code)
+{
+	ChunkWriteByte(chunk, code);
+}
+
 void ChunkWriteByte(Chunk* chunk, uint8_t byte)
 {
 	if (chunk->count == chunk->capacity) //Grow if needed
@@ -98,8 +103,8 @@ void ChunkWriteQWord(Chunk* chunk, uint64_t value)
 uint16_t ChunkGetByte(const Chunk* chunk, int* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_BYTE, "'offset' should point to an OP_IMMEDIATE_BYTE!");
-	++(*offset);
-	return chunk->code[*offset];
+	*offset += 1;
+	return chunk->code[(*offset)++];
 }
 
 uint16_t ChunkGetWord(const Chunk* chunk, int* offset)
@@ -255,5 +260,5 @@ void impl_print_int_instruction(const char* name, int64_t value)
 
 void impl_print_hex_instruction(const char* name, uint64_t value)
 {
-	printf("%s '%"PRIX64"'\n", name, value);
+	printf("%s '0x%"PRIX64"'\n", name, value);
 }
