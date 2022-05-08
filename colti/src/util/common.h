@@ -20,8 +20,7 @@ typedef enum
 	INTERPRET_OK,
 	INTERPRET_COMPILE_ERROR,
 	INTERPRET_RUNTIME_ERROR
-}
-InterpretResult;
+} InterpretResult;
 
 #ifdef COLTI_WINDOWS
 	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)

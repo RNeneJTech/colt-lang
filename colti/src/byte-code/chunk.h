@@ -4,19 +4,17 @@
 #include "common.h"
 
 /// @brief Represents an instruction to be executed by the VM
-enum OpCode
+typedef enum
 {
 	OP_IMMEDIATE_BYTE,
 	OP_IMMEDIATE_WORD,
 	OP_IMMEDIATE_DWORD,
 	OP_IMMEDIATE_QWORD,
 	OP_RETURN,
-};
-
-typedef OpCode OpCode;
+} OpCode;
 
 /// @brief Represents a stream of instructions
-struct Chunk
+typedef struct
 {
 	/// @brief Number of items pointed to
 	uint64_t count;
@@ -27,9 +25,7 @@ struct Chunk
 	uint8_t* code;
 	/// @brief Small-code_buffer optimization for code
 	uint8_t code_buffer[8];
-};
-
-typedef Chunk Chunk;
+} Chunk;
 
 /// @brief Prints the byte content of a Chunk
 /// @param chunk The chunk whose content to print
@@ -42,6 +38,11 @@ void ChunkDisassemble(const Chunk* chunk, const char* name);
 /// @brief Zero-initializes a chunk
 /// @param chunk The chunk to initialize
 void ChunkInit(Chunk* chunk);
+
+/// @brief Appends an OpCode to the end of the chunk
+/// @param chunk The chunk to append to
+/// @param byte The byte to append
+void ChunkWriteOpCode(Chunk* chunk, OpCode code);
 
 /// @brief Appends a byte to the end of the chunk
 /// @param chunk The chunk to append to
