@@ -63,39 +63,6 @@ void ChunkWriteDWord(Chunk* chunk, uint32_t value);
 /// @param value The value to write
 void ChunkWriteQWord(Chunk* chunk, uint64_t value);
 
-/// @brief Gets an int16 from the offset specified, aligning the access
-/// @param chunk The chunk to get the value from
-/// @param offset The offset should point to the OP_IMMEDIATE_WORD, is modified by this function
-/// @return The int at that offset
-int16_t ChunkGetWord(const Chunk* chunk, int* offset);
-
-/// @brief Gets an int32 from the offset specified, aligning the access
-/// @param chunk The chunk to get the value from
-/// @param offset The offset should point to the OP_IMMEDIATE_DWORD
-/// @return The int at that offset
-int32_t ChunkGetDWord(const Chunk* chunk, int* offset);
-
-/// @brief Gets an int64 from the offset specified, aligning the access
-/// @param chunk The chunk to get the value from
-/// @param offset The offset should point to the OP_IMMEDIATE_QWORD
-/// @return The int at that offset
-int64_t ChunkGetQWord(const Chunk* chunk, int* offset);
-
-/// @brief Writes an int16 to the end of a chunk, padding if necessary
-/// @param chunk The chunk to append to
-/// @param value The value to write
-void ChunkWriteWord(Chunk* chunk, uint16_t value);
-
-/// @brief Writes an int32 to the end of a chunk, padding if necessary
-/// @param chunk The chunk to append to
-/// @param value The value to write
-void ChunkWriteDWord(Chunk* chunk, uint32_t value);
-
-/// @brief Writes an int64 to the end of a chunk, padding if necessary
-/// @param chunk The chunk to append to
-/// @param value The value to write
-void ChunkWriteQWord(Chunk* chunk, uint64_t value);
-
 /// @brief Gets a byte from the offset specified
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_BYTE, is modified by this function
