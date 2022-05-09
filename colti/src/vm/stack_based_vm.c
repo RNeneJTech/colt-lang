@@ -38,7 +38,7 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 	uint8_t* ip = chunk->code;
 	for (;;)
 	{
-		switch (*ip) //Dereferences then advances the pointer
+		switch (*(ip++)) //Dereferences then advances the pointer
 		{
 		
 		/******************************************************/
@@ -55,7 +55,7 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 		}
 		break; case OP_IMMEDIATE_DWORD:
 		{
-			QWORD qword = { .word = unsafe_get_word(&ip) };
+			QWORD qword = { .dword = unsafe_get_dword(&ip) };
 			StackVMPush(vm, qword);
 		}
 		break; case OP_IMMEDIATE_QWORD:
@@ -69,7 +69,7 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 		break; case OP_NEGATE:
 		{
 			QWORD val = StackVMPop(vm);
-			switch (*(++ip))
+			switch (*(ip++))
 			{
 			break; case OPERAND_COLTI_DOUBLE:	val.d = -val.d;
 			break; case OPERAND_COLTI_FLOAT:	val.f = -val.f;
@@ -88,9 +88,9 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 		{
 			colti_assert(!StackVMIsEmpty(vm), "Stack was empty!");
 			QWORD val = StackVMTop(vm);
-			switch (*(++ip))
+			switch (*(ip++))
 			{
-			break; case OPERAND_COLTI_BOOL:		printf(val.b ? "true\n" : "false\n");
+			break; case OPERAND_COLTI_BOOL:		printf("%s", val.b ? "true\n" : "false\n");
 			break; case OPERAND_COLTI_I8:		printf("%"PRId8"\n", val.ui8);
 			break; case OPERAND_COLTI_I16:		printf("%"PRId16"\n", val.ui16);
 			break; case OPERAND_COLTI_I32:		printf("%"PRId32"\n", val.ui32);
@@ -110,6 +110,5 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 		break; default:
 			break;
 		}
-		ip += 1;
 	}
 }
