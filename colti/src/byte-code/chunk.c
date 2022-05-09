@@ -35,6 +35,8 @@ void ChunkInit(Chunk* chunk)
 
 void ChunkWriteOpCode(Chunk* chunk, OpCode code)
 {
+	if (chunk->count == chunk->capacity) //Grow if needed
+		impl_chunk_grow_double(chunk);
 	chunk->code[chunk->count] = (uint8_t)code;
 	++chunk->count;
 }
