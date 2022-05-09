@@ -1,4 +1,5 @@
 #include "precomph.h"
+#include "vm/stack_based_vm.h"
 
 int main(int argc, const char** argv)
 {
@@ -6,21 +7,19 @@ int main(int argc, const char** argv)
 		"COLTI v%s on %s" CONSOLE_COLOR_RESET "\n", COLTI_VERSION_STRING, COLTI_OS_STRING);
 	Chunk chunk;
 	ChunkInit(&chunk);
-	ChunkWriteByte(&chunk, OP_RETURN);
-	ChunkWriteByte(&chunk, OP_IMMEDIATE_BYTE);
-	ChunkWriteByte(&chunk, 2);
-	ChunkWriteByte(&chunk, OP_IMMEDIATE_WORD);
-	ChunkWriteWord(&chunk, 10);
-	ChunkWriteByte(&chunk, OP_RETURN);
-	ChunkWriteByte(&chunk, OP_RETURN);
-	ChunkWriteByte(&chunk, OP_IMMEDIATE_WORD);
-	ChunkWriteWord(&chunk, -10);
-	ChunkWriteByte(&chunk, OP_IMMEDIATE_DWORD);
-	ChunkWriteDWord(&chunk, 256);
-	ChunkWriteByte(&chunk, OP_RETURN);
-	ChunkWriteByte(&chunk, OP_IMMEDIATE_QWORD);
-	ChunkWriteQWord(&chunk, 512);
-	ChunkPrintBytes(&chunk);
+	ChunkWriteOpCode(&chunk, OP_IMMEDIATE_QWORD);
+	QWORD qword = { .d = 0.2};	
+	ChunkWriteQWord(&chunk, qword);
+	ChunkWriteOpCode(&chunk, OP_PRINT_DOUBLE);
+	ChunkWriteOpCode(&chunk, OP_NEGATE_DOUBLE);
+	ChunkWriteOpCode(&chunk, OP_PRINT_DOUBLE);
+	ChunkWriteOpCode(&chunk, OP_RETURN);
 	ChunkDisassemble(&chunk, "Test1");
+	
+	StackVM vm;
+	StackVMInit(&vm);
+	StackVMRun(&vm, &chunk);
+
+	StackVMFree(&vm);	
 	ChunkFree(&chunk);
 }
