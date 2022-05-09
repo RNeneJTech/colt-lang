@@ -15,6 +15,7 @@
 #include "memory.h"
 #include "console_colors.h"
 #include "values/colti_floating_value.h"
+#include "values/colti_integer_value.h"
 
 /// @brief Represents the result of an interpretation of a program
 typedef enum
@@ -27,60 +28,60 @@ typedef enum
 /// @brief Represents a Byte, which can be type-punned to [u]int8
 typedef union
 {
-	bool b;
-	uint8_t ui8;
-	int8_t   i8;
+	ColtiBool b;
+	ColtiI8 i8;
+	ColtiUI8 ui8;
 } BYTE;
 
 /// @brief Represents a Word, which can be type-punned to a [u]int16, or BYTE
 typedef union
 {
-	bool b;
-	uint8_t ui8;
-	int8_t   i8;
+	ColtiBool b;
+	ColtiI8 i8;
+	ColtiUI8 ui8;
 	BYTE byte;
 
-	int16_t	 i16;
-	uint16_t ui16;
+	ColtiI16 i16;
+	ColtiUI16 ui16;
 } WORD;
 
 /// @brief Represents a Double Word, which can be type-punned to a float 'f' or [u]int32 or WORD
 typedef union
 {
-	bool b;
-	uint8_t ui8;
-	int8_t   i8;
+	ColtiBool b;
+	ColtiI8 i8;
+	ColtiUI8 ui8;
 	BYTE byte;
 
-	int16_t	 i16;
-	uint16_t ui16;
+	ColtiI16 i16;
+	ColtiUI16 ui16;
 	WORD word;
 
 	ColtiFloat f;
-	int32_t   i32;
-	uint32_t ui32;
+	ColtiI32 i32;
+	ColtiUI32 ui32;
 } DWORD;
 
 /// @brief Represents a Quad Word, which can be type-punned to a double 'd' or [u]int64, DWORD
 typedef union
 {
-	bool b;
-	uint8_t ui8;
-	int8_t   i8;
+	ColtiBool b;
+	ColtiI8 i8;
+	ColtiUI8 ui8;
 	BYTE byte;
 
-	int16_t	 i16;
-	uint16_t ui16;
+	ColtiI16 i16;
+	ColtiUI16 ui16;
 	WORD word;
 	
 	ColtiFloat f;
-	int32_t   i32;
-	uint32_t ui32;
+	ColtiI32 i32;
+	ColtiUI32 ui32;
 	DWORD dword;
 
 	ColtiDouble d;
-	int64_t	  i64;
-	uint64_t ui64;
+	ColtiI64 i64;
+	ColtiUI64 ui64;
 } QWORD;
 
 #ifdef COLTI_WINDOWS
