@@ -24,6 +24,8 @@ QWORD StackVMPop(StackVM* vm);
 
 bool StackVMIsEmpty(StackVM* vm);
 
+uint64_t StackVMSize(StackVM* vm);
+
 InterpretResult StackVMRun(StackVM* vm, Chunk* chunk);
 
 #endif //HG_COLTI_STACK_BASED_VM
