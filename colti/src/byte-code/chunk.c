@@ -179,7 +179,6 @@ void ChunkFree(Chunk* chunk)
 
 BYTE unsafe_get_byte(uint8_t** ptr)
 {
-	*ptr += 1;
 	BYTE return_val;
 	return_val.ui8 = *(*ptr);
 	*ptr += sizeof(uint8_t);
@@ -188,7 +187,6 @@ BYTE unsafe_get_byte(uint8_t** ptr)
 
 WORD unsafe_get_word(uint8_t** ptr)
 {
-	*ptr += 1;
 	*ptr += (uint64_t)(*ptr) & 1; //read past padding
 	WORD return_val;
 	return_val.ui16 = *((uint16_t*)*ptr);
@@ -198,7 +196,6 @@ WORD unsafe_get_word(uint8_t** ptr)
 
 DWORD unsafe_get_dword(uint8_t** ptr)
 {
-	*ptr += 1;
 	*ptr += (uint64_t)(*ptr) % 4; //read past padding
 	DWORD return_val;
 	return_val.ui32 = *((uint32_t*)*ptr);
@@ -208,7 +205,6 @@ DWORD unsafe_get_dword(uint8_t** ptr)
 
 QWORD unsafe_get_qword(uint8_t** ptr)
 {
-	*ptr += 1; 
 	*ptr += (uint64_t)(*ptr) % 8; //read past padding
 	QWORD return_val;
 	return_val.ui64 = *((uint64_t*)*ptr);

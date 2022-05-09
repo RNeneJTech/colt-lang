@@ -112,22 +112,22 @@ IMPLEMENTATION HELPERS
 **********************************/
 
 /// @brief Extracts a BYTE from a pointer and updates the location pointed by that pointer
-/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_BYTE (not checked)
+/// @param ptr Pointer to the pointer pointing to the byte following OP_IMMEDIATE_BYTE (not checked)
 /// @return BYTE union representing the read byte
 BYTE unsafe_get_byte(uint8_t** ptr);
 
 /// @brief Extracts a WORD from a pointer and updates the location pointed by that pointer
-/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_WORD (not checked)
+/// @param ptr Pointer to the pointer pointing to the byte following OP_IMMEDIATE_WORD (not checked)
 /// @return WORD union representing the read word
 WORD unsafe_get_word(uint8_t** ptr);
 
 /// @brief Extracts a DWORD from a pointer and updates the location pointed by that pointer
-/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_DWORD (not checked)
+/// @param ptr Pointer to the pointer pointing to the byte following OP_IMMEDIATE_DWORD (not checked)
 /// @return DWORD union representing the read word
 DWORD unsafe_get_dword(uint8_t** ptr);
 
 /// @brief Extracts a QWORD from a pointer and updates the location pointed by that pointer
-/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_QWORD (not checked)
+/// @param ptr Pointer to the pointer pointing to the byte following OP_IMMEDIATE_QWORD(not checked)
 /// @return QWORD union representing the read word
 QWORD unsafe_get_qword(uint8_t** ptr);
 
