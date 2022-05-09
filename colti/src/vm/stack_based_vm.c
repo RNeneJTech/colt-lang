@@ -120,7 +120,72 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 			}
 			StackVMPush(vm, result);
 		}
-
+		break; case OP_DIFFERENCE:
+		{
+			colti_assert(StackVMSize(vm) >= 2, "Stack should contain at least 2 items!");
+			QWORD val1 = StackVMPop(vm);
+			QWORD val2 = StackVMPop(vm);
+			QWORD result;
+			switch (*(ip++))
+			{
+			break; case OPERAND_COLTI_I8:		result.i8 = val1.i8 - val2.i8;
+			break; case OPERAND_COLTI_I16:		result.i16 = val1.i16 - val2.i16;
+			break; case OPERAND_COLTI_I32:		result.i32 = val1.i32 - val2.i32;
+			break; case OPERAND_COLTI_I64:		result.i64 = val1.i64 - val2.i64;
+			break; case OPERAND_COLTI_UI8:		result.ui8 = val1.ui8 - val2.ui8;
+			break; case OPERAND_COLTI_UI16:		result.ui16 = val1.ui16 - val2.ui16;
+			break; case OPERAND_COLTI_UI32:		result.ui32 = val1.ui32 - val2.ui32;
+			break; case OPERAND_COLTI_UI64:		result.ui64 = val1.ui64 - val2.ui64;
+			break; case OPERAND_COLTI_FLOAT:	result.f = val1.f - val2.f;
+			break; case OPERAND_COLTI_DOUBLE:	result.d = val1.d - val2.d;
+			break; default: colti_assert(false, "Invalid operand for OP_DIFFERENCE!");
+			}
+			StackVMPush(vm, result);
+		}
+		break; case OP_MULTIPLY:
+		{
+			colti_assert(StackVMSize(vm) >= 2, "Stack should contain at least 2 items!");
+			QWORD val1 = StackVMPop(vm);
+			QWORD val2 = StackVMPop(vm);
+			QWORD result;
+			switch (*(ip++))
+			{
+			break; case OPERAND_COLTI_I8:		result.i8 = val1.i8 * val2.i8;
+			break; case OPERAND_COLTI_I16:		result.i16 = val1.i16 * val2.i16;
+			break; case OPERAND_COLTI_I32:		result.i32 = val1.i32 * val2.i32;
+			break; case OPERAND_COLTI_I64:		result.i64 = val1.i64 * val2.i64;
+			break; case OPERAND_COLTI_UI8:		result.ui8 = val1.ui8 * val2.ui8;
+			break; case OPERAND_COLTI_UI16:		result.ui16 = val1.ui16 * val2.ui16;
+			break; case OPERAND_COLTI_UI32:		result.ui32 = val1.ui32 * val2.ui32;
+			break; case OPERAND_COLTI_UI64:		result.ui64 = val1.ui64 * val2.ui64;
+			break; case OPERAND_COLTI_FLOAT:	result.f = val1.f * val2.f;
+			break; case OPERAND_COLTI_DOUBLE:	result.d = val1.d * val2.d;
+			break; default: colti_assert(false, "Invalid operand for OP_MULTIPLY!");
+			}
+			StackVMPush(vm, result);
+		}
+		break; case OP_DIVIDE:
+		{
+			colti_assert(StackVMSize(vm) >= 2, "Stack should contain at least 2 items!");
+			QWORD val1 = StackVMPop(vm);
+			QWORD val2 = StackVMPop(vm);
+			QWORD result;
+			switch (*(ip++))
+			{
+			break; case OPERAND_COLTI_I8:		result.i8 = val1.i8 / val2.i8;
+			break; case OPERAND_COLTI_I16:		result.i16 = val1.i16 / val2.i16;
+			break; case OPERAND_COLTI_I32:		result.i32 = val1.i32 / val2.i32;
+			break; case OPERAND_COLTI_I64:		result.i64 = val1.i64 / val2.i64;
+			break; case OPERAND_COLTI_UI8:		result.ui8 = val1.ui8 / val2.ui8;
+			break; case OPERAND_COLTI_UI16:		result.ui16 = val1.ui16 / val2.ui16;
+			break; case OPERAND_COLTI_UI32:		result.ui32 = val1.ui32 / val2.ui32;
+			break; case OPERAND_COLTI_UI64:		result.ui64 = val1.ui64 / val2.ui64;
+			break; case OPERAND_COLTI_FLOAT:	result.f = val1.f / val2.f;
+			break; case OPERAND_COLTI_DOUBLE:	result.d = val1.d / val2.d;
+			break; default: colti_assert(false, "Invalid operand for OP_DIVIDE!");
+			}
+			StackVMPush(vm, result);
+		}
 		/******************************************************/
 
 		break; case OP_PRINT:
@@ -138,8 +203,8 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 			break; case OPERAND_COLTI_UI16:		printf("%"PRIu16"\n", val.ui16);
 			break; case OPERAND_COLTI_UI32:		printf("%"PRIu32"\n", val.ui32);
 			break; case OPERAND_COLTI_UI64:		printf("%"PRIu64"\n", val.ui64);
-			break; case OPERAND_COLTI_FLOAT:	printf("%f\n", val.f);
-			break; case OPERAND_COLTI_DOUBLE:	printf("%f\n", val.d);
+			break; case OPERAND_COLTI_FLOAT:	printf("%g\n", val.f);
+			break; case OPERAND_COLTI_DOUBLE:	printf("%g\n", val.d);
 			break; default: colti_assert(false, "Invalid operand for OP_PRINT!");
 			}
 		}
