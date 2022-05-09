@@ -12,9 +12,30 @@ typedef enum
 	OP_IMMEDIATE_DWORD,
 	OP_IMMEDIATE_QWORD,
 	
-	//ARITHMETIC OPERATION
-	OP_NEGATE, // followed by an operand
+	//followed by an operand,
+	//pops an 'operand' from the stack
+	//converts it to 'operand', negates it,
+	//then pushes it back
+	OP_NEGATE,
+
+	//followed by two operand,
+	//pops an 'first operand' from the stack,
+	//converts it to 'second operand',
+	//then pushes it back
+	OP_CONVERT, 
 	
+	//followed by an operand,
+	//pops the first and second item from the stack,
+	//converts them to the operand,
+	//then pushes the result to the stack
+	OP_SUM,
+	OP_DIFFERENCE,
+	OP_MULTIPLY,
+	OP_DIVISE,
+	
+	//DON'T KNOW
+	OP_MODULO,
+
 	//DEBUG PURPOSES
 	OP_PRINT, // followed by an operand
 
