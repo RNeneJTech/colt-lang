@@ -16,6 +16,7 @@
 #include "console_colors.h"
 #include "values/colti_floating_value.h"
 
+/// @brief Represents the result of an interpretation of a program
 typedef enum
 {
 	INTERPRET_OK,
@@ -23,7 +24,21 @@ typedef enum
 	INTERPRET_RUNTIME_ERROR
 } InterpretResult;
 
-/// @brief Represents a 
+/// @brief Represents a Byte, which can be type-punned to [u]int8
+typedef union
+{
+	uint8_t ui8;
+	int8_t   i8;
+} BYTE;
+
+/// @brief Represents a Word, which can be type-punned to a [u]int16
+typedef union
+{
+	int16_t	 i16;
+	uint16_t ui16;
+} WORD;
+
+/// @brief Represents a Double Word, which can be type-punned to a float 'f' or [u]int32
 typedef union
 {
 	ColtiFloat f;
