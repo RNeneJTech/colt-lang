@@ -18,6 +18,8 @@ void StackVMFree(StackVM* vm);
 
 void StackVMPush(StackVM* vm, QWORD value);
 
+QWORD StackVMTop(StackVM* vm);
+
 QWORD StackVMPop(StackVM* vm);
 
 bool StackVMIsEmpty(StackVM* vm);
