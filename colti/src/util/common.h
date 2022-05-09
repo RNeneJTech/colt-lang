@@ -34,7 +34,9 @@ typedef union
 /// @brief Represents a Word, which can be type-punned to a [u]int16, or BYTE
 typedef union
 {
-	BYTE byte;
+	uint8_t ui8;
+	int8_t   i8;
+
 	int16_t	 i16;
 	uint16_t ui16;
 } WORD;
@@ -42,8 +44,12 @@ typedef union
 /// @brief Represents a Double Word, which can be type-punned to a float 'f' or [u]int32 or WORD
 typedef union
 {
-	BYTE byte;
-	WORD word;
+	uint8_t ui8;
+	int8_t   i8;
+
+	int16_t	 i16;
+	uint16_t ui16;
+
 	ColtiFloat f;
 	int32_t   i32;
 	uint32_t ui32;
@@ -52,9 +58,16 @@ typedef union
 /// @brief Represents a Quad Word, which can be type-punned to a double 'd' or [u]int64, DWORD
 typedef union
 {
-	BYTE byte;
-	WORD word;
-	DWORD dword;
+	uint8_t ui8;
+	int8_t   i8;
+
+	int16_t	 i16;
+	uint16_t ui16;
+	
+	ColtiFloat f;
+	int32_t   i32;
+	uint32_t ui32;
+
 	ColtiDouble d;
 	int64_t	  i64;
 	uint64_t ui64;
