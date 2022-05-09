@@ -13,20 +13,10 @@ typedef enum
 	OP_IMMEDIATE_QWORD,
 	
 	//ARITHMETIC OPERATION
-	OP_NEGATE_INT8,
-	OP_NEGATE_INT16,
-	OP_NEGATE_INT32,
-	OP_NEGATE_INT64,
-	OP_NEGATE_FLOAT,
-	OP_NEGATE_DOUBLE,
+	OP_NEGATE, // followed by an operand
 	
 	//DEBUG PURPOSES
-	OP_PRINT_INT8,
-	OP_PRINT_INT16,
-	OP_PRINT_INT32,
-	OP_PRINT_INT64,
-	OP_PRINT_FLOAT,
-	OP_PRINT_DOUBLE,
+	OP_PRINT, // followed by an operand
 
 	//MISCALLENEOUS
 	OP_RETURN,
@@ -168,6 +158,13 @@ int impl_print_simple_instruction(const char* name, int offset);
 /// @param offset The current byte offset
 /// @return The current byte offset + 2
 int impl_print_byte_instruction(const char* name, uint8_t byte, int offset);
+
+/// @brief Prints a one byte instruction followed by the operand following it
+/// @param name The name of the instruction
+/// @param byte The byte that follows it
+/// @param offset The current byte offset
+/// @return The current byte offset + 2
+int impl_print_operand_instruction(const char* name, uint8_t byte, int offset);
 
 /// @brief Prints a one byte instruction followed by the int following it.
 /// There is no offset to pass to this function, but rather, the 'value' argument

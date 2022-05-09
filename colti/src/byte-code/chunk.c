@@ -280,33 +280,13 @@ int impl_chunk_print_code(const Chunk* chunk, int offset)
 
 		/******************************************************/
 
-	case OP_NEGATE_INT8:
-		return impl_print_simple_instruction("OP_NEGATE_INT8", offset);
-	case OP_NEGATE_INT16:
-		return impl_print_simple_instruction("OP_NEGATE_INT16", offset);
-	case OP_NEGATE_INT32:
-		return impl_print_simple_instruction("OP_NEGATE_INT32", offset);
-	case OP_NEGATE_INT64:
-		return impl_print_simple_instruction("OP_NEGATE_INT64", offset);
-	case OP_NEGATE_FLOAT:
-		return impl_print_simple_instruction("OP_NEGATE_FLOAT", offset);
-	case OP_NEGATE_DOUBLE:
-		return impl_print_simple_instruction("OP_NEGATE_DOUBLE", offset);
+	case OP_NEGATE:
+		return impl_print_operand_instruction("OP_NEGATE", chunk->code[offset + 1], offset);
 
 		/******************************************************/
 
-	case OP_PRINT_INT8:
-		return impl_print_simple_instruction("OP_PRINT_INT8", offset);
-	case OP_PRINT_INT16:
-		return impl_print_simple_instruction("OP_PRINT_INT16", offset);
-	case OP_PRINT_INT32:
-		return impl_print_simple_instruction("OP_PRINT_INT32", offset);
-	case OP_PRINT_INT64:
-		return impl_print_simple_instruction("OP_PRINT_INT64", offset);
-	case OP_PRINT_FLOAT:
-		return impl_print_simple_instruction("OP_PRINT_FLOAT", offset);
-	case OP_PRINT_DOUBLE:
-		return impl_print_simple_instruction("OP_PRINT_DOUBLE", offset);
+	case OP_PRINT:
+		return impl_print_operand_instruction("OP_PRINT", chunk->code[offset + 1], offset);
 
 		/******************************************************/
 
@@ -328,6 +308,28 @@ int impl_print_simple_instruction(const char* name, int offset)
 int impl_print_byte_instruction(const char* name, uint8_t byte, int offset)
 {
 	printf("%s '%d'\n", name, byte);
+	return offset + 2;
+}
+
+int impl_print_operand_instruction(const char* name, uint8_t byte, int offset)
+{
+	const char* operand;
+	switch (byte)
+	{
+	break; case OPERAND_COLTI_BOOL:		operand = "BOOL";
+	break; case OPERAND_COLTI_DOUBLE:	operand = "DOUBLE";
+	break; case OPERAND_COLTI_FLOAT:	operand = "FLOAT";
+	break; case OPERAND_COLTI_I8:		operand = "INT8";
+	break; case OPERAND_COLTI_I16:		operand = "INT16";
+	break; case OPERAND_COLTI_I32:		operand = "INT32";
+	break; case OPERAND_COLTI_I64:		operand = "INT64";
+	break; case OPERAND_COLTI_UI8:		operand = "UINT8";
+	break; case OPERAND_COLTI_UI16:		operand = "UINT16";
+	break; case OPERAND_COLTI_UI32:		operand = "UINT32";
+	break; case OPERAND_COLTI_UI64:		operand = "UINT64";
+	break; default:						operand = "UNKOWN";
+	}
+	printf("%s '%s'\n", name, operand);
 	return offset + 2;
 }
 
