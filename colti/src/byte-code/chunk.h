@@ -6,10 +6,19 @@
 /// @brief Represents an instruction to be executed by the VM
 typedef enum
 {
+	//IMMEDIATE VALUES LOADING
 	OP_IMMEDIATE_BYTE,
 	OP_IMMEDIATE_WORD,
 	OP_IMMEDIATE_DWORD,
 	OP_IMMEDIATE_QWORD,
+	
+	OP_NEGATE_INT8,
+	OP_NEGATE_INT16,
+	OP_NEGATE_INT32,
+	OP_NEGATE_INT64,
+	OP_NEGATE_DOUBLE,
+	
+	OP_PRINT_DOUBLE, //DEBUG PURPOSES
 	OP_RETURN,
 } OpCode;
 
@@ -47,7 +56,7 @@ void ChunkWriteOpCode(Chunk* chunk, OpCode code);
 /// @brief Appends a byte to the end of the chunk
 /// @param chunk The chunk to append to
 /// @param byte The byte to append
-void ChunkWriteByte(Chunk* chunk, uint8_t byte);
+void ChunkWriteByte(Chunk* chunk, BYTE byte);
 
 /// @brief Appends multiple bytes to the end of a chunk
 /// @param chunk The chunk to append to
@@ -58,41 +67,41 @@ void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size);
 /// @brief Writes an int16 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteWord(Chunk* chunk, uint16_t value);
+void ChunkWriteWord(Chunk* chunk, WORD value);
 
 /// @brief Writes an int32 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteDWord(Chunk* chunk, uint32_t value);
+void ChunkWriteDWord(Chunk* chunk, DWORD value);
 
 /// @brief Writes an int64 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteQWord(Chunk* chunk, uint64_t value);
+void ChunkWriteQWord(Chunk* chunk, QWORD value);
 
 /// @brief Gets a byte from the offset specified
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_BYTE, is modified by this function
 /// @return The byte at that offset
-uint16_t ChunkGetByte(const Chunk* chunk, int* offset);
+BYTE ChunkGetByte(const Chunk* chunk, int* offset);
 
 /// @brief Gets a word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_WORD, is modified by this function
 /// @return The word at that offset
-uint16_t ChunkGetWord(const Chunk* chunk, int* offset);
+WORD ChunkGetWord(const Chunk* chunk, int* offset);
 
 /// @brief Gets a double word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_DWORD
 /// @return The double word at that offset
-uint32_t ChunkGetDWord(const Chunk* chunk, int* offset);
+DWORD ChunkGetDWord(const Chunk* chunk, int* offset);
 
 /// @brief Gets a quad word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_QWORD
 /// @return The quad word at that offset
-uint64_t ChunkGetQWord(const Chunk* chunk, int* offset);
+QWORD ChunkGetQWord(const Chunk* chunk, int* offset);
 
 /// @brief Frees memory used by a chunk
 /// @param chunk The chunk to free
@@ -101,6 +110,26 @@ void ChunkFree(Chunk* chunk);
 /**********************************
 IMPLEMENTATION HELPERS
 **********************************/
+
+/// @brief Extracts a BYTE from a pointer and updates the location pointed by that pointer
+/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_BYTE (not checked)
+/// @return BYTE union representing the read byte
+BYTE unsafe_get_byte(uint8_t** ptr);
+
+/// @brief Extracts a WORD from a pointer and updates the location pointed by that pointer
+/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_WORD (not checked)
+/// @return WORD union representing the read word
+WORD unsafe_get_word(uint8_t** ptr);
+
+/// @brief Extracts a DWORD from a pointer and updates the location pointed by that pointer
+/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_DWORD (not checked)
+/// @return DWORD union representing the read word
+DWORD unsafe_get_dword(uint8_t** ptr);
+
+/// @brief Extracts a QWORD from a pointer and updates the location pointed by that pointer
+/// @param ptr Pointer to the pointer pointing to an OP_IMMEDIATE_QWORD (not checked)
+/// @return QWORD union representing the read word
+QWORD unsafe_get_qword(uint8_t** ptr);
 
 /// @brief Doubles the capacity of a chunk
 /// @param chunk The chunk to modify
