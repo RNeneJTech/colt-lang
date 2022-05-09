@@ -31,7 +31,7 @@ typedef enum
 	OP_SUM,
 	OP_DIFFERENCE,
 	OP_MULTIPLY,
-	OP_DIVISE,
+	OP_DIVIDE,
 	
 	//DON'T KNOW
 	OP_MODULO,
