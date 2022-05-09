@@ -35,7 +35,6 @@ void ChunkInit(Chunk* chunk)
 
 void ChunkWriteOpCode(Chunk* chunk, OpCode code)
 {
-	colti_assert(sizeof(code) == sizeof(uint8_t), "Size of OpCode is greater than a byte!");
 	chunk->code[chunk->count] = (uint8_t)code;
 	++chunk->count;
 }
@@ -287,16 +286,30 @@ int impl_chunk_print_code(const Chunk* chunk, int offset)
 		return impl_print_simple_instruction("OP_NEGATE_INT32", offset);
 	case OP_NEGATE_INT64:
 		return impl_print_simple_instruction("OP_NEGATE_INT64", offset);
+	case OP_NEGATE_FLOAT:
+		return impl_print_simple_instruction("OP_NEGATE_FLOAT", offset);
 	case OP_NEGATE_DOUBLE:
 		return impl_print_simple_instruction("OP_NEGATE_DOUBLE", offset);
 
 		/******************************************************/
 
-	case OP_RETURN:
-		return impl_print_simple_instruction("OP_RETURN", offset);
-
+	case OP_PRINT_INT8:
+		return impl_print_simple_instruction("OP_PRINT_INT8", offset);
+	case OP_PRINT_INT16:
+		return impl_print_simple_instruction("OP_PRINT_INT16", offset);
+	case OP_PRINT_INT32:
+		return impl_print_simple_instruction("OP_PRINT_INT32", offset);
+	case OP_PRINT_INT64:
+		return impl_print_simple_instruction("OP_PRINT_INT64", offset);
+	case OP_PRINT_FLOAT:
+		return impl_print_simple_instruction("OP_PRINT_FLOAT", offset);
 	case OP_PRINT_DOUBLE:
 		return impl_print_simple_instruction("OP_PRINT_DOUBLE", offset);
+
+		/******************************************************/
+
+	case OP_RETURN:
+		return impl_print_simple_instruction("OP_RETURN", offset);
 
 	default:
 		printf("UNKOWN OPCODE: '%d'\n", instruction);
