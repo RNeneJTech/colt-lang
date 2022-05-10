@@ -1,8 +1,7 @@
 #ifndef HG_COLTI_BYTE_CODE
 #define HG_COLTI_BYTE_CODE
 
-#include "values/colti_floating_value.h"
-#include "values/colti_integer_value.h"
+#include "common.h"
 
 /// @brief Represents an instruction to be executed by the VM
 typedef enum
@@ -29,8 +28,8 @@ typedef enum
 	//pops the first and second item from the stack,
 	//converts them to the operand,
 	//then pushes the result to the stack
-	OP_SUM,
-	OP_DIFFERENCE,
+	OP_ADD,
+	OP_SUBTRACT,
 	OP_MULTIPLY,
 	OP_DIVIDE,
 
@@ -68,6 +67,18 @@ typedef enum
 BYTE-CODE RUNNING
 **********************************/
 
+QWORD OpCode_Negate(QWORD value, OperandType type);
 
+QWORD OpCode_Convert(QWORD value, OperandType from, OperandType to);
+
+QWORD OpCode_Sum(QWORD left, QWORD right, OperandType type);
+
+QWORD OpCode_Difference(QWORD left, QWORD right, OperandType type);
+
+QWORD OpCode_Multiply(QWORD left, QWORD right, OperandType type);
+
+QWORD OpCode_Divide(QWORD left, QWORD right, OperandType type);
+
+void OpCode_Print(QWORD value, OperandType type);
 
 #endif //HG_COLTI_BYTE_CODE
