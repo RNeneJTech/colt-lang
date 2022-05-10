@@ -9,7 +9,7 @@ int main(int argc, const char** argv)
 	ChunkInit(&chunk);
 	ChunkWriteOpCode(&chunk, OP_IMMEDIATE_DWORD);
 	DWORD qword = { .f = 1.5 };
-	ChunkWriteDWord(&chunk, qword);
+	ChunkWriteDWORD(&chunk, qword);
 
 	ChunkWriteOpCode(&chunk, OP_NEGATE);
 	ChunkWriteOperand(&chunk, COLTI_FLOAT);
@@ -20,7 +20,7 @@ int main(int argc, const char** argv)
 
 	ChunkWriteOpCode(&chunk, OP_IMMEDIATE_DWORD);
 	DWORD qword2 = { .f = 1.5 };
-	ChunkWriteDWord(&chunk, qword2);
+	ChunkWriteDWORD(&chunk, qword2);
 
 	ChunkWriteOpCode(&chunk, OP_PRINT);
 	ChunkWriteOperand(&chunk, COLTI_FLOAT);

@@ -39,7 +39,7 @@ void ChunkWriteOperand(Chunk* chunk, OperandType type);
 /// @brief Appends a byte to the end of the chunk
 /// @param chunk The chunk to append to
 /// @param byte The byte to append
-void ChunkWriteByte(Chunk* chunk, BYTE byte);
+void ChunkWriteBYTE(Chunk* chunk, BYTE byte);
 
 /// @brief Appends multiple bytes to the end of a chunk
 /// @param chunk The chunk to append to
@@ -50,41 +50,41 @@ void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size);
 /// @brief Writes an int16 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteWord(Chunk* chunk, WORD value);
+void ChunkWriteWORD(Chunk* chunk, WORD value);
 
 /// @brief Writes an int32 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteDWord(Chunk* chunk, DWORD value);
+void ChunkWriteDWORD(Chunk* chunk, DWORD value);
 
 /// @brief Writes an int64 to the end of a chunk, padding if necessary
 /// @param chunk The chunk to append to
 /// @param value The value to write
-void ChunkWriteQWord(Chunk* chunk, QWORD value);
+void ChunkWriteQWORD(Chunk* chunk, QWORD value);
 
 /// @brief Gets a byte from the offset specified
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_BYTE, is modified by this function
 /// @return The byte at that offset
-BYTE ChunkGetByte(const Chunk* chunk, int* offset);
+BYTE ChunkGetBYTE(const Chunk* chunk, int* offset);
 
 /// @brief Gets a word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_WORD, is modified by this function
 /// @return The word at that offset
-WORD ChunkGetWord(const Chunk* chunk, int* offset);
+WORD ChunkGetWORD(const Chunk* chunk, int* offset);
 
 /// @brief Gets a double word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_DWORD
 /// @return The double word at that offset
-DWORD ChunkGetDWord(const Chunk* chunk, int* offset);
+DWORD ChunkGetDWORD(const Chunk* chunk, int* offset);
 
 /// @brief Gets a quad word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_QWORD
 /// @return The quad word at that offset
-QWORD ChunkGetQWord(const Chunk* chunk, int* offset);
+QWORD ChunkGetQWORD(const Chunk* chunk, int* offset);
 
 /// @brief Frees memory used by a chunk
 /// @param chunk The chunk to free

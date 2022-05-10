@@ -27,7 +27,7 @@ void ChunkWriteOperand(Chunk* chunk, OperandType type)
 	impl_chunk_write_byte(chunk, (uint8_t)type);
 }
 
-void ChunkWriteByte(Chunk* chunk, BYTE byte)
+void ChunkWriteBYTE(Chunk* chunk, BYTE byte)
 {
 	impl_chunk_write_byte(chunk, byte.ui8);	
 }
@@ -40,7 +40,7 @@ void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size)
 	chunk->count += size;
 }
 
-void ChunkWriteWord(Chunk* chunk, WORD value)
+void ChunkWriteWORD(Chunk* chunk, WORD value)
 {
 	//We need to pad if needed
 	uint64_t offset = (uint64_t)(chunk->code + chunk->count) & 1; //same as % 2
@@ -56,7 +56,7 @@ void ChunkWriteWord(Chunk* chunk, WORD value)
 	chunk->count += sizeof(uint16_t);
 }
 
-void ChunkWriteDWord(Chunk* chunk, DWORD value)
+void ChunkWriteDWORD(Chunk* chunk, DWORD value)
 {
 	uint64_t offset = (uint64_t)(chunk->code + chunk->count) % 4;
 	if (!(chunk->count + offset + sizeof(uint32_t) < chunk->capacity)) //Grow if needed
@@ -71,7 +71,7 @@ void ChunkWriteDWord(Chunk* chunk, DWORD value)
 	chunk->count += sizeof(uint32_t);
 }
 
-void ChunkWriteQWord(Chunk* chunk, QWORD value)
+void ChunkWriteQWORD(Chunk* chunk, QWORD value)
 {	
 	uint64_t offset = (uint64_t)(chunk->code + chunk->count) % 8;
 	if (!(chunk->count + offset + sizeof(uint64_t) < chunk->capacity)) //Grow if needed
@@ -86,7 +86,7 @@ void ChunkWriteQWord(Chunk* chunk, QWORD value)
 	chunk->count += sizeof(uint64_t);
 }
 
-BYTE ChunkGetByte(const Chunk* chunk, int* offset)
+BYTE ChunkGetBYTE(const Chunk* chunk, int* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_BYTE, "'offset' should point to an OP_IMMEDIATE_BYTE!");
 	*offset += 1;
@@ -94,7 +94,7 @@ BYTE ChunkGetByte(const Chunk* chunk, int* offset)
 	return byte;
 }
 
-WORD ChunkGetWord(const Chunk* chunk, int* offset)
+WORD ChunkGetWORD(const Chunk* chunk, int* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_WORD, "'offset' should point to an OP_IMMEDIATE_WORD!");
 
@@ -111,7 +111,7 @@ WORD ChunkGetWord(const Chunk* chunk, int* offset)
 	return return_val;
 }
 
-DWORD ChunkGetDWord(const Chunk* chunk, int* offset)
+DWORD ChunkGetDWORD(const Chunk* chunk, int* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_DWORD, "'offset' should point to an OP_IMMEDIATE_DWORD!");
 
@@ -129,7 +129,7 @@ DWORD ChunkGetDWord(const Chunk* chunk, int* offset)
 	return return_val;
 }
 
-QWORD ChunkGetQWord(const Chunk* chunk, int* offset)
+QWORD ChunkGetQWORD(const Chunk* chunk, int* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_QWORD, "'offset' should point to an OP_IMMEDIATE_QWORD!");
 

@@ -26,22 +26,22 @@ int impl_chunk_print_code(const Chunk* chunk, int offset)
 
 	case OP_IMMEDIATE_BYTE:
 		colti_assert(offset + 1 <= chunk->count, "Missing byte after OP_IMMEDIATE_BYTE!");
-		impl_print_hex_instruction("OP_IMMEDIATE_BYTE", ChunkGetByte(chunk, &offset).ui8);
+		impl_print_hex_instruction("OP_IMMEDIATE_BYTE", ChunkGetBYTE(chunk, &offset).ui8);
 		return offset;
 
 	case OP_IMMEDIATE_WORD:
 		colti_assert(offset + ((uint64_t)(chunk->code + offset) & 1) + sizeof(int16_t) <= chunk->count, "Missing int16 after OP_IMMEDIATE_WORD");
-		impl_print_hex_instruction("OP_IMMEDIATE_WORD", ChunkGetWord(chunk, &offset).ui16);
+		impl_print_hex_instruction("OP_IMMEDIATE_WORD", ChunkGetWORD(chunk, &offset).ui16);
 		return offset;
 
 	case OP_IMMEDIATE_DWORD:
 		colti_assert(offset + ((uint64_t)(chunk->code + offset) % 4) + sizeof(int32_t) <= chunk->count, "Missing int32 after OP_IMMEDIATE_DWORD");
-		impl_print_hex_instruction("OP_IMMEDIATE_DWORD", ChunkGetDWord(chunk, &offset).ui32);
+		impl_print_hex_instruction("OP_IMMEDIATE_DWORD", ChunkGetDWORD(chunk, &offset).ui32);
 		return offset;
 
 	case OP_IMMEDIATE_QWORD:
 		colti_assert(offset + ((uint64_t)(chunk->code + offset) % 8) + sizeof(int64_t) <= chunk->count, "Missing int64 after OP_IMMEDIATE_QWORD");
-		impl_print_hex_instruction("OP_IMMEDIATE_QWORD", ChunkGetQWord(chunk, &offset).ui64);
+		impl_print_hex_instruction("OP_IMMEDIATE_QWORD", ChunkGetQWORD(chunk, &offset).ui64);
 		return offset;
 
 		/******************************************************/
