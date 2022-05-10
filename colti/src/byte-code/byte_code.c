@@ -18,7 +18,7 @@ QWORD OpCode_Negate(QWORD value, OperandType type)
 
 QWORD OpCode_Convert(QWORD value, OperandType from, OperandType to)
 {
-	
+	colti_assert(false, "Still not implemented!");
 }
 
 QWORD OpCode_Sum(QWORD left, QWORD right, OperandType type)
