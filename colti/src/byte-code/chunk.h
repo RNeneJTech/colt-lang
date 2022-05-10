@@ -61,10 +61,6 @@ typedef struct
 /// @param chunk The chunk whose content to print
 void ChunkPrintBytes(const Chunk* chunk);
 
-/// @brief Prints a human readable description of the code contained in a chunk
-/// @param chunk The chunk whose content to print
-void ChunkDisassemble(const Chunk* chunk, const char* name);
-
 /// @brief Zero-initializes a chunk
 /// @param chunk The chunk to initialize
 void ChunkInit(Chunk* chunk);
@@ -160,45 +156,5 @@ void impl_chunk_grow_double(Chunk* chunk);
 /// @param chunk The chunk to modify
 /// @param size The capacity to add
 void impl_chunk_grow_size(Chunk* chunk, uint32_t size);
-
-/// @brief Dispatches a code to the correct printing function
-/// @param chunk The chunk from which to extract the code
-/// @param offset The offset to the code
-/// @return Modified offset
-int impl_chunk_print_code(const Chunk* chunk, int offset);
-
-/// @brief Prints a one byte instruction
-/// @param name The name of the instruction
-/// @param offset The current byte offset
-/// @return The current byte offset + 1
-int impl_print_simple_instruction(const char* name, int offset);
-
-/// @brief Prints a one byte instruction followed by the byte following it
-/// @param name The name of the instruction
-/// @param byte The byte that follows it
-/// @param offset The current byte offset
-/// @return The current byte offset + 2
-int impl_print_byte_instruction(const char* name, uint8_t byte, int offset);
-
-/// @brief Prints a one byte instruction followed by the operand following it
-/// @param name The name of the instruction
-/// @param byte The byte that follows it
-/// @param offset The current byte offset
-/// @return The current byte offset + 2
-int impl_print_operand_instruction(const char* name, uint8_t byte, int offset);
-
-/// @brief Prints a one byte instruction followed by the int following it.
-/// There is no offset to pass to this function, but rather, the 'value' argument
-/// should be ChunkGetInt[16|32|64](..., &offset).
-/// @param name The name of the instruction
-/// @param value The int following the instruction
-void impl_print_int_instruction(const char* name, int64_t value);
-
-/// @brief Prints a one byte instruction followed by the int following it.
-/// There is no offset to pass to this function, but rather, the 'value' argument
-/// should be ChunkGetUInt[16|32|64](..., &offset).
-/// @param name The name of the instruction
-/// @param value The int following the instruction
-void impl_print_hex_instruction(const char* name, uint64_t value);
 
 #endif //HG_COLTI_CHUNK
