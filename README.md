@@ -6,6 +6,9 @@ An interpreter in development for the `colt` language.
 - [X] Add WORD|BYTE
 - [X] Fix API to get DWORD|QWORD
 - [X] Fix interpreting loop
+- [X] Reformat interpreting loop
+- [ ] Add a utility to print description of OpCode at runtime
+- [ ] Start documenting the code
 
 ## Error Codes:
 - 0: Successful
