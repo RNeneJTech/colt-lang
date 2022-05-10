@@ -49,10 +49,10 @@ int impl_chunk_print_code(const Chunk* chunk, int offset)
 	case OP_NEGATE:
 		return impl_print_operand_instruction("OP_NEGATE", chunk->code[offset + 1], offset);
 
-	case OP_SUM:
-		return impl_print_operand_instruction("OP_SUM", chunk->code[offset + 1], offset);
-	case OP_DIFFERENCE:
-		return impl_print_operand_instruction("OP_DIFFERENCE", chunk->code[offset + 1], offset);
+	case OP_ADD:
+		return impl_print_operand_instruction("OP_ADD", chunk->code[offset + 1], offset);
+	case OP_SUBTRACT:
+		return impl_print_operand_instruction("OP_SUBTRACT", chunk->code[offset + 1], offset);
 	case OP_MULTIPLY:
 		return impl_print_operand_instruction("OP_MULTIPLY", chunk->code[offset + 1], offset);
 	case OP_DIVIDE:
