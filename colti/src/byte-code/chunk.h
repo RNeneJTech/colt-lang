@@ -28,8 +28,13 @@ void ChunkInit(Chunk* chunk);
 
 /// @brief Appends an OpCode to the end of the chunk
 /// @param chunk The chunk to append to
-/// @param byte The byte to append
+/// @param code The byte to append
 void ChunkWriteOpCode(Chunk* chunk, OpCode code);
+
+/// @brief Appends an OperandType to the end of the chunk
+/// @param chunk The chunk to append to
+/// @param type The type to append
+void ChunkWriteOperand(Chunk* chunk, OperandType type);
 
 /// @brief Appends a byte to the end of the chunk
 /// @param chunk The chunk to append to
@@ -117,5 +122,10 @@ void impl_chunk_grow_double(Chunk* chunk);
 /// @param chunk The chunk to modify
 /// @param size The capacity to add
 void impl_chunk_grow_size(Chunk* chunk, uint32_t size);
+
+/// @brief Appends a byte at the end of the chunk
+/// @param chunk The chunk to modify
+/// @param byte The byte to append
+void impl_chunk_write_byte(Chunk* chunk, uint8_t byte);
 
 #endif //HG_COLTI_CHUNK

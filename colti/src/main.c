@@ -12,10 +12,10 @@ int main(int argc, const char** argv)
 	ChunkWriteDWord(&chunk, qword);
 
 	ChunkWriteOpCode(&chunk, OP_NEGATE);
-	ChunkWriteOpCode(&chunk, OPERAND_COLTI_FLOAT);
+	ChunkWriteOperand(&chunk, COLTI_FLOAT);
 
 	ChunkWriteOpCode(&chunk, OP_PRINT);
-	ChunkWriteOpCode(&chunk, OPERAND_COLTI_FLOAT);
+	ChunkWriteOperand(&chunk, COLTI_FLOAT);
 
 
 	ChunkWriteOpCode(&chunk, OP_IMMEDIATE_DWORD);
@@ -23,13 +23,13 @@ int main(int argc, const char** argv)
 	ChunkWriteDWord(&chunk, qword2);
 
 	ChunkWriteOpCode(&chunk, OP_PRINT);
-	ChunkWriteOpCode(&chunk, OPERAND_COLTI_FLOAT);
+	ChunkWriteOperand(&chunk, COLTI_FLOAT);
 
 	ChunkWriteOpCode(&chunk, OP_DIVIDE);
-	ChunkWriteOpCode(&chunk, OPERAND_COLTI_FLOAT);
+	ChunkWriteOperand(&chunk, COLTI_FLOAT);
 
 	ChunkWriteOpCode(&chunk, OP_PRINT);
-	ChunkWriteOpCode(&chunk, OPERAND_COLTI_FLOAT);
+	ChunkWriteOperand(&chunk, COLTI_FLOAT);
 
 	ChunkWriteOpCode(&chunk, OP_RETURN);
 	ChunkDisassemble(&chunk, "Test1");

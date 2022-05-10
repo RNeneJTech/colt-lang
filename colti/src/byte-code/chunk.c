@@ -18,19 +18,18 @@ void ChunkInit(Chunk* chunk)
 }
 
 void ChunkWriteOpCode(Chunk* chunk, OpCode code)
+{	
+	impl_chunk_write_byte(chunk, (uint8_t)code);
+}
+
+void ChunkWriteOperand(Chunk* chunk, OperandType type)
 {
-	if (chunk->count == chunk->capacity) //Grow if needed
-		impl_chunk_grow_double(chunk);
-	chunk->code[chunk->count] = (uint8_t)code;
-	++chunk->count;
+	impl_chunk_write_byte(chunk, (uint8_t)type);
 }
 
 void ChunkWriteByte(Chunk* chunk, BYTE byte)
 {
-	if (chunk->count == chunk->capacity) //Grow if needed
-		impl_chunk_grow_double(chunk);
-	chunk->code[chunk->count] = byte.ui8;
-	++chunk->count;
+	impl_chunk_write_byte(chunk, byte.ui8);	
 }
 
 void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size)
@@ -227,4 +226,12 @@ void impl_chunk_grow_size(Chunk* chunk, uint32_t size)
 	if (chunk->capacity != 8 + size) //as we added 'size' the capacity, and the stack code_buffer is 8
 		safe_free(chunk->code);
 	chunk->code = ptr;
+}
+
+void impl_chunk_write_byte(Chunk* chunk, uint8_t byte)
+{
+	if (chunk->count == chunk->capacity) //Grow if needed
+		impl_chunk_grow_double(chunk);
+	chunk->code[chunk->count] = byte;
+	++chunk->count;
 }
