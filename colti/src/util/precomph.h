@@ -3,6 +3,8 @@
 
 // NON-STD INCLUDES
 #include "common.h"
+#include "byte_code.h"
+#include "disassemble.h"
 #include "chunk.h"
 
 #endif //HG_COLTI_PRECOMPH
