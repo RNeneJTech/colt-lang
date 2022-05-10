@@ -22,9 +22,9 @@ QWORD StackVMTop(StackVM* vm);
 
 QWORD StackVMPop(StackVM* vm);
 
-bool StackVMIsEmpty(StackVM* vm);
+bool StackVMIsEmpty(const StackVM* vm);
 
-uint64_t StackVMSize(StackVM* vm);
+uint64_t StackVMSize(const StackVM* vm);
 
 InterpretResult StackVMRun(StackVM* vm, Chunk* chunk);
 

@@ -28,12 +28,12 @@ QWORD StackVMPop(StackVM* vm)
 	return *(--vm->stack_top);
 }
 
-bool StackVMIsEmpty(StackVM* vm)
+bool StackVMIsEmpty(const StackVM* vm)
 {
 	return vm->stack_top == vm->stack;
 }
 
-uint64_t StackVMSize(StackVM* vm)
+uint64_t StackVMSize(const StackVM* vm)
 {
 	return vm->stack_top - vm->stack;
 }
