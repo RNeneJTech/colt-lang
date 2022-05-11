@@ -1,0 +1,9 @@
+import ios;
+
+fn main()
+{
+	var x = 10; //Inferred as int
+	var y = 12; //Inferred as int
+	if (true)
+		std::print("'x' + 'y' = {} + {} = {}'", x, y, x + y);
+}

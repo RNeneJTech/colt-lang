@@ -1,0 +1,54 @@
+body {
+	background-color: #9f9f9f;
+}
+
+pre {
+	padding-left: 10%;
+}
+
+h1.code-title {
+	font-family: "Lucida Console", Monaco, monospace;
+	background-color: black;
+	color: white;
+	text-align: center;
+	font-size: 200%;
+	font-weight: bold;
+	margin: auto;
+	padding: 1%;
+}
+
+span.comment {
+	color: #168100;
+}
+
+span.constant {
+	color: #00d9ff;
+}
+
+span.string {
+	color: #a31515;
+}
+
+span.function {
+	color: #ffc400;
+}
+
+span.namespace {
+	color: #ff000d;
+}
+
+span.identifier {
+	color: #00ccff;
+}
+
+span.keyword {
+	color: #1900ff;
+}
+
+span.operator {
+	color: rgb(168, 168, 168);
+}
+
+span.flow {
+	color:rgb(165, 0, 124)
+}
