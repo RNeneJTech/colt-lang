@@ -1,3 +1,7 @@
+/** @file console_colors.h
+* Defines constant macros representing strings which allows to modify the font and background colors of consoles.
+*/
+
 #ifndef HG_COLTI_CONSOLE_COLORS
 #define HG_COLTI_CONSOLE_COLORS
 
