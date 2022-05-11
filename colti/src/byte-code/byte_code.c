@@ -1,3 +1,7 @@
+/** @file byte_code.c
+* Contains the definitions of the function declared in 'byte_code.h'
+*/
+
 #include "byte_code.h"
 
 QWORD OpCode_Negate(QWORD value, OperandType type)
