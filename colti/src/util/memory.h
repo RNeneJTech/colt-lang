@@ -1,3 +1,7 @@
+/** @file memory.h
+* Contains helper for managing memory allocations.
+*/
+
 #ifndef HG_COLTI_MEMORY
 #define HG_COLTI_MEMORY
 
