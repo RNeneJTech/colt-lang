@@ -1,3 +1,7 @@
+/** @file disassemble.h
+* Contains helper for disassembling chunks, and getting human-readable descriptions of their content.
+*/
+
 #ifndef HG_COLTI_DISASSEMBLE
 #define HG_COLTI_DISASSEMBLE
 

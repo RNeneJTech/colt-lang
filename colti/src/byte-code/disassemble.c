@@ -1,3 +1,7 @@
+/** @file disassemble.c
+* Contains the definitions of the functions declared in 'disassemble.h'
+*/
+
 #include "disassemble.h"
 
 void ChunkDisassemble(const Chunk* chunk, const char* name)
