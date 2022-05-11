@@ -1,3 +1,7 @@
+/** @file colti_floating_value.h
+* Contains typedefs representing floating point values in Colt.
+*/
+
 #ifndef HG_COLTI_FLOATING_VALUE
 #define HG_COLTI_FLOATING_VALUE
 
