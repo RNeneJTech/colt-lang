@@ -1,3 +1,7 @@
+/** @file chunk.c
+* Contains the definitions of the functions declared in 'chunk.h'
+*/
+
 #include "chunk.h"
 
 void ChunkPrintBytes(const Chunk* chunk)
@@ -18,7 +22,7 @@ void ChunkInit(Chunk* chunk)
 }
 
 void ChunkWriteOpCode(Chunk* chunk, OpCode code)
-{	
+{
 	impl_chunk_write_byte(chunk, (uint8_t)code);
 }
 
@@ -29,7 +33,7 @@ void ChunkWriteOperand(Chunk* chunk, OperandType type)
 
 void ChunkWriteBYTE(Chunk* chunk, BYTE byte)
 {
-	impl_chunk_write_byte(chunk, byte.ui8);	
+	impl_chunk_write_byte(chunk, byte.ui8);
 }
 
 void ChunkWriteBytes(Chunk* chunk, const uint8_t* const bytes, uint32_t size)
@@ -72,7 +76,7 @@ void ChunkWriteDWORD(Chunk* chunk, DWORD value)
 }
 
 void ChunkWriteQWORD(Chunk* chunk, QWORD value)
-{	
+{
 	uint64_t offset = (uint64_t)(chunk->code + chunk->count) % 8;
 	if (!(chunk->count + offset + sizeof(uint64_t) < chunk->capacity)) //Grow if needed
 		impl_chunk_grow_double(chunk);

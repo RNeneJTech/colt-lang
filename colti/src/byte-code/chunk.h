@@ -1,3 +1,17 @@
+/** @file chunk.h
+* Contains the Chunk struct, which is used to provide simpler operations for storing and writing byte-code.
+* A Chunk can be seen as a contiguous dynamic array which handles resizes automatically
+* when writing byte-code to it.
+* While some functions might seem redundant (ChunkWriteOpCode, ChunkWriteOperand),
+* they provide a bit of type safety (as C's type system can be summarized with warnings)
+* over just appending a byte at the end of the Chunk's code.
+* The ChunkWrite(BYTE|[DQ]?WORD) aligns the writing of the value to its required alignment,
+* which is also the reason for which to use ChunkGet(BYTE|[DQ]?WORD).
+* These take a pointer to an int representing the offset, as it's the functions responsibility
+* to update that offset.
+* The unsafe_get_... are used for when a pointer is used rather than an offset.
+*/
+
 #ifndef HG_COLTI_CHUNK
 #define HG_COLTI_CHUNK
 
