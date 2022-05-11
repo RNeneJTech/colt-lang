@@ -1,5 +1,5 @@
 /** @file memory.c
-* Contains the definitions of the function declared in 'memory.h'
+* Contains the definitions of the functions declared in 'memory.h'
 */
 
 #include "memory.h"

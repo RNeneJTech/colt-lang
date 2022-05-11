@@ -1,5 +1,5 @@
 /** @file stack_based_vm.c
-* Contains the definitions of the function declared in 'stack_based_vm.h'
+* Contains the definitions of the functions declared in 'stack_based_vm.h'
 */
 
 #include "stack_based_vm.h"
