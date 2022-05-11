@@ -1,3 +1,7 @@
+/** @file precomph.h
+* Precompiled header file containing (mostly) static includes
+*/
+
 #ifndef HG_COLTI_PRECOMPH
 #define HG_COLTI_PRECOMPH
 
