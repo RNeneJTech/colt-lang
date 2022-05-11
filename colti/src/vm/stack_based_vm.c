@@ -1,3 +1,7 @@
+/** @file stack_based_vm.c
+* Contains the definitions of the function declared in 'stack_based_vm.h'
+*/
+
 #include "stack_based_vm.h"
 
 void StackVMInit(StackVM* vm)
@@ -89,7 +93,7 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 		{
 			colti_assert(StackVMSize(vm) >= 2, "Stack should contain at least 2 items!");
 			QWORD val1 = StackVMPop(vm);
-			QWORD val2 = StackVMPop(vm);			
+			QWORD val2 = StackVMPop(vm);
 			StackVMPush(vm, OpCode_Sum(val1, val2, *(ip++)));
 		}
 		break; case OP_SUBTRACT:
@@ -118,7 +122,7 @@ InterpretResult StackVMRun(StackVM* vm, Chunk* chunk)
 		break; case OP_PRINT:
 		{
 			colti_assert(!StackVMIsEmpty(vm), "Stack was empty!");
-			OpCode_Print(StackVMTop(vm), *(ip++));			
+			OpCode_Print(StackVMTop(vm), *(ip++));
 		}
 		break; case OP_RETURN:
 			return INTERPRET_OK;
