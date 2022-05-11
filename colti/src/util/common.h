@@ -1,3 +1,7 @@
+/** @file common.h
+* Contains common macros and types used throughout the interpreter.
+*/
+
 #ifndef HG_COLTI_COMMON
 #define HG_COLTI_COMMON
 
@@ -25,7 +29,7 @@ typedef enum
 	INTERPRET_RUNTIME_ERROR
 } InterpretResult;
 
-/// @brief Represents a Byte, which can be type-punned to [u]int8
+/// @brief Represents a Byte, which can be type-punned to a more useful type
 typedef union
 {
 	ColtiBool b;
@@ -33,7 +37,7 @@ typedef union
 	ColtiUI8 ui8;
 } BYTE;
 
-/// @brief Represents a Word, which can be type-punned to a [u]int16, or BYTE
+/// @brief Represents a Word (2 bytes), which can be type-punned to a more useful type
 typedef union
 {
 	ColtiBool b;
@@ -45,7 +49,7 @@ typedef union
 	ColtiUI16 ui16;
 } WORD;
 
-/// @brief Represents a Double Word, which can be type-punned to a float 'f' or [u]int32 or WORD
+/// @brief Represents a Double Word (4 bytes), which can be type-punned to a more useful type
 typedef union
 {
 	ColtiBool b;
@@ -62,7 +66,7 @@ typedef union
 	ColtiUI32 ui32;
 } DWORD;
 
-/// @brief Represents a Quad Word, which can be type-punned to a double 'd' or [u]int64, DWORD
+/// @brief Represents a Quad Word (8 bytes), which can be type-punned to a more useful type
 typedef union
 {
 	ColtiBool b;
