@@ -2,3 +2,5 @@
 build/
 # CMAKE CONFIGURED FILE
 colti_config.h
+# SCRIPT GENERATED FILE
+highlighted_codes.html
