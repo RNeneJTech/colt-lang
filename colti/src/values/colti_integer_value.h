@@ -1,3 +1,7 @@
+/** @file colti_floating_value.h
+* Contains typedefs representing integers and bool values in Colt.
+*/
+
 #ifndef HG_COLTI_INTEGER_VALUE
 #define HG_COLTI_INTEGER_VALUE
 
