@@ -90,7 +90,7 @@ void ChunkWriteQWORD(Chunk* chunk, QWORD value)
 	chunk->count += sizeof(uint64_t);
 }
 
-BYTE ChunkGetBYTE(const Chunk* chunk, int* offset)
+BYTE ChunkGetBYTE(const Chunk* chunk, uint64_t* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_BYTE, "'offset' should point to an OP_IMMEDIATE_BYTE!");
 	*offset += 1;
@@ -98,13 +98,13 @@ BYTE ChunkGetBYTE(const Chunk* chunk, int* offset)
 	return byte;
 }
 
-WORD ChunkGetWORD(const Chunk* chunk, int* offset)
+WORD ChunkGetWORD(const Chunk* chunk, uint64_t* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_WORD, "'offset' should point to an OP_IMMEDIATE_WORD!");
 
 	//Local variable which will be used to store a copy of the offset, than write only one time to *offset
 	//As the offset points to OP_IMMEDIATE_WORD, we also need to add 1
-	int local_offset = *offset + 1;
+	uint64_t local_offset = *offset + 1;
 	//We add the padding to the offset, which means we are now pointing to the int16
 	local_offset += ((uint64_t)(chunk->code + local_offset) & 1);
 
@@ -115,13 +115,13 @@ WORD ChunkGetWORD(const Chunk* chunk, int* offset)
 	return return_val;
 }
 
-DWORD ChunkGetDWORD(const Chunk* chunk, int* offset)
+DWORD ChunkGetDWORD(const Chunk* chunk, uint64_t* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_DWORD, "'offset' should point to an OP_IMMEDIATE_DWORD!");
 
 	//Local variable which will be used to store a copy of the offset, than write only one time to *offset
 	//As the offset points to OP_IMMEDIATE_DWORD, we also need to add 1
-	int local_offset = *offset + 1;
+	uint64_t local_offset = *offset + 1;
 	//We add the padding to the offset, which means we are now pointing to the int32
 	local_offset += (uint64_t)(chunk->code + local_offset) % 4;
 
@@ -133,13 +133,13 @@ DWORD ChunkGetDWORD(const Chunk* chunk, int* offset)
 	return return_val;
 }
 
-QWORD ChunkGetQWORD(const Chunk* chunk, int* offset)
+QWORD ChunkGetQWORD(const Chunk* chunk, uint64_t* offset)
 {
 	colti_assert(chunk->code[*offset] == OP_IMMEDIATE_QWORD, "'offset' should point to an OP_IMMEDIATE_QWORD!");
 
 	//Local variable which will be used to store a copy of the offset, than write only one time to *offset
 	//As the offset points to OP_IMMEDIATE_QWORD, we also need to add 1
-	int local_offset = *offset + 1;
+	uint64_t local_offset = *offset + 1;
 	//We add the padding to the offset, which means we are now pointing to the int64
 	local_offset += (uint64_t)(chunk->code + local_offset) % 8;
 
@@ -167,6 +167,11 @@ void ChunkFree(Chunk* chunk)
 bool ChunkIsStackAllocated(const Chunk* chunk)
 {
 	return chunk->capacity == CHUNK_SMALL_BUFFER_OPTIMIZATION;
+}
+
+void ChunkReserve(Chunk* chunk, size_t more_byte_capacity)
+{
+	impl_chunk_grow_size(chunk, more_byte_capacity);
 }
 
 BYTE unsafe_get_byte(uint8_t** ptr)
@@ -220,7 +225,7 @@ void impl_chunk_grow_double(Chunk* chunk)
 	chunk->code = ptr;
 }
 
-void impl_chunk_grow_size(Chunk* chunk, uint32_t size)
+void impl_chunk_grow_size(Chunk* chunk, size_t size)
 {
 	colti_assert(size != 0, "Tried to augment the capacity of a Chunk by 0!");
 	colti_assert(chunk->capacity != 0, "Chunk capacity was 0! Be sure to call ChunkInit for any Chunk you create!");

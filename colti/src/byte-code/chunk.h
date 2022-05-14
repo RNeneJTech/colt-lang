@@ -82,25 +82,25 @@ void ChunkWriteQWORD(Chunk* chunk, QWORD value);
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_BYTE, is modified by this function
 /// @return The byte at that offset
-BYTE ChunkGetBYTE(const Chunk* chunk, int* offset);
+BYTE ChunkGetBYTE(const Chunk* chunk, uint64_t* offset);
 
 /// @brief Gets a word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_WORD, is modified by this function
 /// @return The word at that offset
-WORD ChunkGetWORD(const Chunk* chunk, int* offset);
+WORD ChunkGetWORD(const Chunk* chunk, uint64_t* offset);
 
 /// @brief Gets a double word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_DWORD
 /// @return The double word at that offset
-DWORD ChunkGetDWORD(const Chunk* chunk, int* offset);
+DWORD ChunkGetDWORD(const Chunk* chunk, uint64_t* offset);
 
 /// @brief Gets a quad word from the offset specified, aligning the access
 /// @param chunk The chunk to get the value from
 /// @param offset The offset should point to the OP_IMMEDIATE_QWORD
 /// @return The quad word at that offset
-QWORD ChunkGetQWORD(const Chunk* chunk, int* offset);
+QWORD ChunkGetQWORD(const Chunk* chunk, uint64_t* offset);
 
 /// @brief Frees memory used by a chunk
 /// @param chunk The chunk to free
@@ -110,6 +110,11 @@ void ChunkFree(Chunk* chunk);
 /// @param chunk The chunk for which to check
 /// @return True if the chunk is using its internal stack buffer
 bool ChunkIsStackAllocated(const Chunk* chunk);
+
+/// @brief Heap allocates 'size' MORE bytes to the current capacity of the Chunk
+/// @param chunk The chunk to modify
+/// @param more_byte_capacity The count of bytes to add to the capacity
+void ChunkReserve(Chunk* chunk, size_t more_byte_capacity);
 
 /**********************************
 IMPLEMENTATION HELPERS
@@ -142,7 +147,7 @@ void impl_chunk_grow_double(Chunk* chunk);
 /// @brief Augments the capacity of a chunk by 'size'
 /// @param chunk The chunk to modify
 /// @param size The capacity to add
-void impl_chunk_grow_size(Chunk* chunk, uint32_t size);
+void impl_chunk_grow_size(Chunk* chunk, size_t size);
 
 /// @brief Appends a byte at the end of the chunk
 /// @param chunk The chunk to modify
