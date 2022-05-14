@@ -18,8 +18,6 @@
 #include "common.h"
 #include "byte_code.h" //Contains the byte-code enum
 
-#define CHUNK_SMALL_BUFFER_OPTIMIZATION 64
-
 /// @brief Represents a stream of instructions
 typedef struct
 {
@@ -30,8 +28,6 @@ typedef struct
 
 	/// @brief Pointer to the beginning of the byte-code
 	uint8_t* code;
-	/// @brief Small-code_buffer optimization for code
-	uint8_t code_buffer[CHUNK_SMALL_BUFFER_OPTIMIZATION];
 } Chunk;
 
 /// @brief Prints the byte content of a Chunk
@@ -106,15 +102,20 @@ QWORD ChunkGetQWORD(const Chunk* chunk, uint64_t* offset);
 /// @param chunk The chunk to free
 void ChunkFree(Chunk* chunk);
 
-/// @brief Checks if a chunk's buffer is stack-allocated (due to small buffer optimization)
-/// @param chunk The chunk for which to check
-/// @return True if the chunk is using its internal stack buffer
-bool ChunkIsStackAllocated(const Chunk* chunk);
-
 /// @brief Heap allocates 'size' MORE bytes to the current capacity of the Chunk
 /// @param chunk The chunk to modify
 /// @param more_byte_capacity The count of bytes to add to the capacity
 void ChunkReserve(Chunk* chunk, size_t more_byte_capacity);
+
+/// @brief Serializes a chunk to a file
+/// @param chunk The chunk to serialize
+/// @param path The path to the file to which to serialize
+void ChunkSerialize(const Chunk* chunk, const char* path);
+
+/// @brief De-serializes a chunk from a file
+/// @param path The path to the file from which to de-serialize
+/// @return The de-serialized chunk
+Chunk ChunkDeserialize(const char* path);
 
 /**********************************
 IMPLEMENTATION HELPERS

@@ -16,9 +16,9 @@ void ChunkPrintBytes(const Chunk* chunk)
 
 void ChunkInit(Chunk* chunk)
 {
-	chunk->capacity = CHUNK_SMALL_BUFFER_OPTIMIZATION;
+	chunk->capacity = 32;
 	chunk->count = 0;
-	chunk->code = chunk->code_buffer;
+	chunk->code = safe_malloc(32);
 }
 
 void ChunkWriteOpCode(Chunk* chunk, OpCode code)
@@ -152,10 +152,7 @@ QWORD ChunkGetQWORD(const Chunk* chunk, uint64_t* offset)
 
 void ChunkFree(Chunk* chunk)
 {
-	//As chunks use a small-code_buffer optimization, we make sure
-	//not to free the stack code_buffer they contain
-	if (chunk->capacity != CHUNK_SMALL_BUFFER_OPTIMIZATION)
-		safe_free(chunk->code);
+	safe_free(chunk->code);
 
 	//Most functions that take a Chunk* check for if the capacity is 0,
 	//which should never be.
@@ -164,14 +161,47 @@ void ChunkFree(Chunk* chunk)
 	DO_IF_DEBUG_BUILD(chunk->capacity = 0);
 }
 
-bool ChunkIsStackAllocated(const Chunk* chunk)
-{
-	return chunk->capacity == CHUNK_SMALL_BUFFER_OPTIMIZATION;
-}
-
 void ChunkReserve(Chunk* chunk, size_t more_byte_capacity)
 {
 	impl_chunk_grow_size(chunk, more_byte_capacity);
+}
+
+void ChunkSerialize(const Chunk* chunk, const char* path)
+{
+	FILE* file = fopen(path, "wb");
+	if (file == NULL)
+	{
+		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't create the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		exit(2);
+	}
+	//Write the binary code
+	fwrite(chunk->code, sizeof(char), chunk->count, file);
+	fclose(file);
+}
+
+Chunk ChunkDeserialize(const char* path)
+{
+	FILE* file = fopen(path, "rb");
+	if (file == NULL)
+	{
+		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't open the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		exit(2);
+	}
+	Chunk chunk;
+	fseek(file, 0L, SEEK_END);
+	size_t file_size = ftell(file); //Get file size
+	chunk.code = safe_malloc(chunk.capacity = file_size);
+	chunk.count = chunk.capacity;
+	
+	rewind(file); //Go back to the beginning of the file
+	size_t bytes_read = fread(chunk.code, sizeof(char), file_size, file);
+	fclose(file);
+	if (bytes_read != file_size)
+	{
+		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't read all the content of the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		exit(2);
+	}
+	return chunk;
 }
 
 BYTE unsafe_get_byte(uint8_t** ptr)
@@ -217,11 +247,8 @@ void impl_chunk_grow_double(Chunk* chunk)
 	uint8_t* ptr = (uint8_t*)safe_malloc(chunk->capacity *= 2);
 	//Copy byte-code to new location
 	memcpy(ptr, chunk->code, chunk->count);
-
-	//As chunks use a small-code_buffer optimization, we make sure
-	//not to free the stack code_buffer they contain
-	if (chunk->capacity != CHUNK_SMALL_BUFFER_OPTIMIZATION * 2) //as we * 2 the capacity, and the stack code_buffer is 8
-		safe_free(chunk->code);
+	
+	safe_free(chunk->code);
 	chunk->code = ptr;
 }
 
@@ -235,10 +262,7 @@ void impl_chunk_grow_size(Chunk* chunk, size_t size)
 	//Copy byte-code to new location
 	memcpy(ptr, chunk->code, chunk->count);
 
-	//As chunks use a small-code_buffer optimization, we make sure
-	//not to free the stack code_buffer they contain
-	if (chunk->capacity != CHUNK_SMALL_BUFFER_OPTIMIZATION + size) //as we added 'size' the capacity, and the stack code_buffer is 8
-		safe_free(chunk->code);
+	safe_free(chunk->code);
 	chunk->code = ptr;
 }
 
