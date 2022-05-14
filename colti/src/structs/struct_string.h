@@ -125,6 +125,10 @@ void impl_string_grow_double(String* str);
 /// @param by The number of bytes to add to the capacity
 void impl_string_grow_size(String* str, size_t by);
 
+/// @brief Gets a heap-allocated line from 'stdin'
+/// @param length The pointer to where to write the size
+/// @param capacity The pointer to where to write the capacity
+/// @return The line representing the user input
 char* impl_string_getline(size_t* length, size_t* capacity);
 
 #endif //HG_COLTI_STRUCT_STRING
