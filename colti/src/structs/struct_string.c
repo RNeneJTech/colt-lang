@@ -13,6 +13,8 @@ void StringInit(String* str)
 
 void StringFree(String* str)
 {
+	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
+	colti_assert(str->capacity != 0, "Capacity was 0! Check if the buffer wasn't freed twice!");
 	if (str->capacity == STRING_SMALL_BUFFER_OPTIMIZATION)
 		return;
 	safe_free(str->ptr);
@@ -67,8 +69,8 @@ void StringAppendChar(String* str, char what)
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
 	if (str->size == str->capacity)
 		impl_string_grow_double(str);
-	str->ptr[str->size - 1] = what;
-	str->ptr[str->size++] = '\0';
+	str->ptr[str->size - 1] = what; //Replaced the old NUL by the character
+	str->ptr[str->size++] = '\0'; //Appends a NUL at the end of the string
 }
 
 void StringAppendString(String* str, const char* what)
@@ -77,7 +79,7 @@ void StringAppendString(String* str, const char* what)
 	size_t what_len = strlen(what) + 1;
 	if (str->size + what_len > str->capacity)
 		impl_string_grow_size(str, what_len);
-	memcpy(str->ptr + str->size, what, what_len);
+	memcpy(str->ptr + str->size, what, what_len); //We overwrite the NUL character by the rest of the string
 	str->size += what_len;
 }
 
