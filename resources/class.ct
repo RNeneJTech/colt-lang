@@ -2,10 +2,17 @@ import ios;
 
 class Chunk
 {
+	int a;
+	double b;
+}
 
+string to_string(in Chunk chunk)
+{
+	return "int {}, double {}".format(chunk.a, chunk.b);
 }
 
 fn main()
 {
-	Chunk Hello = 10;
+	Chunk chunk(10, b);
+	std::print("The chunk contains: {}", chunk);
 }
