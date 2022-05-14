@@ -15,7 +15,8 @@ Uses byte-code, and a stack-based virtual machine.
 ## Error Codes:
 - 0: Successful
 - 1: Assertion related failure
-- 2: Allocation related failure
+- 2: OS related failure (Ex: `malloc` returned `NULL`, `fread` couldn't read all the file)
+- 3: Invalid input related error (Ex: invalid filepath...)
 
 ## Coding Style:
 - Header include guards should use `HG_COLTI_{FILENAME}`, no `pragma once`
