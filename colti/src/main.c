@@ -33,6 +33,11 @@ int main(int argc, const char** argv)
 
 	ChunkWriteOpCode(&chunk, OP_RETURN);
 	ChunkDisassemble(&chunk, "Test1");
+	
+	if (ChunkIsStackAllocated(&chunk))
+		printf("Chunk is stack-allocated!\n");
+	else
+		printf("Chunk is heap-allocated!\n");
 
 	StackVM vm;
 	StackVMInit(&vm);
