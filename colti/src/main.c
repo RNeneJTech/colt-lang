@@ -9,14 +9,12 @@ int main(int argc, const char** argv)
 	if (argc == 1)
 	{
 		printf("> ");
-		String line = StringGetLine();
-		printf("Line: %s", line.ptr);
+		String line = StringGetLine();		
 		StringFree(&line);
 	}
 	else if (argc == 2)
 	{
 		String file_content = StringGetFileContent(argv[1]);
-		printf("Line: %s", file_content.ptr);
 		StringFree(&file_content);
 	}
 	else
