@@ -89,11 +89,10 @@ typedef union
 	ColtiUI64 ui64;
 } QWORD;
 
-#ifdef COLTI_WINDOWS
-	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
-#else
-	#define COLTI_CURRENT_FILENAME (strrchr("/" __FILE__, '/') + 1)
-#endif
+
+/*******************************************
+MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
+*******************************************/
 
 #ifdef COLTI_DEBUG_BUILD
 	//Terminates the program if 'cond' is not true, and in that case prints error with useful debug info
@@ -109,15 +108,16 @@ typedef union
 	} } while (0)
 	
 	//On debug builds we want to check for memory leaks and where they are coming from
-	#define safe_malloc(size)		checked_malloc(size)
-	#define safe_free(ptr)			checked_free(ptr)
+	#define safe_malloc(size)		debug_checked_malloc(size, "Allocated from "COLTI_CURRENT_FILENAME" in function "__FUNCTION__, sizeof("Allocated from "COLTI_CURRENT_FILENAME" in function "__FUNCTION__))
+	#define safe_free(ptr)			debug_checked_free(ptr)
 	
 	//Rather than having to type #ifdef COLTI_DEBUG_BUILD
 	#define DO_IF_DEBUG_BUILD(what) do { what; } while(0)
 #else
 	#define colti_assert(cond, error)
 	
-	//On release builds we don't want overhead for allocating
+	//On release builds we don't want overhead for allocating,
+	//but we still want to make sure no nullptr is passed to any function which needs heap memory
 	#define safe_malloc(size)		checked_malloc(size)
 	#define safe_free(ptr)			checked_free(ptr)
 
