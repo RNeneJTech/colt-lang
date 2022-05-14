@@ -116,8 +116,8 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 	} } while (0)
 	
 	//On debug builds we want to check for memory leaks and where they are coming from
-	#define safe_malloc(size)		debug_checked_malloc(size, "Allocated from "__FILE__" in function "__FUNCTION__, sizeof("Allocated from "__FILE__" in function "__FUNCTION__))
-	#define safe_free(ptr)			debug_checked_free(ptr)
+	#define safe_malloc(size)		checked_malloc(size)
+	#define safe_free(ptr)			checked_free(ptr)
 	
 	//Rather than having to type #ifdef COLTI_DEBUG_BUILD
 	#define DO_IF_DEBUG_BUILD(what) do { what; } while(0)
