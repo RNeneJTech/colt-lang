@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stddef.h>
 
 #include <stdio.h>
