@@ -164,6 +164,11 @@ void ChunkFree(Chunk* chunk)
 	DO_IF_DEBUG_BUILD(chunk->capacity = 0);
 }
 
+bool ChunkIsStackAllocated(const Chunk* chunk)
+{
+	return chunk->capacity == COLTI_SMALL_BUFFER_OPTIMIZATION;
+}
+
 BYTE unsafe_get_byte(uint8_t** ptr)
 {
 	BYTE return_val;

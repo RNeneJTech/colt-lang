@@ -106,6 +106,11 @@ QWORD ChunkGetQWORD(const Chunk* chunk, int* offset);
 /// @param chunk The chunk to free
 void ChunkFree(Chunk* chunk);
 
+/// @brief Checks if a chunk's buffer is stack-allocated (due to small buffer optimization)
+/// @param chunk The chunk for which to check
+/// @return True if the chunk is using its internal stack buffer
+bool ChunkIsStackAllocated(const Chunk* chunk);
+
 /**********************************
 IMPLEMENTATION HELPERS
 **********************************/
