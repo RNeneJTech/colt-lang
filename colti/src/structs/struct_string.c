@@ -1,3 +1,7 @@
+/** @file struct_string.c
+* Contains the definitions of the functions declared in 'struct_string.h'
+*/
+
 #include "struct_string.h"
 
 void StringInit(String* str)
