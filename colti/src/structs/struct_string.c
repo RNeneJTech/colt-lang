@@ -76,11 +76,12 @@ void StringAppendChar(String* str, char what)
 void StringAppendString(String* str, const char* what)
 {
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
-	size_t what_len = strlen(what) + 1;
+	size_t what_len = strlen(what);
 	if (str->size + what_len > str->capacity)
 		impl_string_grow_size(str, what_len);
-	memcpy(str->ptr + str->size, what, what_len); //We overwrite the NUL character by the rest of the string
+	memcpy(str->ptr + str->size - 1, what, what_len); //We overwrite the NUL character by the rest of the string
 	str->size += what_len;
+	str->ptr[str->size - 1] = '\0';
 }
 
 void StringFill(String* str, char character)
@@ -191,7 +192,7 @@ char* impl_string_getline(size_t* length, size_t* capacity)
 		}
 		else
 		{
-			str[current_char] = '\0';
+			str[current_char++] = '\0';
 			break;
 		}
 	}

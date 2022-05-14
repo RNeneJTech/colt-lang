@@ -18,7 +18,7 @@
 typedef struct
 {
 	uint64_t capacity;
-	uint64_t size;
+	uint64_t size; //Size including NUL
 	char* ptr;
 	char buffer[STRING_SMALL_BUFFER_OPTIMIZATION];
 } String;
