@@ -11,4 +11,7 @@
 #include "disassemble.h"
 #include "chunk.h"
 
+//UTILITIES
+#include "structs/struct_string.h"
+
 #endif //HG_COLTI_PRECOMPH
