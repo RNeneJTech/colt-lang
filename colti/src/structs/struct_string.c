@@ -62,6 +62,25 @@ void StringReplaceAllString(String* str, const char* what, const char* with)
 	colti_assert(false, "NOT IMPLEMENTED!");
 }
 
+void StringAppendChar(String* str, char what)
+{
+	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
+	if (str->size == str->capacity)
+		impl_string_grow_double(str);
+	str->ptr[str->size - 1] = what;
+	str->ptr[str->size++] = '\0';
+}
+
+void StringAppendString(String* str, const char* what)
+{
+	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
+	size_t what_len = strlen(what) + 1;
+	if (str->size + what_len > str->capacity)
+		impl_string_grow_size(str, what_len);
+	memcpy(str->ptr + str->size, what, what_len);
+	str->size += what_len;
+}
+
 void StringFill(String* str, char character)
 {
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
@@ -81,11 +100,8 @@ void StringReserve(String* str, size_t size)
 String StringGetLine()
 {
 	String str;
-	str.capacity = 1024;
-	str.size = 0;
-	str.ptr = safe_malloc(1024);
-	fgets(str.ptr, 1024, stdin);
-	return str;
+	str.ptr = impl_string_getline(&str.size, &str.capacity);
+	return str;	
 }
 
 String StringGetFileContent(const char* path)
@@ -124,4 +140,61 @@ StringView StringToStringView(const String* str)
 void StringViewPrint(const StringView strv)
 {
 	printf("%.*s", (int)(strv.end - strv.start), strv.start);
+}
+
+/*****************************************
+IMPLEMENTATION HELPERS
+*****************************************/
+
+void impl_string_grow_double(String* str)
+{
+	colti_assert(str->capacity != 0, "Capacity was 0!");
+	char* temp = (char*)safe_malloc(str->capacity *= 2);
+	
+	memcpy(temp, str->ptr, str->size);
+	if (str->capacity != STRING_SMALL_BUFFER_OPTIMIZATION * 2)
+		safe_free(str->ptr);
+	str->ptr = temp;
+}
+
+void impl_string_grow_size(String* str, size_t by)
+{
+	char* temp = (char*)safe_malloc(str->capacity += by);
+
+	memcpy(temp, str->ptr, str->size);
+	if (str->capacity - by != STRING_SMALL_BUFFER_OPTIMIZATION)
+		safe_free(str->ptr);
+	str->ptr = temp;
+}
+
+char* impl_string_getline(size_t* length, size_t* capacity)
+{
+	char* str = safe_malloc(10);
+	size_t current_char = 0;
+	size_t current_capacity = 10;
+
+	for (;;)
+	{
+		if (current_char == current_capacity)
+		{
+			char* temp = safe_malloc(current_capacity *= 2);
+			memcpy(temp, str, current_char);
+			safe_free(str);
+			str = temp;
+		}
+		char gchar = (char)getc(stdin);
+		if (gchar != '\n' && gchar != EOF)
+		{
+			str[current_char++] = gchar;
+		}
+		else
+		{
+			str[current_char] = '\0';
+			break;
+		}
+	}
+
+	*capacity = current_capacity;
+	*length = current_char;
+	return str;
 }

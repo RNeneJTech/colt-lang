@@ -66,6 +66,17 @@ void StringReplaceAllChar(String* str, char character, char with);
 /// @param with The string to replace with
 void StringReplaceAllString(String* str, const char* what, const char* with);
 
+/// @brief Appends 'what' to the end of 'str'
+/// @param str The string to modify
+/// @param what The character to append
+void StringAppendChar(String* str, char what);
+
+/// @brief Appends 'what' to the end of 'str'
+/// @param str The string to modify
+/// @param what The NUL terminated string to append
+void StringAppendString(String* str, const char* what);
+
+
 /// @brief Fills a string with the specified character
 /// @param str The string to modify
 /// @param character The character with which to fill the string
@@ -104,5 +115,16 @@ void StringViewPrint(const StringView strv);
 /*****************************************
 IMPLEMENTATION HELPERS
 *****************************************/
+
+/// @brief Doubles the capacity of a string
+/// @param str The string to modify
+void impl_string_grow_double(String* str);
+
+/// @brief Augments the capacity of a string by 'by' bytes
+/// @param str The string to modify
+/// @param by The number of bytes to add to the capacity
+void impl_string_grow_size(String* str, size_t by);
+
+char* impl_string_getline(size_t* length, size_t* capacity);
 
 #endif //HG_COLTI_STRUCT_STRING
