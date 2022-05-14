@@ -16,7 +16,7 @@ void ChunkPrintBytes(const Chunk* chunk)
 
 void ChunkInit(Chunk* chunk)
 {
-	chunk->capacity = 8;
+	chunk->capacity = COLTI_SMALL_BUFFER_OPTIMIZATION;
 	chunk->count = 0;
 	chunk->code = chunk->code_buffer;
 }
@@ -210,7 +210,7 @@ void impl_chunk_grow_double(Chunk* chunk)
 
 	//As chunks use a small-code_buffer optimization, we make sure
 	//not to free the stack code_buffer they contain
-	if (chunk->capacity != 16) //as we * 2 the capacity, and the stack code_buffer is 8
+	if (chunk->capacity != COLTI_SMALL_BUFFER_OPTIMIZATION * 2) //as we * 2 the capacity, and the stack code_buffer is 8
 		safe_free(chunk->code);
 	chunk->code = ptr;
 }
@@ -227,7 +227,7 @@ void impl_chunk_grow_size(Chunk* chunk, uint32_t size)
 
 	//As chunks use a small-code_buffer optimization, we make sure
 	//not to free the stack code_buffer they contain
-	if (chunk->capacity != 8 + size) //as we added 'size' the capacity, and the stack code_buffer is 8
+	if (chunk->capacity != COLTI_SMALL_BUFFER_OPTIMIZATION + size) //as we added 'size' the capacity, and the stack code_buffer is 8
 		safe_free(chunk->code);
 	chunk->code = ptr;
 }
