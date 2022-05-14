@@ -6,6 +6,7 @@ const FUNCTION = /\b([a-zA-Z][a-zA-Z0-9]+)(?=\()/g;
 const NAMESPACE = /\b([a-zA-Z][a-zA-Z0-9]*)(?=\::)/g;
 const KEYWORD = /\b(int|float|double|uint|bool|char|cstr|template|typename|var|ref|auto|nointerpret|pure|@compiler|const|@macro)\b/g;
 const FLOW = /\b(import|false|true|is|as|fn|if|elif|else|while|for|break|continue|switch)\b/g;
+const IDENTIFIER = /\b([a-zA-Z_][a-zA-Z0-9_]*)(?= *[=;,+)])/g;
 
 /**
  * Highlights a 'colt' code block, and writes it in place. 
@@ -13,6 +14,7 @@ const FLOW = /\b(import|false|true|is|as|fn|if|elif|else|while|for|break|continu
  */
 function highlight_colt(str)
 {
+	str = str.replace(IDENTIFIER, "<span class='identifier'>$1</span>");
 	str = str.replace(NAMESPACE, "<span class='namespace'>$1</span>");
 	str = str.replace(FUNCTION, "<span class='function'>$1</span>");
 	str = str.replace(/\n/g, '<br>');
@@ -23,6 +25,7 @@ function highlight_colt(str)
 	str = str.replace(INT, "<span class='constant'>$1</span>");
 	str = str.replace(STRING, "<span class='string'>$1</span>");
 	str = str.replace(KEYWORD, "<span class='keyword'>$1</span>");
-	str = str.replace(FLOW, "<span class='flow'>$1</span>");	
+	str = str.replace(FLOW, "<span class='flow'>$1</span>");
+
 	document.write(str);
 }

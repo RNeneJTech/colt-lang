@@ -1,0 +1,11 @@
+import ios;
+
+class Chunk
+{
+
+}
+
+fn main()
+{
+	Chunk Hello = 10;
+}
