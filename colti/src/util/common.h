@@ -94,6 +94,14 @@ typedef union
 MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 *******************************************/
 
+#ifdef COLTI_WINDOWS
+	//The current filename (strips path using Windows separator)
+	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
+#else
+	//The current filename (strips path using Unix separator)
+	#define COLTI_CURRENT_FILENAME (strrchr("/" __FILE__, '/') + 1)
+#endif
+
 #ifdef COLTI_DEBUG_BUILD
 	//Terminates the program if 'cond' is not true, and in that case prints error with useful debug info
 	#define colti_assert(cond, error) do { \
@@ -108,7 +116,7 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 	} } while (0)
 	
 	//On debug builds we want to check for memory leaks and where they are coming from
-	#define safe_malloc(size)		debug_checked_malloc(size, "Allocated from "COLTI_CURRENT_FILENAME" in function "__FUNCTION__, sizeof("Allocated from "COLTI_CURRENT_FILENAME" in function "__FUNCTION__))
+	#define safe_malloc(size)		debug_checked_malloc(size, "Allocated from "__FILE__" in function "__FUNCTION__, sizeof("Allocated from "__FILE__" in function "__FUNCTION__))
 	#define safe_free(ptr)			debug_checked_free(ptr)
 	
 	//Rather than having to type #ifdef COLTI_DEBUG_BUILD

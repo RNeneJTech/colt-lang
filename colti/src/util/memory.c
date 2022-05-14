@@ -9,7 +9,7 @@ void* checked_malloc(size_t size)
 	void* ptr = malloc(size);
 	if (ptr) return ptr;
 
-	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: Couldn't allocate memory!");
+	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: Couldn't allocate memory!" CONSOLE_COLOR_RESET);
 	(void)getc(stdin);
 	exit(2);
 }
@@ -20,7 +20,7 @@ void checked_free(void* ptr)
 	{
 		free(ptr); return;
 	}
-	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: Pointer passed 'checked_free' was NULL!");
+	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: Pointer passed 'checked_free' was NULL!" CONSOLE_COLOR_RESET);
 	(void)getc(stdin);
 	exit(2);
 }
