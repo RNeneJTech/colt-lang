@@ -18,7 +18,7 @@
 #include "common.h"
 #include "byte_code.h" //Contains the byte-code enum
 
-#define COLTI_SMALL_BUFFER_OPTIMIZATION 64
+#define CHUNK_SMALL_BUFFER_OPTIMIZATION 64
 
 /// @brief Represents a stream of instructions
 typedef struct
@@ -31,7 +31,7 @@ typedef struct
 	/// @brief Pointer to the beginning of the byte-code
 	uint8_t* code;
 	/// @brief Small-code_buffer optimization for code
-	uint8_t code_buffer[COLTI_SMALL_BUFFER_OPTIMIZATION];
+	uint8_t code_buffer[CHUNK_SMALL_BUFFER_OPTIMIZATION];
 } Chunk;
 
 /// @brief Prints the byte content of a Chunk
