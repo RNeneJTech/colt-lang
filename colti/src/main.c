@@ -1,5 +1,4 @@
 #include "precomph.h"
-#include "vm/stack_based_vm.h"
 
 int main(int argc, const char** argv)
 {

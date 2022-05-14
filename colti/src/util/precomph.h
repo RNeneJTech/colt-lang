@@ -11,6 +11,9 @@
 #include "disassemble.h"
 #include "chunk.h"
 
+//VMs
+#include "vm/stack_based_vm.h"
+
 //UTILITIES
 #include "structs/struct_string.h"
 
