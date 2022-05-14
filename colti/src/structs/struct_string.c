@@ -103,7 +103,7 @@ void StringReserve(String* str, size_t size)
 String StringGetLine()
 {
 	String str;
-	str.ptr = impl_string_getline(&str.size, &str.capacity);
+	str.ptr = unsafe_string_getline(&str.size, &str.capacity);
 	return str;	
 }
 
@@ -170,7 +170,7 @@ void impl_string_grow_size(String* str, size_t by)
 	str->ptr = temp;
 }
 
-char* impl_string_getline(size_t* length, size_t* capacity)
+char* unsafe_string_getline(size_t* length, size_t* capacity)
 {
 	char* str = safe_malloc(10);
 	size_t current_char = 0;
