@@ -19,27 +19,27 @@ IMPLEMENTATION HELPERS
 /// @param chunk The chunk from which to extract the code
 /// @param offset The offset to the code
 /// @return Modified offset
-int impl_chunk_print_code(const Chunk* chunk, int offset);
+uint64_t impl_chunk_print_code(const Chunk* chunk, uint64_t offset);
 
 /// @brief Prints a one byte instruction
 /// @param name The name of the instruction
 /// @param offset The current byte offset
 /// @return The current byte offset + 1
-int impl_print_simple_instruction(const char* name, int offset);
+uint64_t impl_print_simple_instruction(const char* name, uint64_t offset);
 
 /// @brief Prints a one byte instruction followed by the byte following it
 /// @param name The name of the instruction
 /// @param byte The byte that follows it
 /// @param offset The current byte offset
 /// @return The current byte offset + 2
-int impl_print_byte_instruction(const char* name, uint8_t byte, int offset);
+uint64_t impl_print_byte_instruction(const char* name, uint8_t byte, uint64_t offset);
 
 /// @brief Prints a one byte instruction followed by the operand following it
 /// @param name The name of the instruction
 /// @param byte The byte that follows it
 /// @param offset The current byte offset
 /// @return The current byte offset + 2
-int impl_print_operand_instruction(const char* name, uint8_t byte, int offset);
+uint64_t impl_print_operand_instruction(const char* name, uint8_t byte, uint64_t offset);
 
 /// @brief Prints a one byte instruction followed by the int following it.
 /// There is no offset to pass to this function, but rather, the 'value' argument

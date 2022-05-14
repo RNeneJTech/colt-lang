@@ -13,15 +13,15 @@ void ChunkDisassemble(const Chunk* chunk, const char* name)
 		printf("!EMPTY CHUNK!");
 		return;
 	}
-	for (int offset = 0; (uint64_t)offset < chunk->count;)
+	for (uint64_t offset = 0; offset < chunk->count;)
 	{
 		offset = impl_chunk_print_code(chunk, offset);
 	}
 }
 
-int impl_chunk_print_code(const Chunk* chunk, int offset)
+uint64_t impl_chunk_print_code(const Chunk* chunk, uint64_t offset)
 {
-	printf("%04d ", offset);
+	printf("%04"PRIu64" ", offset);
 
 	uint8_t instruction = chunk->code[offset];
 	switch (instruction)
@@ -78,19 +78,19 @@ int impl_chunk_print_code(const Chunk* chunk, int offset)
 	}
 }
 
-int impl_print_simple_instruction(const char* name, int offset)
+uint64_t impl_print_simple_instruction(const char* name, uint64_t offset)
 {
 	printf("%s\n", name);
 	return offset + 1;
 }
 
-int impl_print_byte_instruction(const char* name, uint8_t byte, int offset)
+uint64_t impl_print_byte_instruction(const char* name, uint8_t byte, uint64_t offset)
 {
 	printf("%s '%d'\n", name, byte);
 	return offset + 2;
 }
 
-int impl_print_operand_instruction(const char* name, uint8_t byte, int offset)
+uint64_t impl_print_operand_instruction(const char* name, uint8_t byte, uint64_t offset)
 {
 	const char* operand;
 	switch (byte)
