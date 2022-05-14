@@ -122,7 +122,7 @@ typedef union
 	#define safe_free(ptr)			checked_free(ptr)
 
 	//Doesn't do anything
-	#define DO_IF_DEBUG_BUILD(what) do { (what); } while(0)
+	#define DO_IF_DEBUG_BUILD(what) do {} while(0)
 #endif
 
 #endif //HG_COLTI_COMMON
