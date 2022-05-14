@@ -23,5 +23,5 @@ int main(int argc, const char** argv)
 	{
 		printf("Usage: "CONSOLE_FOREGROUND_BRIGHT_BLUE"colti"CONSOLE_FOREGROUND_BRIGHT_MAGENTA" [path]"CONSOLE_COLOR_RESET);
 		exit(3);
-	}
+	}	
 }
