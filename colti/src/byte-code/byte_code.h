@@ -57,18 +57,29 @@ typedef enum
 /// @brief Represents an operand type
 typedef enum
 {
+	/// @brief Represents a bool
 	COLTI_BOOL		= OPERAND_COLTI_BOOL,
+	/// @brief Represents a 64-bit double-precision float
 	COLTI_DOUBLE	= OPERAND_COLTI_DOUBLE,
+	/// @brief Represents a 32-bit single-precision float
 	COLTI_FLOAT		= OPERAND_COLTI_FLOAT,
 
+	/// @brief Represents a signed 8-bit integer
 	COLTI_INT8		= OPERAND_COLTI_I8,
+	/// @brief Represents a signed 16-bit integer
 	COLTI_INT16		= OPERAND_COLTI_I16,
+	/// @brief Represents a signed 32-bit integer
 	COLTI_INT32		= OPERAND_COLTI_I32,
+	/// @brief Represents a signed 64-bit integer
 	COLTI_INT64		= OPERAND_COLTI_I64,
 
+	/// @brief Represents an unsigned 8-bit integer
 	COLTI_UINT8		= OPERAND_COLTI_UI8,
+	/// @brief Represents an unsigned 16-bit integer
 	COLTI_UINT16	= OPERAND_COLTI_UI16,
+	/// @brief Represents an unsigned 32-bit integer
 	COLTI_UINT32	= OPERAND_COLTI_UI32,
+	/// @brief Represents an unsigned 64-bit integer
 	COLTI_UINT64	= OPERAND_COLTI_UI64,
 } OperandType;
 
