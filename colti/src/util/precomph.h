@@ -16,5 +16,6 @@
 
 //UTILITIES
 #include "structs/struct_string.h"
+#include "util/parse_args.h"
 
 #endif //HG_COLTI_PRECOMPH
