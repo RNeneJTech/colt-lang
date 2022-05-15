@@ -6,3 +6,5 @@ colti_config.h
 highlighted_codes.html
 # DOXYGEN OUTPUT
 docs
+# PYTHON OUTPUT
+__pycache__
