@@ -112,7 +112,7 @@ String StringGetFileContent(const char* path)
 	FILE* file = fopen(path, "rb"); //Read-binary mode
 	if (file == NULL)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't open the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"'%s' is not a valid file path!\n"CONSOLE_COLOR_RESET, path);
 		exit(3);
 	}
 	fseek(file, 0L, SEEK_END);
