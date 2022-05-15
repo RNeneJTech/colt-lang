@@ -4,3 +4,5 @@ build/
 colti_config.h
 # SCRIPT GENERATED FILE
 highlighted_codes.html
+# DOXYGEN OUTPUT
+docs
