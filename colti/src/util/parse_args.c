@@ -19,7 +19,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 			break; case ARG_DISASSEMBLE:
 				impl_disassemble(argc, argv);
 			break; default:
-				printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Unknown argument! Use '-e' or '--enum' to get the list of valid arguments.");
+				printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Unknown argument! Use '-e' or '--enum' to get the list of valid arguments.\n");
 				exit(3);
 			}
 		}
@@ -116,7 +116,7 @@ void impl_disassemble(int argc, const char** argv)
 		}
 		else
 		{
-			printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"'%s' is not a valid path!", argv[2]);
+			printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"'%s' is not a valid path!\n", argv[2]);
 			exit(3);
 		}
 	}
@@ -177,7 +177,7 @@ void impl_print_invalid_combination(int argc, const char** argv)
 			printf(" %s", argv[i]);
 		}
 	}
-	fputc('.', stdout);
+	fputs(".\n", stdout);
 }
 
 void impl_help_disassemble()
