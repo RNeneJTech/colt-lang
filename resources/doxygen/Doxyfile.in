@@ -1,7 +1,12 @@
 OUTPUT_DIRECTORY       = @CMAKE_SOURCE_DIR@/docs/
 INPUT                  = @CMAKE_SOURCE_DIR@/colti/src/
+EXCLUDE_PATTERNS	   = */colti_config.h
 RECURSIVE			   = YES
+
+CREATE_SUBDIRS		   = YES
+
 PROJECT_NUMBER		   = @PROJECT_VERSION@
 PROJECT_NAME		   = Colt
 PROJECT_BRIEF		   = The compiler and interpreter for the Colt language
-CREATE_SUBDIRS		   = YES
+
+HTML_COLORSTYLE_GAMMA  = 200
