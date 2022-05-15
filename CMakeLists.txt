@@ -52,7 +52,7 @@ else()
 	set(IMPL_COLTI_OS_STRING "UNKNOWN")
 endif()
 
-configure_file("${CMAKE_SOURCE_DIR}/colti/src/util/cmake/cmake_colti_config.in"
+configure_file("${CMAKE_SOURCE_DIR}/resources/cmake/cmake_colti_config.in"
 	"${CMAKE_SOURCE_DIR}/colti/src/util/colti_config.h")
 
 
