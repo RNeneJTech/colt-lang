@@ -1,5 +1,5 @@
 body {
-	background-color: #9f9f9f;
+	background-color: #1e1e1e;
 }
 
 pre {
@@ -18,19 +18,19 @@ h1.code-title {
 }
 
 span.comment {
-	color: #168100;
+	color: #6bb75e;
 }
 
 span.constant {
-	color: #00d9ff;
+	color: #b5cea8;
 }
 
 span.string {
-	color: #a31515;
+	color: #d69d85;
 }
 
 span.function {
-	color: #ffc400;
+	color: #dcdcaa;
 }
 
 span.namespace {
@@ -38,17 +38,17 @@ span.namespace {
 }
 
 span.identifier {
-	color: #016c87;
+	color: #92dcfe;
 }
 
 span.keyword {
-	color: #1900ff;
+	color: #569cd6;
 }
 
 span.operator {
-	color: rgb(168, 168, 168);
+	color: #97aeb4;
 }
 
 span.flow {
-	color:rgb(165, 0, 124)
+	color: #d8a0df;
 }
