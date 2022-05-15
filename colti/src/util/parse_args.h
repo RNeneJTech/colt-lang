@@ -5,11 +5,17 @@
 #include "chunk.h"
 #include "disassemble.h"
 
-/// @brief The result of parsing command line arguments
+/// @brief The result of parsing command line arguments.
+/// This struct is one of the only that will never hold any heap-allocated value.
+/// This is the reason why 'file_path_out' defaults to 'a.out'
 typedef struct
 {
 	/// @brief The path to the file to interpret/compile
-	const char* file_path;
+	const char* file_path_in;
+	/// @brief The output executable file
+	const char* file_path_out;
+	/// @brief The output file to where to write the byte-code
+	const char* byte_code_out;
 } ParseResult;
 
 typedef enum
@@ -20,6 +26,10 @@ typedef enum
 	ARG_VERSION,
 	/// @brief -d, or --disassemble
 	ARG_DISASSEMBLE,
+	/// @brief -o, or --out
+	ARG_EXEC_OUTPUT,
+	/// @brief -b or --byte-out
+	ARG_BYTE_CODE_OUTPUT,
 	/// @brief Any invalid argument
 	ARG_INVALID
 } CommandLineArgument;
@@ -59,6 +69,18 @@ void impl_disassemble(int argc, const char** argv);
 /// @param argv The argument values
 void impl_help(int argc, const char** argv);
 
+/// @brief Handles the -o or --out logic, returns a valid path or exits
+/// @param argv The argument values
+/// @param current_argc The offset to the value after -o
+/// @return A valid path to which to write the executable
+const char* impl_exec_out(int argc, const char** argv, size_t current_argc);
+
+/// @brief Handles the -b or --byte-out, returns a valid path or exits
+/// @param argv The argument values
+/// @param current_argc The offset to the value after -b
+/// @return A valid path to which to write the byte-code
+const char* impl_byte_out(int argc, const char** argv, size_t current_argc);
+
 /// @brief Prints an error that is caused by an invalid combination of arguments.
 /// Expects at least that argc is 2.
 /// @param argc The argument count
@@ -73,5 +95,11 @@ void impl_help_version();
 
 /// @brief Prints the help of '-h' or '--help'
 void impl_help_help();
+
+/// @brief Prints the help of '-o' or '--out'
+void impl_help_exec_out();
+
+/// @brief Prints the help of '-b' or '--byte-out'
+void impl_help_byte_out();
 
 #endif //HG_COLTI_PARSE_ARGS
