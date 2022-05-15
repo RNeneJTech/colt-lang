@@ -1,3 +1,10 @@
+# Generates CMake project files:
+# If the 'build' directory already exists, and contains a file named 'generate_project.py.output',
+# then the CMake project files will be regenerated.
+# If the 'build' directory already exists, and does not contain a file named 'generate_project.py.output',
+# then prompts the user for confirmation to overwrite the directory.
+# Otherwise, the 'build' directory will be created and CMake will be run.
+
 import os
 from shutil import rmtree
 
