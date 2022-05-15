@@ -7,10 +7,12 @@
 
 /// @brief Colti Float (4 bytes single precision float)
 typedef float ColtiFloat;
+/// @brief The operand representing a float
 #define OPERAND_COLTI_FLOAT 9
 
 /// @brief Colti Double (8 bytes double precision float)
 typedef double ColtiDouble;
+/// @brief The operand representing a double
 #define OPERAND_COLTI_DOUBLE 10
 
 #endif //HG_COLTI_FLOATING_VALUE
