@@ -19,37 +19,35 @@
 typedef enum
 {
 	//IMMEDIATE VALUES LOADING
+	/// @brief Specifies that the next byte-code is an immediate byte
 	OP_IMMEDIATE_BYTE,
+	/// @brief Specifies that a 2 bytes (aligned) WORD is written in the following byte-codes
 	OP_IMMEDIATE_WORD,
+	/// @brief Specifies that a 4 bytes (aligned) DWORD is written in the following byte-codes
 	OP_IMMEDIATE_DWORD,
+	/// @brief Specifies that an 8 bytes (aligned) QWORD is written in the following byte-codes
 	OP_IMMEDIATE_QWORD,
 
-	//followed by an operand,
-	//pops an 'operand' from the stack
-	//converts it to 'operand', negates it,
-	//then pushes it back
+	/// @brief Specifies that the next byte is an operand to which to cast a QWORD before negating its sign
 	OP_NEGATE,
 
-	//followed by two operand,
-	//pops an 'first operand' from the stack,
-	//converts it to 'second operand',
-	//then pushes it back
+	/// @brief Specifies that the next 2 bytes are operands type, the first to which to cast a QWORD before converting it to the second
 	OP_CONVERT,
 
-	//followed by an operand,
-	//pops the first and second item from the stack,
-	//converts them to the operand,
-	//then pushes the result to the stack
+	/// @brief Specifies that the next byte is an operand to which to cast 2 QWORD before doing their sum
 	OP_ADD,
+	/// @brief Specifies that the next byte is an operand to which to cast 2 QWORD before doing their difference
 	OP_SUBTRACT,
+	/// @brief Specifies that the next byte is an operand to which to cast 2 QWORD before doing their product
 	OP_MULTIPLY,
+	/// @brief Specifies that the next byte is an operand to which to cast 2 QWORD before doing their division
 	OP_DIVIDE,
 
 	//DON'T KNOW
 	OP_MODULO,
 
-	//DEBUG PURPOSES
-	OP_PRINT, // followed by an operand
+	/// @brief Specifies that the next byte is an operand to which to cast a QWORD before printing it (for debug purposes)
+	OP_PRINT,
 
 	//MISCALLENEOUS
 	OP_RETURN,
