@@ -127,7 +127,7 @@ String StringGetFileContent(const char* path)
 	fclose(file);
 	if (bytes_read != file_size)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't read all the content of the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Couldn't read all the content of the file '%s'!\n"CONSOLE_COLOR_RESET, path);
 		exit(2);
 	}
 	str.ptr[str.size - 1] = '\0';
