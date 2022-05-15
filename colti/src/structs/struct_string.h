@@ -12,14 +12,19 @@
 
 #include "common.h"
 
+/// @brief The stack preallocated buffer of Strings
 #define STRING_SMALL_BUFFER_OPTIMIZATION 32
 
 /// @brief An owning array of characters that is always NUL terminated
 typedef struct
 {
+	/// @brief The capacity of the String
 	uint64_t capacity;
-	uint64_t size; //Size including NUL
+	/// @brief The byte-size of the String, including the NUL terminator
+	uint64_t size; 
+	/// @brief The pointer to the beginning of the array of characters
 	char* ptr;
+	/// @brief Stack-buffer for optimization of small Strings
 	char buffer[STRING_SMALL_BUFFER_OPTIMIZATION];
 } String;
 
@@ -99,7 +104,9 @@ String StringGetFileContent(const char* path);
 /// @brief A non-owning view over an array of characters
 typedef struct
 {
+	/// @brief Pointer to the beginning of the character array
 	const char* start;
+	/// @brief Pointer to the end of the character array
 	const char* end;
 } StringView;
 
