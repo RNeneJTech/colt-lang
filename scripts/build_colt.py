@@ -1,3 +1,5 @@
+# Builds the Colt executable using CMake.
+
 import os
 
 print("-- Current working directory: ", os.getcwd())

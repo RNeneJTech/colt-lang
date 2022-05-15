@@ -1,3 +1,5 @@
+# Builds the code's documentation using CMake and doxygen.
+
 import os
 
 print("-- Current working directory: ", os.getcwd())
