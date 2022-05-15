@@ -25,68 +25,68 @@
 /// @brief Represents the result of an interpretation of a program
 typedef enum
 {
-	INTERPRET_OK,
-	INTERPRET_COMPILE_ERROR,
-	INTERPRET_RUNTIME_ERROR
+	INTERPRET_OK, ///< Interpreting was successful
+	INTERPRET_COMPILE_ERROR, ///< There was a compilation error
+	INTERPRET_RUNTIME_ERROR ///< There was a runtime error
 } InterpretResult;
 
 /// @brief Represents a Byte, which can be type-punned to a more useful type
 typedef union
 {
-	ColtiBool b;
-	ColtiI8 i8;
-	ColtiUI8 ui8;
+	ColtiBool b; ///< Bool member
+	ColtiI8 i8; ///< 8-bit signed integer
+	ColtiUI8 ui8; ///< 8-bit unsigned integer member
 } BYTE;
 
 /// @brief Represents a Word (2 bytes), which can be type-punned to a more useful type
 typedef union
 {
-	ColtiBool b;
-	ColtiI8 i8;
-	ColtiUI8 ui8;
-	BYTE byte;
+	ColtiBool b; ///< Bool member
+	ColtiI8 i8; ///< 8-bit signed integer
+	ColtiUI8 ui8; ///< 8-bit unsigned integer member
+	BYTE byte; ///< BYTE union, which can be used in place of b/i8/ui8
 
-	ColtiI16 i16;
-	ColtiUI16 ui16;
+	ColtiI16 i16; ///< 16-bit signed integer
+	ColtiUI16 ui16; ///< 16-bit unsigned integer
 } WORD;
 
 /// @brief Represents a Double Word (4 bytes), which can be type-punned to a more useful type
 typedef union
 {
-	ColtiBool b;
-	ColtiI8 i8;
-	ColtiUI8 ui8;
-	BYTE byte;
+	ColtiBool b; ///< Bool member
+	ColtiI8 i8; ///< 8-bit signed integer
+	ColtiUI8 ui8; ///< 8-bit unsigned integer member
+	BYTE byte; ///< BYTE union, which can be used in place of b/i8/ui8
 
-	ColtiI16 i16;
-	ColtiUI16 ui16;
-	WORD word;
+	ColtiI16 i16; ///< 16-bit signed integer
+	ColtiUI16 ui16; ///< 16-bit unsigned integer
+	WORD word; ///< WORD union, which can be used in place of i16/ui16
 
-	ColtiFloat f;
-	ColtiI32 i32;
-	ColtiUI32 ui32;
+	ColtiFloat f; ///< 32-bit float
+	ColtiI32 i32; ///< 32-bit signed integer
+	ColtiUI32 ui32; ///< 32-bit unsigned integer
 } DWORD;
 
 /// @brief Represents a Quad Word (8 bytes), which can be type-punned to a more useful type
 typedef union
 {
-	ColtiBool b;
-	ColtiI8 i8;
-	ColtiUI8 ui8;
-	BYTE byte;
+	ColtiBool b; ///< Bool member
+	ColtiI8 i8; ///< 8-bit signed integer
+	ColtiUI8 ui8; ///< 8-bit unsigned integer member
+	BYTE byte; ///< BYTE union, which can be used in place of b/i8/ui8
 
-	ColtiI16 i16;
-	ColtiUI16 ui16;
-	WORD word;
+	ColtiI16 i16; ///< 16-bit signed integer
+	ColtiUI16 ui16; ///< 16-bit unsigned integer
+	WORD word; ///< WORD union, which can be used in place of i16/ui16
 	
-	ColtiFloat f;
-	ColtiI32 i32;
-	ColtiUI32 ui32;
-	DWORD dword;
+	ColtiFloat f; ///< 32-bit float
+	ColtiI32 i32; ///< 32-bit signed integer
+	ColtiUI32 ui32; ///< 32-bit unsigned integer
+	DWORD dword; ///< DWORD union, which can be used if place of f/i32/ui32
 
-	ColtiDouble d;
-	ColtiI64 i64;
-	ColtiUI64 ui64;
+	ColtiDouble d; ///< 64-bit float
+	ColtiI64 i64; ///< 64-bit signed integer
+	ColtiUI64 ui64; ///< 64-bit unsigned integer
 } QWORD;
 
 
@@ -95,15 +95,22 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 *******************************************/
 
 #ifdef COLTI_WINDOWS
-	//The current filename (strips path using Windows separator)
+	/// @brief The current filename, only for debugging purposes (strips path using Windows separator)
 	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
 #else
-	//The current filename (strips path using Unix separator)
+	/// @brief The current filename, only for debugging purposes
 	#define COLTI_CURRENT_FILENAME (strrchr("/" __FILE__, '/') + 1)
 #endif
 
+#ifndef COLTI_DEBUG_BUILD
+	#undef COLTI_CURRENT_FILENAME
+	/// @brief No-overhead current filename
+	#define COLTI_CURRENT_FILENAME  __FILE__
+#endif // COLTI_DEBUG_BUILD
+
+
 #ifdef COLTI_DEBUG_BUILD
-	//Terminates the program if 'cond' is not true, and in that case prints error with useful debug info
+	/// @brief Terminates the program if 'cond' is not true, and in that case prints error with useful debug info
 	#define colti_assert(cond, error) do { \
 	if (!(cond)) { \
 		printf(CONSOLE_FOREGROUND_BRIGHT_RED "\nAssertion failed from file " CONSOLE_FOREGROUND_BRIGHT_WHITE "\"%s\"" \
@@ -115,21 +122,22 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 		exit(1); \
 	} } while (0)
 	
-	//On debug builds we want to check for memory leaks and where they are coming from
+	/// @brief Ensures no NULL pointer is returned from a heap allocation
 	#define safe_malloc(size)		checked_malloc(size)
 	#define safe_free(ptr)			checked_free(ptr)
 	
-	//Rather than having to type #ifdef COLTI_DEBUG_BUILD
+	/// @brief Does 'what' only on Debug configuration
 	#define DO_IF_DEBUG_BUILD(what) do { what; } while(0)
 #else
+	/// @brief Asserts a condition only on Debug configuration
 	#define colti_assert(cond, error)
 	
-	//On release builds we don't want overhead for allocating,
-	//but we still want to make sure no nullptr is passed to any function which needs heap memory
+	/// @brief Ensures no NULL pointer is returned from a heap allocation
 	#define safe_malloc(size)		checked_malloc(size)
+	/// @brief Ensures no NULL pointer is passed for deallocation
 	#define safe_free(ptr)			checked_free(ptr)
 
-	//Doesn't do anything
+	/// @brief Does 'what' only on Debug configuration
 	#define DO_IF_DEBUG_BUILD(what) do {} while(0)
 #endif
 
