@@ -56,7 +56,7 @@ typedef enum
 /// @brief Parses the command line arguments and returns a corresponding result
 /// @param argc The argument count
 /// @param argv The argument values
-/// @return 
+/// @return A ParseResult containing results
 ParseResult ParseArguments(int argc, const char** argv);
 
 /// @brief Check if a path is a valid file
