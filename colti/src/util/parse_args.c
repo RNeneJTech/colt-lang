@@ -19,7 +19,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 			break; case ARG_DISASSEMBLE:
 				impl_disassemble(argc, argv);
 			break; default:
-				printf(CONSOLE_BACKGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Unknown argument! Use '-e' or '--enum' to get the list of valid arguments.");
+				printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Unknown argument! Use '-e' or '--enum' to get the list of valid arguments.");
 				exit(3);
 			}
 		}
@@ -66,7 +66,7 @@ CommandLineArgument impl_string_to_arg(const char* str)
 	}
 	else if (str[1] == '-') // --...
 	{
-		//We optimize comparing by first checking for the first character after --
+		//We optimize comparing string by first checking for the first character after --
 		switch (str[2])
 		{
 		case 'v':
