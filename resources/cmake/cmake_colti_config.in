@@ -14,6 +14,12 @@
 
 #define COLTI_OS_STRING				"${IMPL_COLTI_OS_STRING}"
 
+#ifdef COLTI_DEBUG_BUILD
+	#define COLTI_CONFIG_STRING		"Debug"
+#else
+	#define COLTI_CONFIG_STRING		"Release"
+#endif
+
 //Determine the current operating system
 #if ${IMPL_COLTI_OS_WINDOWS} == 1
 	#define COLTI_WINDOWS
