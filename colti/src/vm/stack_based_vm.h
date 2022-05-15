@@ -17,7 +17,10 @@
 /// @brief VM containing a stack
 typedef struct
 {
+	/// @brief The pointer to the stack's top.
+	/// Points to where the next push should be written.
 	QWORD* stack_top;
+	/// @brief The stack-allocated stack
 	QWORD stack[256];
 } StackVM;
 
