@@ -1,3 +1,7 @@
+/** @file parse_args.c
+* Contains the definitions of the functions declared in 'parse_args.h'
+*/
+
 #include "parse_args.h"
 
 ParseResult ParseArguments(int argc, const char** argv)
@@ -15,6 +19,8 @@ ParseResult ParseArguments(int argc, const char** argv)
 				//Even though all the impl_{ARG} do not return, break to silence warnings
 			break; case ARG_HELP:
 				impl_help(argc, argv);
+			break; case ARG_ENUM:
+				impl_enum(argc, argv);
 			break; case ARG_VERSION:
 				impl_version(argc, argv);
 			break; case ARG_DISASSEMBLE:
@@ -72,6 +78,8 @@ CommandLineArgument impl_string_to_arg(const char* str)
 	{
 		switch (str[length - 1])
 		{
+		case 'e':
+			return ARG_ENUM;
 		case 'v':
 			return ARG_VERSION;
 		case 'h':
@@ -91,6 +99,10 @@ CommandLineArgument impl_string_to_arg(const char* str)
 		//We optimize comparing string by first checking for the first character after --
 		switch (str[2])
 		{
+		case 'e':
+			if (strcmp(str + 3, "num") == 0)
+				return ARG_ENUM;
+			return ARG_INVALID;
 		case 'v':
 			if (strcmp(str + 3, "ersion") == 0) //we already checked for --v
 				return ARG_VERSION;
@@ -174,25 +186,45 @@ void impl_help(int argc, const char** argv)
 		CommandLineArgument arg = impl_string_to_arg(argv[2]);
 		switch (arg)
 		{
-		case ARG_HELP:
+		break; case ARG_HELP:
 			impl_help_help();
-			exit(0);
-		case ARG_DISASSEMBLE:
+		break; case ARG_ENUM:
+			impl_help_enum();
+		break; case ARG_DISASSEMBLE:
 			impl_help_disassemble();
-			exit(0);
-		case ARG_VERSION:
+		break; case ARG_VERSION:
 			impl_help_version();
-			exit(0);
-		case ARG_EXEC_OUTPUT:
+		break; case ARG_EXEC_OUTPUT:
 			impl_help_exec_out();
-			exit(0);
-		case ARG_BYTE_CODE_OUTPUT:
+		break; case ARG_BYTE_CODE_OUTPUT:
 			impl_help_byte_out();
-			exit(0);
-		default:
+		break; default:
 			impl_print_invalid_combination(argc, argv);
 			exit(3);
 		}
+		exit(0);
+	}
+	else
+	{
+		impl_print_invalid_combination(argc, argv);
+		exit(3);
+	}
+}
+
+void impl_enum(int argc, const char** argv)
+{
+	if (argc == 2)
+	{
+		printf("The possible arguments are:"
+			"\n\t-h, --help"
+			"\n\t-e, --enum"
+			"\n\t-v, --version"
+			"\n\t-d, --disassemble"
+			"\n\t-o, --out"
+			"\n\t-b, --byte-code"
+			"\n"
+		);
+		exit(0);
 	}
 	else
 	{
@@ -261,6 +293,11 @@ void impl_help_version()
 void impl_help_help()
 {
 	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-h, --help"CONSOLE_COLOR_RESET": Prints the purpose and use of an argument.\nFormat: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--help"CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <ARG>\n"CONSOLE_COLOR_RESET);
+}
+
+void impl_help_enum()
+{
+	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-e, --enum"CONSOLE_COLOR_RESET": Prints all the possible valid arguments.\nFormat: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--enum\n"CONSOLE_COLOR_RESET);
 }
 
 void impl_help_exec_out()

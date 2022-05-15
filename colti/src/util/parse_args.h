@@ -1,3 +1,20 @@
+/** @file parse_args.h
+* Contains command-line argument parsing tools.
+* To parse arguments, call `ParseArguments`.
+* If the arguments are informational (like --version, --help...), the function
+* `ParseArguments` will itself exit.
+* If not, then a ParseResult will be returned, containing the needed data.
+* To avoid having to deal with strings in most functions, impl_string_to_arg converts
+* a string to an enum from CommandLineArgument.
+* To add new possible arguments:
+* - Add enum value
+* - Add case in impl_string_to_arg
+* - Add help documentation function `impl_help_...`
+* - Add case in impl_help
+* - Add function `impl_...` that handles parsing and error of the rest of the arguments
+* - Add case in ParseArguments
+*/
+
 #ifndef HG_COLTI_PARSE_ARGS
 #define HG_COLTI_PARSE_ARGS
 
@@ -22,6 +39,8 @@ typedef enum
 {
 	/// @brief -h, or --help
 	ARG_HELP,
+	/// @brief -e, or --enum
+	ARG_ENUM,
 	/// @brief -v, or --version
 	ARG_VERSION,
 	/// @brief -d, or --disassemble
@@ -69,6 +88,11 @@ void impl_disassemble(int argc, const char** argv);
 /// @param argv The argument values
 void impl_help(int argc, const char** argv);
 
+/// @brief Handles the -e or --enum logic and exits
+/// @param argc The argument count
+/// @param argv The argument values
+void impl_enum(int argc, const char** argv);
+
 /// @brief Handles the -o or --out logic, returns a valid path or exits
 /// @param argv The argument values
 /// @param current_argc The offset to the value after -o
@@ -95,6 +119,9 @@ void impl_help_version();
 
 /// @brief Prints the help of '-h' or '--help'
 void impl_help_help();
+
+/// @brief Prints the help of '-e' or '--enum'
+void impl_help_enum();
 
 /// @brief Prints the help of '-o' or '--out'
 void impl_help_exec_out();
