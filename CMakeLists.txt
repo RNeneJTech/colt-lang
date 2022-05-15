@@ -67,14 +67,16 @@ option(BUILD_DOC "Build documentation" ON)
 
 # check if Doxygen is installed
 find_package(Doxygen)
+message(STATUS "Searching for Doxygen executable...")
 if (DOXYGEN_FOUND)
+	message(STATUS "Found Doxygen executable.")
 	# set input and output files
 	set(DOXYGEN_IN ${CMAKE_SOURCE_DIR}/resources/doxygen/Doxyfile.in)
 	set(DOXYGEN_OUT ${CMAKE_SOURCE_DIR}/docs/Doxyfile.out)
 
+	message(STATUS "Configuring Doxygen input file...")
 	# request to configure the file
 	configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT})
-	message(STATUS "Doxygen build started")
 
 	add_custom_target(GENERATE_DOCS
 		COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
@@ -82,5 +84,5 @@ if (DOXYGEN_FOUND)
 		COMMENT "Generating API documentation with Doxygen"
 		VERBATIM)
 else (DOXYGEN_FOUND)
-	message(WARNING "Doxygen need to be installed to generate the doxygen documentation!")
+	message(WARNING "Doxygen was not found! Doxygen need to be installed to generate the documentation!")
 endif (DOXYGEN_FOUND)
