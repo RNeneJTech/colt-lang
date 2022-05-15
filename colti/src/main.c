@@ -6,7 +6,7 @@ int main(int argc, const char** argv)
 	if (result.file_path_in == NULL)
 	{
 		printf("> ");
-		String line = StringGetLine();		
+		String line = StringGetLine();
 		StringFree(&line);
 	}
 	else
