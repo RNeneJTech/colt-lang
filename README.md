@@ -5,12 +5,9 @@ An interpreter in development for the `colt` language.
 Uses byte-code, and a stack-based virtual machine.
 
 ## TODO:
-- [X] Add WORD|BYTE
-- [X] Fix API to get DWORD|QWORD
-- [X] Fix interpreting loop
-- [X] Reformat interpreting loop
-- [X] Start documenting the code
-- [ ] Add Lexer
+- [ ] Add print error macro
+- [ ] Add enum for exit error code
+- [ ] Add Scanner
 
 ## Error Codes:
 - 0: Successful
@@ -41,3 +38,4 @@ Uses byte-code, and a stack-based virtual machine.
 - Enums should be `UPPERCASE_SNAKE`
 
 - When reporting errors, the output should use: `CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET` followed by the message
+  - If a message is printed before exiting, it should be followed by a newline
