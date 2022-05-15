@@ -3,7 +3,7 @@ import os
 print("-- Current working directory: ", os.getcwd())
 if (os.getcwd().endswith("scripts")) or os.getcwd().endswith("scripts/"):
 	os.chdir("..")
-	print("-- Changed working director to the parent directory")
+	print("-- Changed working directory to the parent directory")
 
 files = []
 try:
