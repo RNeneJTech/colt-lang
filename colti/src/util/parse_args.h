@@ -94,12 +94,14 @@ void impl_help(int argc, const char** argv);
 void impl_enum(int argc, const char** argv);
 
 /// @brief Handles the -o or --out logic, returns a valid path or exits
+/// @param argc The argument count
 /// @param argv The argument values
 /// @param current_argc The offset to the value after -o
 /// @return A valid path to which to write the executable
 const char* impl_exec_out(int argc, const char** argv, size_t current_argc);
 
 /// @brief Handles the -b or --byte-out, returns a valid path or exits
+/// @param argc The argument count
 /// @param argv The argument values
 /// @param current_argc The offset to the value after -b
 /// @return A valid path to which to write the byte-code
