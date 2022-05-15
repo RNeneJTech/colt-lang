@@ -9,4 +9,4 @@ PROJECT_NUMBER		   = @PROJECT_VERSION@
 PROJECT_NAME		   = Colt
 PROJECT_BRIEF		   = The compiler and interpreter for the Colt language
 
-HTML_COLORSTYLE_GAMMA  = 200
+HTML_COLORSTYLE_GAMMA  = 150
