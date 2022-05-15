@@ -39,3 +39,5 @@ Uses byte-code, and a stack-based virtual machine.
 - Globals should start with `g_`
 
 - Enums should be `UPPERCASE_SNAKE`
+
+- When reporting errors, the output should use: `CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET` followed by the message
