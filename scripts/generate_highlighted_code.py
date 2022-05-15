@@ -1,3 +1,6 @@
+# Generates an HTML file with highlighted code, using resources/highlight_code/highlight.js
+# The code examples are taking from the resources directory, from every file ending with '.ct'
+
 import os
 
 print("-- Current working directory: ", os.getcwd())
