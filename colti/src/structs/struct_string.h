@@ -69,7 +69,8 @@ void StringReplaceAllChar(String* str, char character, char with);
 /// @param str The string to modify
 /// @param what The string to search for
 /// @param with The string to replace with
-void StringReplaceAllString(String* str, const char* what, const char* with);
+/// @return True if the 'what' was replaced by 'with'
+bool StringReplaceString(String* str, const char* what, const char* with);
 
 /// @brief Appends 'what' to the end of 'str'
 /// @param str The string to modify

@@ -58,10 +58,32 @@ void StringReplaceAllChar(String* str, char character, char with)
 	}
 }
 
-void StringReplaceAllString(String* str, const char* what, const char* with)
+bool StringReplaceString(String* str, const char* what, const char* with)
 {
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
-	colti_assert(false, "NOT IMPLEMENTED!");
+	colti_assert(what != NULL && with != NULL, "One of the strings passed was NULL!");
+	
+	size_t what_len = strlen(what);
+	size_t with_len = strlen(with);
+	
+	if (what_len == 0)
+		StringAppendString(str, with);
+
+	for (size_t i = 0; i < str->size - what_len; i++)
+	{
+		//as what_len is the length without the NUL terminator
+		//we don't need to do any arithmetic to optimize anything
+		if (strncmp(what, str->ptr + i, what_len) == 0)
+		{
+			if (str->size - what_len + with_len > str->capacity)
+				impl_string_grow_size(str, with_len - what_len);
+			memmove(str->ptr + i + with_len, str->ptr + i + what_len, str->size - i - what_len);
+			memcpy(str->ptr + i, with, with_len);
+			str->size += with_len - what_len;
+			return true;
+		}
+	}
+	return false;
 }
 
 void StringAppendChar(String* str, char what)
