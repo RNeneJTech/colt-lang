@@ -138,9 +138,9 @@ typedef struct
 	const char* end;
 } StringView;
 
-/// @brief Returns a string view over a string
+/// @brief Returns a string view over a string, without its NUL terminator
 /// @param str The string from which to extract the view
-/// @return A view over the whole 'str'
+/// @return A view over the whole 'str' - NUL
 StringView StringToStringView(const String* str);
 
 /// @brief Prints a string view to stdout
