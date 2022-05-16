@@ -199,6 +199,7 @@ void StringFill(String* str, char character)
 void StringClear(String* str)
 {
 	str->size = 0;
+	str->ptr[0] = '\0';
 }
 
 void StringReserve(String* str, size_t size)

@@ -110,7 +110,7 @@ bool StringEqual(const String* lhs, const String* rhs);
 void StringFill(String* str, char character);
 
 /// @brief Clears a String's content.
-/// Sets the size of the String to 0.
+/// Sets the size of the String to 0, and sets its first character to NUL.
 /// @param str The string to modify
 void StringClear(String* str);
 
