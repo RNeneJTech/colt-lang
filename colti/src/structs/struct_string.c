@@ -7,8 +7,9 @@
 void StringInit(String* str)
 {
 	str->capacity = STRING_SMALL_BUFFER_OPTIMIZATION;
-	str->size = 0;
+	str->size = 1;
 	str->ptr = str->buffer;
+	str->ptr[0] = '\0';
 }
 
 void StringFree(String* str)
@@ -164,6 +165,7 @@ uint64_t StringReplaceAllString(String* str, const char* what, const char* with)
 void StringAppendChar(String* str, char what)
 {
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
+	colti_assert(str->size != 0, "A string should at least contain a NUL terminator!");
 	if (str->size == str->capacity)
 		impl_string_grow_double(str);
 	str->ptr[str->size - 1] = what; //Replaced the old NUL by the character
@@ -173,6 +175,7 @@ void StringAppendChar(String* str, char what)
 void StringAppendString(String* str, const char* what)
 {
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");
+	colti_assert(str->size != 0, "A string should at least contain a NUL terminator!");
 	size_t what_len = strlen(what);
 	if (str->size + what_len > str->capacity)
 		impl_string_grow_size(str, what_len);
@@ -198,7 +201,7 @@ void StringFill(String* str, char character)
 
 void StringClear(String* str)
 {
-	str->size = 0;
+	str->size = 1;
 	str->ptr[0] = '\0';
 }
 
