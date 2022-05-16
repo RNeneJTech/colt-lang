@@ -100,10 +100,14 @@ const char* TokenToString(Token tkn)
 		return "TKN_KEYWORD_ELSE";
 	case TKN_KEYWORD_FOR:
 		return "TKN_KEYWORD_FOR";
+	case TKN_KEYWORD_GOTO:
+		return "TKN_KEYWORD_GOTO";
 	case TKN_KEYWORD_IF:
 		return "TKN_KEYWORD_IF";
 	case TKN_KEYWORD_SWITCH:
 		return "TKN_KEYWORD_SWITCH";
+	case TKN_KEYWORD_WHILE:
+		return "TKN_KEYWORD_WHILE";
 	case TKN_EOF:
 		return "TKN_EOF";
 	case TKN_ERROR:
