@@ -59,18 +59,33 @@ bool StringIsEmpty(const String* str);
 /// @param str The string for which to check
 bool StringIsStackAllocated(const String* str);
 
+/// @brief Replaces the first instance of 'character' with 'with'
+/// @param str The string to modify
+/// @param character The character for which to search
+/// @param with The character to replace with
+/// @return True if one 'character' was replaced with 'with'
+bool StringReplaceChar(String* str, char character, char with);
+
 /// @brief Replaces all instances of 'character' with 'with'
 /// @param str The string to modify
 /// @param character The character for which to search
 /// @param with The character to replace with
-void StringReplaceAllChar(String* str, char character, char with);
+/// @return The number of replacement that happened
+uint64_t StringReplaceAllChar(String* str, char character, char with);
 
-/// @brief Replaces all instances of 'what' with 'with'
+/// @brief Replaces the first instance of 'what' with 'with'
 /// @param str The string to modify
 /// @param what The string to search for
 /// @param with The string to replace with
 /// @return True if the 'what' was replaced by 'with'
 bool StringReplaceString(String* str, const char* what, const char* with);
+
+/// @brief Replaces all instances of 'what' with 'with'
+/// @param str The string to modify
+/// @param what The string for which to search
+/// @param with The string to replace with
+/// @return The number of replacement that happened
+uint64_t StringReplaceAllString(String* str, const char* what, const char* with);
 
 /// @brief Appends 'what' to the end of 'str'
 /// @param str The string to modify
