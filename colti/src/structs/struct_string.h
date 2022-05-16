@@ -1,7 +1,7 @@
 /** @file struct_string.h
 * A String struct helper for dealing with strings.
 * The string struct uses a small-buffer optimization.
-* Common operations, like getting content from the file are a lot easier
+* Common operations, like getting content from a file, or replacing a string are a lot easier
 * using the provided functions.
 * This header also contains the StringView struct, which is a lightweight
 * struct representing a non-owning view over an array of characters.
