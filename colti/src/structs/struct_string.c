@@ -112,7 +112,7 @@ String StringGetFileContent(const char* path)
 	FILE* file = fopen(path, "rb"); //Read-binary mode
 	if (file == NULL)
 	{
-		print_error("'%s' is not a valid file path!", path);
+		print_error_format("'%s' is not a valid file path!", path);
 		exit(EXIT_USER_INVALID_INPUT);
 	}
 	fseek(file, 0L, SEEK_END);
@@ -127,7 +127,7 @@ String StringGetFileContent(const char* path)
 	fclose(file);
 	if (bytes_read != file_size)
 	{
-		print_error("Could not read all the content of the file at path '%s'!", path);
+		print_error_format("Could not read all the content of the file at path '%s'!", path);
 		exit(EXIT_OS_RESOURCE_FAILURE);
 	}
 	str.ptr[str.size - 1] = '\0';

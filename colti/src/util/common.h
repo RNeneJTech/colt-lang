@@ -155,11 +155,19 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 /// @brief Prints an error and appends a newline.
 /// 'format' should be a compile-time known string.
 /// Due to how the preprocessor works, always format at least an argument.
-#define print_error(format, ...)	printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET format"\n", __VA_ARGS__)
+#define print_error_format(format, ...)	fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET format"\n", __VA_ARGS__)
 
-/// @brief Prints a warning and appends a newline
+/// @brief Prints an error and appends a newline.
+/// 'str' should be a compile-time known string.
+#define print_error_string(str)			fputs(str"\n", stderr)
+
+/// @brief Prints a warning and appends a newline.
 /// 'format' should be a compile-time known string.
 /// Due to how the preprocessor works, always format at least an argument.
-#define print_warn(format, ...)		printf(CONSOLE_FOREGROUND_BRIGHT_YELLOW"Warning: "CONSOLE_COLOR_RESET format"\n", __VA_ARGS__)
+#define print_warn_format(format, ...)	printf(CONSOLE_FOREGROUND_BRIGHT_YELLOW"Warning: "CONSOLE_COLOR_RESET format"\n", __VA_ARGS__)
+
+/// @brief Prints a warning and appends a newline.
+/// 'str' should be a compile-time known string.
+#define print_warn_string(str)			fputs(str"\n", stdout)
 
 #endif //HG_COLTI_COMMON
