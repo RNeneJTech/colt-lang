@@ -96,7 +96,8 @@ void StringReserve(String* str, size_t size);
 /// @return The string containing the input
 String StringGetLine();
 
-/// @brief Reads all the content of a file and writes to a string
+/// @brief Reads all the content of a file and writes to a string.
+/// Exits if the file cannot be opened, or not all its content can be read.
 /// @param path The path to the file
 /// @return The string containing the file data
 String StringGetFileContent(const char* path);
