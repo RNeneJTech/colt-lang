@@ -24,7 +24,12 @@
 #if defined(COLTI_WINDOWS) && defined(COLTI_DEBUG_BUILD)
 	#define _CRTDBG_MAP_ALLOC
 	#include <crtdbg.h> //Contains _CrtDumpMemoryLeaks()
-	#define DUMP_MEMORY_LEAKS() _CrtDumpMemoryLeaks()
+	#define DUMP_MEMORY_LEAKS() do { \
+		_CrtSetReportMode(_CRT_WARN,_CRTDBG_MODE_FILE); \
+		_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT); \
+		fputs("\n\n"CONSOLE_COLOR_REVERSE"Checking for memory leaks..."CONSOLE_COLOR_RESET"\n", stdout); \
+		if (_CrtDumpMemoryLeaks() == 0) \
+			printf("No memory leaks.\n"); } while (0)
 #else
 	/// @brief On Windows and Debug build, using Visual Studio, this will show memory leaks (if there are any)
 	#define DUMP_MEMORY_LEAKS() do {} while(0)
