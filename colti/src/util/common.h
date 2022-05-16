@@ -152,6 +152,9 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 	#define DO_IF_DEBUG_BUILD(what) do {} while(0)
 #endif
 
-
+/// @brief Prints an error and appends a newline
+#define print_error(format, ...)	printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET format"\n", __VA_ARGS__)
+/// @brief Prints a warning and appends a newline
+#define print_warn(format, ...)		printf(CONSOLE_FOREGROUND_BRIGHT_YELLOW"Warning: "CONSOLE_COLOR_RESET format"\n", __VA_ARGS__)
 
 #endif //HG_COLTI_COMMON
