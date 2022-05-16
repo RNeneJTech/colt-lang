@@ -136,7 +136,7 @@ void impl_version(int argc, const char** argv)
 	{
 		printf(CONSOLE_BACKGROUND_BRIGHT_MAGENTA CONSOLE_FOREGROUND_BLACK
 			"COLTI v%s ("COLTI_CONFIG_STRING") on %s" CONSOLE_COLOR_RESET "\n", COLTI_VERSION_STRING, COLTI_OS_STRING);
-		exit(0);
+		exit(EXIT_NO_FAILURE);
 	}
 	else
 	{
@@ -154,7 +154,7 @@ void impl_disassemble(int argc, const char** argv)
 			Chunk chunk = ChunkDeserialize(argv[2]);
 			ChunkDisassemble(&chunk, argv[2]);
 			ChunkFree(&chunk);
-			exit(0);
+			exit(EXIT_NO_FAILURE);
 		}
 		else
 		{
@@ -202,7 +202,7 @@ void impl_help(int argc, const char** argv)
 			impl_print_invalid_combination(argc, argv);
 			exit(EXIT_USER_INVALID_INPUT);
 		}
-		exit(0);
+		exit(EXIT_NO_FAILURE);
 	}
 	else
 	{
@@ -224,7 +224,7 @@ void impl_enum(int argc, const char** argv)
 			"\n\t-b, --byte-code"
 			"\n"
 		);
-		exit(0);
+		exit(EXIT_NO_FAILURE);
 	}
 	else
 	{
