@@ -84,17 +84,13 @@ void StringAppendString(String* str, const char* what)
 	str->ptr[str->size - 1] = '\0';
 }
 
-bool StringEqual(String* lhs, String* rhs)
+bool StringEqual(const String* lhs, const String* rhs)
 {
 	colti_assert(lhs->ptr != NULL && rhs->ptr != NULL, "Huge bug: a string's buffer was NULL!");
 	if (lhs->size != rhs->size)
 		return false;
-	for (size_t i = 0; i < lhs->size - 1; i++)
-	{
-		if (lhs->ptr[i] != rhs->ptr[i])
-			return false;
-	}
-	return true;
+	//we don't care about comparing the NUL terminator
+	return memcmp(lhs->ptr, rhs->ptr, lhs->size - 1) == 0;	
 }
 
 void StringFill(String* str, char character)
@@ -156,6 +152,13 @@ StringView StringToStringView(const String* str)
 void StringViewPrint(const StringView strv)
 {
 	printf("%.*s", (int)(strv.end - strv.start), strv.start);
+}
+
+bool StringViewEqual(StringView lhs, StringView rhs)
+{
+	if (lhs.end - lhs.start != rhs.end - rhs.start)
+		return false;
+	return memcmp(lhs.start, rhs.start, lhs.end - lhs.start) == 0;
 }
 
 /*****************************************

@@ -86,7 +86,7 @@ void StringAppendString(String* str, const char* what);
 /// @param lhs The left hand side
 /// @param rhs The right hand side
 /// @return True if the strings are equal
-bool StringEqual(String* lhs, String* rhs);
+bool StringEqual(const String* lhs, const String* rhs);
 
 /// @brief Fills a string with the specified character
 /// @param str The string to modify
@@ -125,6 +125,12 @@ StringView StringToStringView(const String* str);
 /// @brief Prints a string view to stdout
 /// @param strv The view to print
 void StringViewPrint(const StringView strv);
+
+/// @brief Check if 2 string views are equal
+/// @param lhs The left hand side
+/// @param rhs The right hand side
+/// @return True if the content pointed by the views is the same
+bool StringViewEqual(StringView lhs, StringView rhs);
 
 /*****************************************
 IMPLEMENTATION HELPERS
