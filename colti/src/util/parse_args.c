@@ -33,7 +33,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 				result.byte_code_out = impl_byte_out(argc, argv, ++i);
 			break; default:
 				print_error("Unknown argument!\nUse '-e' or '--enum' to get the list of valid arguments.");
-				exit(3);
+				exit(EXIT_USER_INVALID_INPUT);
 			}
 		}
 		else
@@ -45,7 +45,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 	if ((result.file_path_out != NULL || result.byte_code_out != NULL) && result.file_path_in == NULL)
 	{
 		print_error("No input file!");
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 	//If the user did not pass an -o, choose a default output
 	if (result.file_path_out == NULL && result.file_path_in != NULL)
@@ -141,7 +141,7 @@ void impl_version(int argc, const char** argv)
 	else
 	{
 		impl_print_invalid_combination(argc, argv);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 }
 
@@ -159,18 +159,18 @@ void impl_disassemble(int argc, const char** argv)
 		else
 		{
 			print_error("'%s' is not a valid path!", argv[2]);
-			exit(3);
+			exit(EXIT_USER_INVALID_INPUT);
 		}
 	}
 	else if (argc == 2)
 	{
 		impl_help_disassemble();
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 	else
 	{
 		impl_print_invalid_combination(argc, argv);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 }
 
@@ -179,7 +179,7 @@ void impl_help(int argc, const char** argv)
 	if (argc == 2)
 	{
 		impl_help_help();
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 	else if (argc == 3)
 	{
@@ -200,14 +200,14 @@ void impl_help(int argc, const char** argv)
 			impl_help_byte_out();
 		break; default:
 			impl_print_invalid_combination(argc, argv);
-			exit(3);
+			exit(EXIT_USER_INVALID_INPUT);
 		}
 		exit(0);
 	}
 	else
 	{
 		impl_print_invalid_combination(argc, argv);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 }
 
@@ -229,7 +229,7 @@ void impl_enum(int argc, const char** argv)
 	else
 	{
 		impl_print_invalid_combination(argc, argv);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 }
 
@@ -238,14 +238,14 @@ const char* impl_exec_out(int argc, const char** argv, size_t current_argc)
 	if (current_argc == argc)
 	{
 		print_error("'%s' expects a file path!", argv[current_argc - 1]);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 	if (impl_string_to_arg(argv[current_argc]) == ARG_INVALID)
 		return argv[current_argc];
 	else
 	{
 		print_error("Expected a file path, not '%s'!", argv[current_argc]);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 }
 
@@ -254,14 +254,14 @@ const char* impl_byte_out(int argc, const char** argv, size_t current_argc)
 	if (current_argc == argc)
 	{
 		print_error("'%s' expects a file path!", argv[current_argc - 1]);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 	if (impl_string_to_arg(argv[current_argc]) == ARG_INVALID)
 		return argv[current_argc];
 	else
 	{
 		print_error("Expected a file path, not '%s'!\n", argv[current_argc]);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 }
 

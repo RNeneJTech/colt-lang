@@ -11,7 +11,7 @@ void* checked_malloc(size_t size)
 
 	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: "CONSOLE_COLOR_RESET"Could not allocate memory!\n");
 	(void)getc(stdin);
-	exit(2);
+	exit(EXIT_OS_RESOURCE_FAILURE);
 }
 
 void checked_free(void* ptr)
@@ -22,5 +22,5 @@ void checked_free(void* ptr)
 	}
 	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: "CONSOLE_COLOR_RESET"Pointer passed 'checked_free' was NULL!");
 	(void)getc(stdin);
-	exit(2);
+	exit(EXIT_OS_RESOURCE_FAILURE);
 }

@@ -113,7 +113,7 @@ String StringGetFileContent(const char* path)
 	if (file == NULL)
 	{
 		print_error("'%s' is not a valid file path!", path);
-		exit(3);
+		exit(EXIT_USER_INVALID_INPUT);
 	}
 	fseek(file, 0L, SEEK_END);
 	size_t file_size = ftell(file); //Get file size
@@ -128,7 +128,7 @@ String StringGetFileContent(const char* path)
 	if (bytes_read != file_size)
 	{
 		print_error("Could not read all the content of the file at path '%s'!", path);
-		exit(2);
+		exit(EXIT_OS_RESOURCE_FAILURE);
 	}
 	str.ptr[str.size - 1] = '\0';
 	return str;

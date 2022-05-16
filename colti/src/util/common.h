@@ -130,7 +130,7 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 			CONSOLE_FOREGROUND_BRIGHT_RED ":\nError: " CONSOLE_FOREGROUND_BRIGHT_CYAN "%s\n" CONSOLE_COLOR_RESET, \
 			COLTI_CURRENT_FILENAME, __LINE__, __FUNCTION__, (error)); \
 		(void)getc(stdin); \
-		exit(1); \
+		exit(EXIT_ASSERTION_FAILURE); \
 	} } while (0)
 	
 	/// @brief Ensures no NULL pointer is returned from a heap allocation

@@ -172,7 +172,7 @@ void ChunkSerialize(const Chunk* chunk, const char* path)
 	if (file == NULL)
 	{
 		print_error("Could not create the file at path '%s'!", path);
-		exit(2);
+		exit(EXIT_OS_RESOURCE_FAILURE);
 	}
 	//Write the binary code
 	fwrite(chunk->code, sizeof(char), chunk->count, file);
@@ -185,7 +185,7 @@ Chunk ChunkDeserialize(const char* path)
 	if (file == NULL)
 	{
 		print_error("Could not open the file '%s'!", path);
-		exit(2);
+		exit(EXIT_OS_RESOURCE_FAILURE);
 	}
 	Chunk chunk;
 	fseek(file, 0L, SEEK_END);
@@ -199,7 +199,7 @@ Chunk ChunkDeserialize(const char* path)
 	if (bytes_read != file_size)
 	{
 		print_error("Could not read all the file's content!");
-		exit(2);
+		exit(EXIT_OS_RESOURCE_FAILURE);
 	}
 	return chunk;
 }
