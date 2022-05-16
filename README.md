@@ -1,6 +1,6 @@
 # Colt
 Contains the Colt Compiler and Interpreter, which are both still in early development.
-### The `colti`, the Colt interpreter:
+### The 'colti', the Colt interpreter:
 An interpreter in development for the `colt` language.
 Uses byte-code, and a stack-based virtual machine.
 
