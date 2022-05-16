@@ -49,6 +49,8 @@ typedef enum
 	ARG_EXEC_OUTPUT,
 	/// @brief -b or --byte-out
 	ARG_BYTE_CODE_OUTPUT,
+	/// @brief --test-color
+	ARG_TEST_COLOR_CONSOLE,
 	/// @brief Any invalid argument
 	ARG_INVALID
 } CommandLineArgument;
@@ -107,6 +109,11 @@ const char* impl_exec_out(int argc, const char** argv, size_t current_argc);
 /// @return A valid path to which to write the byte-code
 const char* impl_byte_out(int argc, const char** argv, size_t current_argc);
 
+/// @brief Handles the --test-color and exits
+/// @param argc The argument count
+/// @param argv The argument values
+void impl_test_color(int argc, const char** argv);
+
 /// @brief Prints an error that is caused by an invalid combination of arguments.
 /// Expects at least that argc is 2.
 /// @param argc The argument count
@@ -130,5 +137,8 @@ void impl_help_exec_out();
 
 /// @brief Prints the help of '-b' or '--byte-out'
 void impl_help_byte_out();
+
+/// @brief Prints the help of '--test-color'
+void impl_help_test_color();
 
 #endif //HG_COLTI_PARSE_ARGS

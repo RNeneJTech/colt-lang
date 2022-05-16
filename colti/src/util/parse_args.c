@@ -25,6 +25,8 @@ ParseResult ParseArguments(int argc, const char** argv)
 				impl_version(argc, argv);
 			break; case ARG_DISASSEMBLE:
 				impl_disassemble(argc, argv);
+			break; case ARG_TEST_COLOR_CONSOLE:
+				impl_test_color(argc, argv);
 			break; case ARG_EXEC_OUTPUT:
 				//As the function will read 1 argument more, we need to update i
 				result.file_path_out = impl_exec_out(argc, argv, ++i);
@@ -99,6 +101,10 @@ CommandLineArgument impl_string_to_arg(const char* str)
 		//We optimize comparing string by first checking for the first character after --
 		switch (str[2])
 		{
+		case 't':
+			if (strcmp(str + 3, "est-color") == 0)
+				return ARG_TEST_COLOR_CONSOLE;
+			return ARG_INVALID;
 		case 'e':
 			if (strcmp(str + 3, "num") == 0)
 				return ARG_ENUM;
@@ -198,6 +204,8 @@ void impl_help(int argc, const char** argv)
 			impl_help_version();
 		break; case ARG_EXEC_OUTPUT:
 			impl_help_exec_out();
+		break; case ARG_TEST_COLOR_CONSOLE:
+			impl_help_test_color();
 		break; case ARG_BYTE_CODE_OUTPUT:
 			impl_help_byte_out();
 		break; default:
@@ -224,6 +232,7 @@ void impl_enum(int argc, const char** argv)
 			"\n\t-d, --disassemble"
 			"\n\t-o, --out"
 			"\n\t-b, --byte-code"
+			"\n\t--test-color"
 			"\n"
 		);
 		exit(EXIT_NO_FAILURE);
@@ -267,8 +276,28 @@ const char* impl_byte_out(int argc, const char** argv, size_t current_argc)
 	}
 }
 
+void impl_test_color(int argc, const char** argv)
+{
+	if (argc > 2)
+	{
+		impl_print_invalid_combination(argc, argv);
+		exit(EXIT_USER_INVALID_INPUT);
+	}
+	int n;
+	for (int i = 0; i < 11; i++) {
+		for (int j = 0; j < 10; j++) {
+			n = 10 * i + j;
+			if (n > 107) break;
+			printf("\033[%dm %3d\033[m", n, n);
+		}
+		printf("\n");
+	}
+	exit(EXIT_NO_FAILURE);
+}
+
 void impl_print_invalid_combination(int argc, const char** argv)
 {
+	//TODO: add offset
 	colti_assert(argc >= 2, "Expected 'argc' greater or equal to 2!");
 	
 	//We can not use print_error_format here as it adds a '\n' at the end
@@ -312,4 +341,9 @@ void impl_help_exec_out()
 void impl_help_byte_out()
 {
 	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-b, --byte-out"CONSOLE_COLOR_RESET": Specifies the byte-code output path.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--byte-out"CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <PATH>\n"CONSOLE_COLOR_RESET);
+}
+
+void impl_help_test_color()
+{
+	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"--test-color"CONSOLE_COLOR_RESET": Prints colored output to the terminal.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--test-color\n"CONSOLE_COLOR_RESET);
 }
