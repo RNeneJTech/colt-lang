@@ -73,15 +73,7 @@ const char* TokenToString(Token tkn)
 	case TKN_OPERATOR_XOR_EQUAL:
 		return "TKN_OPERATOR_XOR_EQUAL";
 	case TKN_OPERATOR_TILDE:
-		return "TKN_OPERATOR_TILDE";
-	case TKN_COMMA:
-		return "TKN_COMMA";
-	case TKN_DOT:
-		return "TKN_DOT";
-	case TKN_COLON:
-		return "TKN_COLON";
-	case TKN_SEMICOLON:
-		return "TKN_SEMICOLON";
+		return "TKN_OPERATOR_TILDE";	
 
 	/*********************
 	* LITERALS
@@ -126,6 +118,15 @@ const char* TokenToString(Token tkn)
 	/*********************
 	* MISCELLANEOUS
 	*********************/
+
+	case TKN_COMMA:
+		return "TKN_COMMA";
+	case TKN_DOT:
+		return "TKN_DOT";
+	case TKN_COLON:
+		return "TKN_COLON";
+	case TKN_SEMICOLON:
+		return "TKN_SEMICOLON";
 
 	case TKN_EOF:
 		return "TKN_EOF";

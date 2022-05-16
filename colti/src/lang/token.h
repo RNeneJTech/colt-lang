@@ -87,15 +87,6 @@ typedef enum
 	/// @brief ~
 	TKN_OPERATOR_TILDE,
 
-	/// @brief ,
-	TKN_COMMA,
-	/// @brief .
-	TKN_DOT,
-	/// @brief :
-	TKN_COLON,
-	/// @brief ;
-	TKN_SEMICOLON,
-
 	/*********************
 	* LITERALS
 	*********************/
@@ -139,6 +130,15 @@ typedef enum
 	/*********************
 	* MISCELLANEOUS
 	*********************/
+
+	/// @brief ,
+	TKN_COMMA,
+	/// @brief .
+	TKN_DOT,
+	/// @brief :
+	TKN_COLON,
+	/// @brief ;
+	TKN_SEMICOLON,
 
 	/// @brief Returned after the whole string is parsed
 	TKN_EOF,
