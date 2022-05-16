@@ -70,6 +70,44 @@ const char* TokenToString(Token tkn)
 		return "TKN_OPERATOR_XOR_EQUAL";
 	case TKN_OPERATOR_TILDE:
 		return "TKN_OPERATOR_TILDE";
+	case TKN_COMMA:
+		return "TKN_COMMA";
+	case TKN_DOT:
+		return "TKN_DOT";
+	case TKN_COLON:
+		return "TKN_COLON";
+	case TKN_SEMICOLON:
+		return "TKN_SEMICOLON";
+	case TKN_IDENTIFIER:
+		return "TKN_IDENTIFIER";
+	case TKN_STRING:
+		return "TKN_STRING";
+	case TKN_INTEGER:
+		return "TKN_INTEGER";
+	case TKN_DOUBLE:
+		return "TKN_DOUBLE";
+	case TKN_KEYWORD_BREAK:
+		return "TKN_KEYWORD_BREAK";
+	case TKN_KEYWORD_CASE:
+		return "TKN_KEYWORD_CASE";
+	case TKN_KEYWORD_CONTINUE:
+		return "TKN_KEYWORD_CONTINUE";
+	case TKN_KEYWORD_DEFAULT:
+		return "TKN_KEYWORD_DEFAULT";
+	case TKN_KEYWORD_ELIF:
+		return "TKN_KEYWORD_ELIF";
+	case TKN_KEYWORD_ELSE:
+		return "TKN_KEYWORD_ELSE";
+	case TKN_KEYWORD_FOR:
+		return "TKN_KEYWORD_FOR";
+	case TKN_KEYWORD_IF:
+		return "TKN_KEYWORD_IF";
+	case TKN_KEYWORD_SWITCH:
+		return "TKN_KEYWORD_SWITCH";
+	case TKN_EOF:
+		return "TKN_EOF";
+	case TKN_ERROR:
+		return "TKN_ERROR";
 	default:
 		return "UNKNOWN";
 	}
