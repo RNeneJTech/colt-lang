@@ -7,6 +7,15 @@ int main(int argc, const char** argv)
 	{
 		printf("> ");
 		String line = StringGetLine();
+		Scanner scan;
+		ScannerInit(&scan, StringToStringView(&line));
+		Token tkn = ScannerGetNextToken(&scan);
+		do
+		{
+			printf("%s\n", TokenToString(tkn));
+			tkn = ScannerGetNextToken(&scan);
+		} while (tkn != TKN_EOF);
+
 		StringFree(&line);
 	}
 	else
