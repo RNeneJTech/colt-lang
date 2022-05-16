@@ -6,8 +6,12 @@
 
 const char* TokenToString(Token tkn)
 {
-	switch (tkn) //Thank you Regex
+	switch (tkn) //Thank you REGEX
 	{
+	/*********************
+	* OPERATORS
+	*********************/
+
 	case TKN_OPERATOR_PLUS:
 		return "TKN_OPERATOR_PLUS";
 	case TKN_OPERATOR_PLUS_PLUS:
@@ -78,6 +82,11 @@ const char* TokenToString(Token tkn)
 		return "TKN_COLON";
 	case TKN_SEMICOLON:
 		return "TKN_SEMICOLON";
+
+	/*********************
+	* LITERALS
+	*********************/
+
 	case TKN_IDENTIFIER:
 		return "TKN_IDENTIFIER";
 	case TKN_STRING:
@@ -86,6 +95,11 @@ const char* TokenToString(Token tkn)
 		return "TKN_INTEGER";
 	case TKN_DOUBLE:
 		return "TKN_DOUBLE";
+
+	/*********************
+	* KEYWORDS
+	*********************/
+
 	case TKN_KEYWORD_BREAK:
 		return "TKN_KEYWORD_BREAK";
 	case TKN_KEYWORD_CASE:
@@ -108,6 +122,11 @@ const char* TokenToString(Token tkn)
 		return "TKN_KEYWORD_SWITCH";
 	case TKN_KEYWORD_WHILE:
 		return "TKN_KEYWORD_WHILE";
+
+	/*********************
+	* MISCELLANEOUS
+	*********************/
+
 	case TKN_EOF:
 		return "TKN_EOF";
 	case TKN_ERROR:
