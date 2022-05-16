@@ -160,7 +160,7 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 
 /// @brief Prints an error and appends a newline.
 /// 'str' should be a compile-time known string.
-#define print_error_string(str)			fputs(str"\n", stderr)
+#define print_error_string(str)			fputs(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET str"\n", stderr)
 
 /// @brief Prints a warning and appends a newline.
 /// 'format' should be a compile-time known string.
@@ -169,6 +169,6 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 
 /// @brief Prints a warning and appends a newline.
 /// 'str' should be a compile-time known string.
-#define print_warn_string(str)			fputs(str"\n", stdout)
+#define print_warn_string(str)			fputs(CONSOLE_FOREGROUND_BRIGHT_YELLOW"Warning: "CONSOLE_COLOR_RESET str"\n", stdout)
 
 #endif //HG_COLTI_COMMON
