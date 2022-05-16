@@ -184,7 +184,7 @@ void impl_help(int argc, const char** argv)
 {
 	if (argc == 2)
 	{
-		printf("Usage: "CONSOLE_FOREGROUND_BRIGHT_CYAN"colti" CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <PATH>"CONSOLE_FOREGROUND_BRIGHT_GREEN" [-o <OUT_PATH]\n\n"CONSOLE_COLOR_RESET);
+		printf("Usage: "CONSOLE_FOREGROUND_BRIGHT_CYAN"colti" CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <PATH>"CONSOLE_FOREGROUND_BRIGHT_GREEN" [-o <OUT_PATH>]\n\n"CONSOLE_COLOR_RESET);
 		printf("Use "CONSOLE_FOREGROUND_BRIGHT_CYAN"-h"CONSOLE_COLOR_RESET" or "CONSOLE_FOREGROUND_BRIGHT_CYAN"--help"CONSOLE_COLOR_RESET" followed by any valid argument to get its documentation and use.\n");
 		printf("Use "CONSOLE_FOREGROUND_BRIGHT_CYAN"-e"CONSOLE_COLOR_RESET" or "CONSOLE_FOREGROUND_BRIGHT_CYAN"--enum"CONSOLE_COLOR_RESET" to enumerate all valid arguments.\n");
 		exit(EXIT_USER_INVALID_INPUT);
@@ -225,7 +225,7 @@ void impl_enum(int argc, const char** argv)
 {
 	if (argc == 2)
 	{
-		printf("The possible arguments are:"
+		printf("The possible arguments are:"CONSOLE_BACKGROUND_BRIGHT_CYAN
 			"\n\t-h, --help"
 			"\n\t-e, --enum"
 			"\n\t-v, --version"
@@ -233,7 +233,7 @@ void impl_enum(int argc, const char** argv)
 			"\n\t-o, --out"
 			"\n\t-b, --byte-code"
 			"\n\t--test-color"
-			"\n"
+			"\n"CONSOLE_COLOR_RESET
 		);
 		exit(EXIT_NO_FAILURE);
 	}
@@ -345,5 +345,5 @@ void impl_help_byte_out()
 
 void impl_help_test_color()
 {
-	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"--test-color"CONSOLE_COLOR_RESET": Prints colored output to the terminal.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--test-color\n"CONSOLE_COLOR_RESET);
+	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"--test-color"CONSOLE_COLOR_RESET": Prints colored output (as a test) to the terminal.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--test-color\n"CONSOLE_COLOR_RESET);
 }
