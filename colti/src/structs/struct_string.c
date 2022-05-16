@@ -84,6 +84,19 @@ void StringAppendString(String* str, const char* what)
 	str->ptr[str->size - 1] = '\0';
 }
 
+bool StringEqual(String* lhs, String* rhs)
+{
+	colti_assert(lhs->ptr != NULL && rhs->ptr != NULL, "Huge bug: a string's buffer was NULL!");
+	if (lhs->size != rhs->size)
+		return false;
+	for (size_t i = 0; i < lhs->size - 1; i++)
+	{
+		if (lhs->ptr[i] != rhs->ptr[i])
+			return false;
+	}
+	return true;
+}
+
 void StringFill(String* str, char character)
 {
 	colti_assert(str->ptr != NULL, "Huge bug: a string's buffer was NULL!");

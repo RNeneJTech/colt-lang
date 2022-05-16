@@ -81,6 +81,12 @@ void StringAppendChar(String* str, char what);
 /// @param what The NUL terminated string to append
 void StringAppendString(String* str, const char* what);
 
+/// @brief Check if two strings are equal.
+/// More optimized than `strcmp` as we check for if the size of the strings are equal.
+/// @param lhs The left hand side
+/// @param rhs The right hand side
+/// @return True if the strings are equal
+bool StringEqual(String* lhs, String* rhs);
 
 /// @brief Fills a string with the specified character
 /// @param str The string to modify
