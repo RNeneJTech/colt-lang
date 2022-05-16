@@ -1,5 +1,5 @@
 /** @file common.h
-* Contains common macros and types used throughout the interpreter.
+* Contains common macros, includes and types used throughout the interpreter.
 */
 
 #ifndef HG_COLTI_COMMON
