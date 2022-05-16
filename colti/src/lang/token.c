@@ -69,7 +69,7 @@ const char* TokenToString(Token tkn)
 	case TKN_OPERATOR_XOR_EQUAL:
 		return "TKN_OPERATOR_XOR_EQUAL";
 	case TKN_OPERATOR_TILDE:
-		return "TKN_OPERATOR_TILDE"
+		return "TKN_OPERATOR_TILDE";
 	default:
 		return "UNKNOWN";
 	}
