@@ -20,7 +20,7 @@ void checked_free(void* ptr)
 	{
 		free(ptr); return;
 	}
-	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: "CONSOLE_COLOR_RESET"Pointer passed 'checked_free' was NULL!");
+	printf(CONSOLE_FOREGROUND_BRIGHT_RED "Error: "CONSOLE_COLOR_RESET"Pointer passed 'checked_free' was NULL!\n");
 	(void)getc(stdin);
 	exit(EXIT_OS_RESOURCE_FAILURE);
 }
