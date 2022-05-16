@@ -5,8 +5,9 @@ An interpreter in development for the `colt` language.
 Uses byte-code, and a stack-based virtual machine.
 
 ## TODO:
-- [ ] Add print error macro
-- [ ] Add enum for exit error code
+- [X] Add print error macro
+- [X] Fix printing error (allocation functions...)
+- [X] Add enum for exit error code
 - [ ] Add Scanner
 
 ## Error Codes:
