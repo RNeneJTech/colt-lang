@@ -32,7 +32,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 				//As the function will read 1 argument more, we need to update i
 				result.byte_code_out = impl_byte_out(argc, argv, ++i);
 			break; default:
-				print_error_string("Unknown argument!\nUse '-e' or '--enum' to get the list of valid arguments.");
+				print_error_format("Unknown argument '%s'!\nUse '-e' or '--enum' to get the list of valid arguments.", argv[i]);
 				exit(EXIT_USER_INVALID_INPUT);
 			}
 		}
@@ -178,7 +178,9 @@ void impl_help(int argc, const char** argv)
 {
 	if (argc == 2)
 	{
-		impl_help_help();
+		printf("Usage: "CONSOLE_FOREGROUND_BRIGHT_CYAN"colti" CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <PATH>"CONSOLE_FOREGROUND_BRIGHT_GREEN" [-o <OUT_PATH]\n\n"CONSOLE_COLOR_RESET);
+		printf("Use "CONSOLE_FOREGROUND_BRIGHT_CYAN"-h"CONSOLE_COLOR_RESET" or "CONSOLE_FOREGROUND_BRIGHT_CYAN"--help"CONSOLE_COLOR_RESET" followed by any valid argument to get its documentation and use.\n");
+		printf("Use "CONSOLE_FOREGROUND_BRIGHT_CYAN"-e"CONSOLE_COLOR_RESET" or "CONSOLE_FOREGROUND_BRIGHT_CYAN"--enum"CONSOLE_COLOR_RESET" to enumerate all valid arguments.\n");
 		exit(EXIT_USER_INVALID_INPUT);
 	}
 	else if (argc == 3)
@@ -289,17 +291,17 @@ void impl_help_disassemble()
 
 void impl_help_version()
 {
-	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-v, --version"CONSOLE_COLOR_RESET": Prints the version of the compiler.\nFormat: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--version\n"CONSOLE_COLOR_RESET);
+	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-v, --version"CONSOLE_COLOR_RESET": Prints the version of the compiler.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--version\n"CONSOLE_COLOR_RESET);
 }
 
 void impl_help_help()
 {
-	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-h, --help"CONSOLE_COLOR_RESET": Prints the purpose and use of an argument.\nFormat: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--help"CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <ARG>\n"CONSOLE_COLOR_RESET);
+	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-h, --help"CONSOLE_COLOR_RESET": Prints the purpose and use of an argument.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--help"CONSOLE_FOREGROUND_BRIGHT_MAGENTA" <ARG>\n"CONSOLE_COLOR_RESET);
 }
 
 void impl_help_enum()
 {
-	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-e, --enum"CONSOLE_COLOR_RESET": Prints all the possible valid arguments.\nFormat: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--enum\n"CONSOLE_COLOR_RESET);
+	printf(CONSOLE_FOREGROUND_BRIGHT_CYAN"-e, --enum"CONSOLE_COLOR_RESET": Prints all the possible valid arguments.\nUse: "CONSOLE_FOREGROUND_BRIGHT_CYAN"--enum\n"CONSOLE_COLOR_RESET);
 }
 
 void impl_help_exec_out()
