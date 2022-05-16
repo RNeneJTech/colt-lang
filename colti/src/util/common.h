@@ -30,6 +30,7 @@ typedef enum
 	INTERPRET_RUNTIME_ERROR ///< There was a runtime error
 } InterpretResult;
 
+/// @brief Common exit codes to use in place of ints
 typedef enum
 {
 	/// @brief Successful program
