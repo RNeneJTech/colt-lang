@@ -196,6 +196,11 @@ void StringFill(String* str, char character)
 	memset(str->ptr, character, str->size);
 }
 
+void StringClear(String* str)
+{
+	str->size = 0;
+}
+
 void StringReserve(String* str, size_t size)
 {
 	char* temp = (char*)safe_malloc(str->capacity += size);

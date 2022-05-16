@@ -109,7 +109,12 @@ bool StringEqual(const String* lhs, const String* rhs);
 /// @param character The character with which to fill the string
 void StringFill(String* str, char character);
 
-/// @brief Reserves 'size' MORE bytes for the string capacity
+/// @brief Clears a String's content.
+/// Sets the size of the String to 0.
+/// @param str The string to modify
+void StringClear(String* str);
+
+/// @brief Reserves 'size' MORE bytes for the string capacity.
 /// @param str The string to modify
 /// @param size The number of bytes to add to the capacity
 void StringReserve(String* str, size_t size);
