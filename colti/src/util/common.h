@@ -106,19 +106,18 @@ typedef union
 MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 *******************************************/
 
-#ifdef COLTI_WINDOWS
-	/// @brief The current filename, only for debugging purposes (strips path using Windows separator)
-	#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
+#ifdef COLTI_DEBUG_BUILD
+	#ifdef COLTI_WINDOWS
+		/// @brief The current filename, only for debugging purposes (strips path using Windows separator)
+		#define COLTI_CURRENT_FILENAME (strrchr("\\" __FILE__, '\\') + 1)
+	#else
+		/// @brief The current filename, only for debugging purposes
+		#define COLTI_CURRENT_FILENAME (strrchr("/" __FILE__, '/') + 1)
+	#endif
 #else
-	/// @brief The current filename, only for debugging purposes
-	#define COLTI_CURRENT_FILENAME (strrchr("/" __FILE__, '/') + 1)
-#endif
-
-#ifndef COLTI_DEBUG_BUILD
-	#undef COLTI_CURRENT_FILENAME
 	/// @brief No-overhead current filename
 	#define COLTI_CURRENT_FILENAME  __FILE__
-#endif // COLTI_DEBUG_BUILD
+#endif
 
 
 #ifdef COLTI_DEBUG_BUILD
@@ -152,5 +151,7 @@ MACRO HELPERS FOR ASSERTION AND ALLOCATIONS
 	/// @brief Does 'what' only on Debug configuration
 	#define DO_IF_DEBUG_BUILD(what) do {} while(0)
 #endif
+
+
 
 #endif //HG_COLTI_COMMON
