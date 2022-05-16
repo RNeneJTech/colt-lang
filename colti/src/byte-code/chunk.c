@@ -198,7 +198,7 @@ Chunk ChunkDeserialize(const char* path)
 	fclose(file);
 	if (bytes_read != file_size)
 	{
-		print_error("Could not read all the file's content!");
+		print_error("Could not read all the file's (at path '%s') content!", path);
 		exit(EXIT_OS_RESOURCE_FAILURE);
 	}
 	return chunk;
