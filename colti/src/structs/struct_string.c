@@ -26,7 +26,8 @@ void StringFree(String* str)
 
 void StringPrint(const String* str)
 {
-	printf("%.*s", (int)str->size, str->ptr);
+	colti_assert(str->size != 0, "A string should at least contain a NUL terminator!");
+	printf("%.*s", (int)str->size - 1, str->ptr);
 }
 
 uint64_t StringCapacity(const String* str)
@@ -41,7 +42,8 @@ uint64_t StringSize(const String* str)
 
 bool StringIsEmpty(const String* str)
 {
-	return str->size == 0;
+	colti_assert(str->size != 0, "A string should at least contain a NUL terminator!");
+	return str->size == 1;
 }
 
 bool StringIsStackAllocated(const String* str)
