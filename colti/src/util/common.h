@@ -30,6 +30,18 @@ typedef enum
 	INTERPRET_RUNTIME_ERROR ///< There was a runtime error
 } InterpretResult;
 
+typedef enum
+{
+	/// @brief Successful program
+	EXIT_NO_FAILURE,
+	/// @brief Failed due to an assertion
+	EXIT_ASSERTION_FAILURE,
+	/// @brief Failed due to an OS-related resource
+	EXIT_OS_RESOURCE_FAILURE,
+	/// @brief Failed due to an invalid user input
+	EXIT_USER_INVALID_INPUT,
+} ExitCode;
+
 /// @brief Represents a Byte, which can be type-punned to a more useful type
 typedef union
 {
