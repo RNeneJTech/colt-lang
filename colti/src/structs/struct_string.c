@@ -112,7 +112,7 @@ String StringGetFileContent(const char* path)
 	FILE* file = fopen(path, "rb"); //Read-binary mode
 	if (file == NULL)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"'%s' is not a valid file path!\n"CONSOLE_COLOR_RESET, path);
+		print_error("'%s' is not a valid file path!", path);
 		exit(3);
 	}
 	fseek(file, 0L, SEEK_END);
@@ -127,7 +127,7 @@ String StringGetFileContent(const char* path)
 	fclose(file);
 	if (bytes_read != file_size)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Couldn't read all the content of the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		print_error("Could not read all the content of the file at path '%s'!", path);
 		exit(2);
 	}
 	str.ptr[str.size - 1] = '\0';

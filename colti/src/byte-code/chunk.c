@@ -171,7 +171,7 @@ void ChunkSerialize(const Chunk* chunk, const char* path)
 	FILE* file = fopen(path, "wb");
 	if (file == NULL)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't create the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		print_error("Could not create the file at path '%s'!", path);
 		exit(2);
 	}
 	//Write the binary code
@@ -184,7 +184,7 @@ Chunk ChunkDeserialize(const char* path)
 	FILE* file = fopen(path, "rb");
 	if (file == NULL)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't open the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		print_error("Could not open the file '%s'!", path);
 		exit(2);
 	}
 	Chunk chunk;
@@ -198,7 +198,7 @@ Chunk ChunkDeserialize(const char* path)
 	fclose(file);
 	if (bytes_read != file_size)
 	{
-		fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Couldn't read all the content of the file '%s'!\n"CONSOLE_COLOR_RESET, path);
+		print_error("Could not read all the file's content!");
 		exit(2);
 	}
 	return chunk;

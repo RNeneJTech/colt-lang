@@ -32,7 +32,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 				//As the function will read 1 argument more, we need to update i
 				result.byte_code_out = impl_byte_out(argc, argv, ++i);
 			break; default:
-				printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Unknown argument! Use '-e' or '--enum' to get the list of valid arguments.\n");
+				print_error("Unknown argument!\nUse '-e' or '--enum' to get the list of valid arguments.");
 				exit(3);
 			}
 		}
@@ -44,7 +44,7 @@ ParseResult ParseArguments(int argc, const char** argv)
 	//If the user passed an -o or -b, an input file SHOULD BE SPECIFIED
 	if ((result.file_path_out != NULL || result.byte_code_out != NULL) && result.file_path_in == NULL)
 	{
-		printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"No input file!\n");
+		print_error("No input file!");
 		exit(3);
 	}
 	//If the user did not pass an -o, choose a default output
@@ -158,7 +158,7 @@ void impl_disassemble(int argc, const char** argv)
 		}
 		else
 		{
-			printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"'%s' is not a valid path!\n", argv[2]);
+			print_error("'%s' is not a valid path!", argv[2]);
 			exit(3);
 		}
 	}
@@ -237,14 +237,14 @@ const char* impl_exec_out(int argc, const char** argv, size_t current_argc)
 {
 	if (current_argc == argc)
 	{
-		printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Expected a file path!\n");
+		print_error("'%s' expects a file path!", argv[current_argc - 1]);
 		exit(3);
 	}
 	if (impl_string_to_arg(argv[current_argc]) == ARG_INVALID)
 		return argv[current_argc];
 	else
 	{
-		printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Expected a file path, not '%s'!\n", argv[current_argc]);
+		print_error("Expected a file path, not '%s'!", argv[current_argc]);
 		exit(3);
 	}
 }
@@ -253,14 +253,14 @@ const char* impl_byte_out(int argc, const char** argv, size_t current_argc)
 {
 	if (current_argc == argc)
 	{
-		printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Expected a file path!\n");
+		print_error("'%s' expects a file path!", argv[current_argc - 1]);
 		exit(3);
 	}
 	if (impl_string_to_arg(argv[current_argc]) == ARG_INVALID)
 		return argv[current_argc];
 	else
 	{
-		printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Expected a file path, not '%s'!\n", argv[current_argc]);
+		print_error("Expected a file path, not '%s'!\n", argv[current_argc]);
 		exit(3);
 	}
 }
@@ -268,6 +268,8 @@ const char* impl_byte_out(int argc, const char** argv, size_t current_argc)
 void impl_print_invalid_combination(int argc, const char** argv)
 {
 	colti_assert(argc >= 2, "Expected 'argc' greater or equal to 2!");
+	
+	//We can not use print_error here as it adds a '\n' at the end
 	printf(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"Invalid argument combination for '%s'", argv[1]);
 	if (argc > 2)
 	{
