@@ -11,6 +11,8 @@
 #include "disassemble.h"
 #include "chunk.h"
 
+#include "lang/scanner.h"
+
 //VMs
 #include "vm/stack_based_vm.h"
 
