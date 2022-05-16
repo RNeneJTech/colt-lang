@@ -95,12 +95,16 @@ OTHER MODIFIERS FOR CONSOLE
 /// @brief Resets the font and background color to its default
 #define CONSOLE_COLOR_RESET					"\x1B[0m"
 /// @brief Reverses the font and background color
-#define CONSOLE_COLOR_REVERSE				"\x1B[2m"
+#define CONSOLE_COLOR_REVERSE				"\x1B[7m"
 /// @brief Sets the font to bold
 #define CONSOLE_FONT_BOLD					"\x1B[2m"
 /// @brief Sets the font to underline
-#define CONSOLE_FONT_UNDERLINE				"\x1B[2m"
+#define CONSOLE_FONT_UNDERLINE				"\x1B[4m"
 
+// 3 italic on Windows
+// 5 animates on Windows
+// 8 inverts color?
+// 9 strike-through
 #else
 
 //Define the macros that are replaced by nothing
