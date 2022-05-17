@@ -43,9 +43,10 @@ Token ScannerGetNextToken(Scanner* scan)
 	}
 
 	if (isalpha(next_char))
+		//FIXME: there is no need to pass next_char as a pointer
 		return impl_scanner_handle_identifier(scan, &next_char);
-	//else if (isdigit(next_char))
-		//return impl_scanner_handle_digit(scan, &next_char);
+	else if (isdigit(next_char))
+		return impl_scanner_handle_digit(scan, &next_char);
 	return TKN_EOF;
 }
 
@@ -60,9 +61,11 @@ char impl_get_next_char(Scanner* scan)
 	return EOF;
 }
 
-char impl_peek_next_char(Scanner* scan, uint64_t offset)
+char impl_peek_next_char(const Scanner* scan, uint64_t offset)
 {
-
+	if (scan->offset + offset < (uint64_t)(scan->view.end - scan->view.start))
+		return scan->view.start[scan->offset + offset];
+	return EOF;
 }
 
 Token impl_scanner_handle_identifier(Scanner* scan, char* current_char)
@@ -83,6 +86,76 @@ Token impl_scanner_handle_identifier(Scanner* scan, char* current_char)
 	//We update the current character
 	*current_char = next_char;
 	return impl_token_identifier_or_keyword(&scan->parsed_identifier);
+}
+
+Token impl_scanner_handle_digit(Scanner* scan, char* current_char)
+{
+	//Clear the string
+	scan->parsed_identifier.size = 1;
+	scan->parsed_identifier.ptr[0] = '\0';
+
+	StringAppendChar(&scan->parsed_identifier, *current_char);
+
+	if (*current_char == '0') //Could be 0x, 0b, 0o
+	{
+		char after_0 = (char)tolower(impl_peek_next_char(scan, 0));
+		switch (after_0)
+		{
+		break; case 'x': //HEXADECIMAL
+			//return impl_str_hex_to_int(scan, current_char);
+		break; case 'b': //BINARY
+			//return impl_str_bin_to_int(scan, current_char);
+		break; case 'o': //OCTAL
+			//return impl_str_oct_to_int(scan, current_char);
+		break; default:
+			if (!isdigit(after_0))
+			{
+				scan->parsed_integer = 0;
+				return TKN_INTEGER;
+			}
+		}
+	}
+	char next_char = impl_get_next_char(scan);
+	while (isdigit(next_char))
+	{
+		StringAppendChar(&scan->parsed_identifier, next_char);
+		next_char = impl_get_next_char(scan);
+	}
+	bool isfloat = false;
+	// [0-9]+ followed by a .[0-9] is a float
+	if (next_char == '.' && isdigit(impl_peek_next_char(scan, 0)))
+	{
+		isfloat = true;
+		StringAppendChar(&scan->parsed_identifier, next_char);
+		next_char = impl_get_next_char(scan);
+		while (isdigit(next_char))
+		{
+			StringAppendChar(&scan->parsed_identifier, next_char);
+			next_char = impl_get_next_char(scan);
+		}
+	}
+	char after_e = impl_peek_next_char(scan, 0);
+	if (next_char == 'e' && (after_e == '+' || after_e == '-' || isdigit(after_e)))
+	{
+		isfloat = true;
+		StringAppendChar(&scan->parsed_identifier, next_char);
+		next_char = impl_get_next_char(scan);
+		if (next_char == '+') //skip the + after the exponent
+			next_char = impl_get_next_char(scan);
+
+		StringAppendChar(&scan->parsed_identifier, next_char);
+		next_char = impl_get_next_char(scan);
+		while (isdigit(next_char))
+		{
+			StringAppendChar(&scan->parsed_identifier, next_char);
+			next_char = impl_get_next_char(scan);
+		}
+	}
+
+	if (isfloat)
+		return impl_token_str_to_double(scan);
+	else
+		return impl_token_str_to_integer(scan);
 }
 
 Token impl_token_identifier_or_keyword(const String* string)
@@ -136,4 +209,30 @@ Token impl_token_identifier_or_keyword(const String* string)
 		return TKN_IDENTIFIER;
 	}
 	return TKN_IDENTIFIER;
+}
+
+Token impl_token_str_to_double(Scanner* scan)
+{
+	char* end;
+	double value = strtod(scan->parsed_identifier.ptr, &end);
+	if (end != scan->parsed_identifier.ptr + scan->parsed_identifier.size - 1)
+	{
+		print_error_format("Unexpected %c character while parsing floating point literal.", *end);
+		return TKN_ERROR;
+	}
+	else if (value == HUGE_VAL)
+	{
+		print_error_string("Floating point literal is not representable.");
+		return TKN_ERROR;
+	}
+	else
+	{
+		scan->parsed_double = value;
+		return TKN_DOUBLE;
+	}
+}
+
+Token impl_token_str_to_integer(Scanner* scan)
+{
+	return TKN_INTEGER;
 }
