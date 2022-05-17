@@ -102,11 +102,26 @@ Token impl_scanner_handle_digit(Scanner* scan, char* current_char)
 		switch (after_0)
 		{
 		break; case 'x': //HEXADECIMAL
-			//return impl_str_hex_to_int(scan, current_char);
+			return impl_token_str_to_integer(scan, 16);
 		break; case 'b': //BINARY
-			//return impl_str_bin_to_int(scan, current_char);
+			return impl_token_str_to_integer(scan, 2);
 		break; case 'o': //OCTAL
-			//return impl_str_oct_to_int(scan, current_char);
+		{
+			//TODO: add cases for x, b, o
+			(void)impl_get_next_char(scan); //consume the 'o'
+			char next_char = impl_get_next_char(scan);
+			while (isalnum(next_char))
+			{
+				StringAppendChar(&scan->parsed_identifier, next_char);
+				next_char = impl_get_next_char(scan);
+			}
+			if (&scan->parsed_identifier.size == 1) //No character
+			{
+				print_error_string("0o expects to be followed by digits from [0-7]!");
+				return TKN_ERROR;
+			}
+			return impl_token_str_to_integer(scan, 8);
+		}
 		break; default:
 			if (!isdigit(after_0))
 			{
@@ -155,7 +170,7 @@ Token impl_scanner_handle_digit(Scanner* scan, char* current_char)
 	if (isfloat)
 		return impl_token_str_to_double(scan);
 	else
-		return impl_token_str_to_integer(scan);
+		return impl_token_str_to_integer(scan, 10);
 }
 
 Token impl_token_identifier_or_keyword(const String* string)
@@ -225,14 +240,26 @@ Token impl_token_str_to_double(Scanner* scan)
 		print_error_string("Floating point literal is not representable.");
 		return TKN_ERROR;
 	}
-	else
-	{
-		scan->parsed_double = value;
-		return TKN_DOUBLE;
-	}
+	scan->parsed_double = value;
+	return TKN_DOUBLE;
 }
 
-Token impl_token_str_to_integer(Scanner* scan)
+Token impl_token_str_to_integer(Scanner* scan, int base)
 {
+	char* end;
+	uint64_t value = strtoull(scan->parsed_identifier.ptr, &end, base);
+	
+	if (end != scan->parsed_identifier.ptr + scan->parsed_identifier.size - 1)
+	{
+		print_error_format("Unexpected %c character while parsing integer literal.", *end);
+		return TKN_ERROR;
+	}
+	else if (value == ULLONG_MAX && errno == ERANGE)
+	{
+		errno = 0;
+		print_error_string("Integer literal is not representable.");
+		return TKN_ERROR;
+	}
+	scan->parsed_integer = value;
 	return TKN_INTEGER;
 }

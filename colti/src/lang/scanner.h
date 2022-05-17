@@ -88,6 +88,6 @@ Token impl_token_identifier_or_keyword(const String* string);
 
 Token impl_token_str_to_double(Scanner* scan);
 
-Token impl_token_str_to_integer(Scanner* scan);
+Token impl_token_str_to_integer(Scanner* scan, int base);
 
 #endif //HG_COLTI_SCANNER
