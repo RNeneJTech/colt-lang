@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdarg.h>
+#include <errno.h>
 #include <ctype.h>
 #include <math.h>
 
