@@ -20,7 +20,7 @@ int main(int argc, const char** argv)
 				break; case TKN_DOUBLE:
 					printf("%s: %g\n", TokenToString(tkn), scan.parsed_double);
 				break; case TKN_INTEGER:
-					printf("%s: %"PRIu64"\n", TokenToString(tkn), scan.parsed_integer);
+					printf("%s: %"PRIu64"\n", TokenToString(tkn), scan.parsed_uinteger);
 				break; case TKN_IDENTIFIER:
 					printf("%s: %s\n", TokenToString(tkn), scan.parsed_identifier.ptr);
 				break; default:

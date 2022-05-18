@@ -21,8 +21,10 @@ typedef struct
 	String parsed_identifier;
 	/// @brief The last parsed double literal
 	double parsed_double;
-	/// @brief The last parsed integer literal
-	uint64_t parsed_integer;
+	/// @brief The last parsed unsigned integer literal
+	uint64_t parsed_uinteger;
+	/// @brief The last parsed signed integer literal
+	int64_t parsed_integer;
 } Scanner;
 
 /// @brief Initializes a Scanner
@@ -45,7 +47,7 @@ double ScannerGetDouble(const Scanner* scan);
 
 /// @brief Returns the parsed integer/char
 /// @param scan The scanner from which to get the value
-/// @return The value stored in parsed_integer
+/// @return The value stored in parsed_uinteger
 uint64_t ScannerGetInt(const Scanner* scan);
 
 /// @brief Get the next token from a scanner.
@@ -95,7 +97,7 @@ Token impl_token_str_to_double(Scanner* scan);
 
 /// @brief Converts a scanner's identifier string to an int of base 'base'.
 /// This function also stores the result of the conversion in the scanner's
-/// 'parsed_integer' and handles any error.
+/// 'parsed_uinteger' and handles any error.
 /// @param scan The scanner to modify
 /// @param base The base of the int to parse
 /// @return TKN_INTEGER or TKN_ERROR if an error is encountered

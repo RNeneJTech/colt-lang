@@ -29,7 +29,7 @@ double ScannerGetDouble(const Scanner* scan)
 
 uint64_t ScannerGetInt(const Scanner* scan)
 {
-	return scan->parsed_integer;
+	return scan->parsed_uinteger;
 }
 
 Token ScannerGetNextToken(Scanner* scan)
@@ -108,7 +108,7 @@ Token impl_scanner_handle_digit(Scanner* scan, char current_char)
 		break; default:
 			if (!isdigit(after_0))
 			{
-				scan->parsed_integer = 0;
+				scan->parsed_uinteger = 0;
 				return TKN_INTEGER;
 			}
 			else //We recurse now that we have popped the leading 0
@@ -261,7 +261,7 @@ Token impl_token_str_to_integer(Scanner* scan, int base)
 		print_error_string("Integer literal is not representable.");
 		return TKN_ERROR;
 	}
-	scan->parsed_integer = value;
+	scan->parsed_uinteger = value;
 	return TKN_INTEGER;
 }
 
