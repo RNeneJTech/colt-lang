@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <errno.h>
+#include <limits.h>
 #include <ctype.h>
 #include <math.h>
 
