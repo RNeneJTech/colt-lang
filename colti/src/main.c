@@ -7,7 +7,7 @@ int main(int argc, const char** argv)
 	{
 		while (!feof(stdin))
 		{
-			printf("> ");
+			printf(CONSOLE_FOREGROUND_BRIGHT_MAGENTA"> "CONSOLE_COLOR_RESET);
 			String line = StringGetLine();
 			Scanner scan;
 			ScannerInit(&scan, StringToStringView(&line));
