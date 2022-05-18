@@ -9,6 +9,7 @@ void ScannerInit(Scanner* scan, StringView to_scan)
 	colti_assert(scan != NULL, "Pointer was NULL!");
 	memset(scan, 0, sizeof(Scanner));
 	scan->view = to_scan;
+	scan->current_line = 1;
 	StringInit(&scan->parsed_identifier);
 }
 
@@ -41,6 +42,8 @@ Token ScannerGetNextToken(Scanner* scan)
 			scan->current_line += 1;
 		next_char = impl_get_next_char(scan);
 	}
+	//we store the current offset, which is the beginning of the current lexeme
+	scan->lexeme_begin = scan->offset - 1;
 
 	if (isalpha(next_char))
 		return impl_scanner_handle_identifier(scan, next_char);
@@ -52,6 +55,47 @@ Token ScannerGetNextToken(Scanner* scan)
 /**********************************
 IMPLEMENTATION HELPERS
 **********************************/
+
+void impl_scanner_print_error(const Scanner* scan, const char* error, ...)
+{
+	fputs(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET, stderr);
+	fprintf(stderr, "On line %"PRIu64": ", scan->current_line);
+	
+	va_list args;
+	va_start(args, error);
+	vfprintf(stderr, error, args);
+	va_end(args);
+	fputc('\n', stderr);
+
+	size_t line_begin = 0;
+	const char* newline = scan->view.start + scan->lexeme_begin;
+	while (newline != scan->view.start)
+	{
+		if (*newline == '\n')
+		{
+			line_begin = newline - scan->view.start;
+			break;
+		}
+		newline--;
+	}
+
+	size_t line_end = scan->view.end - newline;
+	newline = scan->view.start + scan->lexeme_begin;
+	while (newline != scan->view.end)
+	{
+		if (*newline == '\n')
+		{
+			line_end = newline - scan->view.start;
+			break;
+		}
+		newline++;
+	}
+	fprintf(stderr, "%.*s"CONSOLE_BACKGROUND_BRIGHT_RED"%.*s"CONSOLE_COLOR_RESET"%.*s\n",
+		(uint32_t)(scan->lexeme_begin - line_begin), scan->view.start + line_begin,
+		(uint32_t)(scan->offset - scan->lexeme_begin), scan->view.start + scan->lexeme_begin,
+		(uint32_t)(line_end - scan->offset), scan->view.end - (line_end - scan->offset)
+	);
+}
 
 char impl_get_next_char(Scanner* scan)
 {
@@ -132,7 +176,7 @@ Token impl_scanner_handle_digit(Scanner* scan, char current_char)
 				colti_assert(false, "after_0 was an unexpected value!");
 				range_str = "ERROR";
 			}
-			print_error_format("'0%c' should be followed by characters in range %s!", after_0, range_str);
+			impl_scanner_print_error(scan, "'0%c' should be followed by characters in range %s!", after_0, range_str);
 			return TKN_ERROR;
 		}
 		return impl_token_str_to_uinteger(scan, base);
@@ -232,13 +276,13 @@ Token impl_token_str_to_double(Scanner* scan)
 	double value = strtod(scan->parsed_identifier.ptr, &end);
 	if (end != scan->parsed_identifier.ptr + scan->parsed_identifier.size - 1)
 	{
-		print_error_format("Unexpected character '%c' while parsing floating point literal.", *end);
+		impl_scanner_print_error(scan, "Unexpected character '%c' while parsing floating point literal.", *end);
 		return TKN_ERROR;
 	}
 	else if (value == HUGE_VAL && errno == ERANGE)
 	{
 		errno = 0;
-		print_error_string("Floating point literal is not representable.");
+		impl_scanner_print_error(scan, "Floating point literal is not representable.");
 		return TKN_ERROR;
 	}
 	scan->parsed_double = value;
@@ -252,13 +296,13 @@ Token impl_token_str_to_uinteger(Scanner* scan, int base)
 	
 	if (end != scan->parsed_identifier.ptr + scan->parsed_identifier.size - 1)
 	{
-		print_error_format("Unexpected character '%c' while parsing integer literal.", *end);
+		impl_scanner_print_error(scan, "Unexpected character '%c' while parsing integer literal.", *end);
 		return TKN_ERROR;
 	}
 	else if (value == ULLONG_MAX && errno == ERANGE)
 	{
 		errno = 0;
-		print_error_string("Integer literal is not representable.");
+		impl_scanner_print_error(scan, "Integer literal is not representable.");
 		return TKN_ERROR;
 	}
 	scan->parsed_uinteger = value;

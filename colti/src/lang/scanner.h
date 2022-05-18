@@ -59,6 +59,8 @@ Token ScannerGetNextToken(Scanner* scan);
 IMPLEMENTATION HELPERS
 **********************************/
 
+void impl_scanner_print_error(const Scanner* scan, const char* error, ...);
+
 /// @brief Returns the next character in the stream, and updates the offset
 /// @param scan The scanner from which to get the character
 /// @return The next character or EOF (-1) if no more characters are available
