@@ -1,3 +1,11 @@
+/** @file scanner.h
+* Contains the Scanner struct, which breaks a string into lexemes.
+* As the Scanner does not need to modify the input string, it takes in
+* a StringView.
+* The Scanner also handles error printing through `impl_scanner_print_error`.
+* The Scanner's string to integer can handles binary integers `0b`, decimal integers `0x`, octal integers `0o`.
+*/
+
 #ifndef HG_COLTI_SCANNER
 #define HG_COLTI_SCANNER
 
@@ -59,6 +67,13 @@ Token ScannerGetNextToken(Scanner* scan);
 IMPLEMENTATION HELPERS
 **********************************/
 
+/// @brief Prints formatted 'error' and highlights the current lexeme.
+/// Prints the line number, the line, highlights the lexeme.
+/// This function is as optimized as it can be, but it should still only
+/// be called for when error are found to avoid slowdown.
+/// @param scan The scanner from which to get the lexeme and line
+/// @param error The error, which is a `printf` style-format string
+/// @param  Variadic number of arguments to format to 'error'
 void impl_scanner_print_error(const Scanner* scan, const char* error, ...);
 
 /// @brief Returns the next character in the stream, and updates the offset

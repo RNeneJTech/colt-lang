@@ -9,7 +9,7 @@ void ScannerInit(Scanner* scan, StringView to_scan)
 	colti_assert(scan != NULL, "Pointer was NULL!");
 	memset(scan, 0, sizeof(Scanner));
 	scan->view = to_scan;
-	scan->current_line = 1;
+	scan->current_line = 1; //the line number starts at 1
 	StringInit(&scan->parsed_identifier);
 }
 
