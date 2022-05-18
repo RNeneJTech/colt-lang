@@ -58,9 +58,9 @@ IMPLEMENTATION HELPERS
 
 void impl_scanner_print_error(const Scanner* scan, const char* error, ...)
 {
-	fputs(CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET, stderr);
-	fprintf(stderr, "On line %"PRIu64": ", scan->current_line);
+	fprintf(stderr, CONSOLE_FOREGROUND_BRIGHT_RED"Error: "CONSOLE_COLOR_RESET"On line %"PRIu64": ", scan->current_line);
 	
+	//prints the error
 	va_list args;
 	va_start(args, error);
 	vfprintf(stderr, error, args);
@@ -68,6 +68,8 @@ void impl_scanner_print_error(const Scanner* scan, const char* error, ...)
 	fputc('\n', stderr);
 
 	size_t line_begin = 0;
+	//set the searching pointer to before the lexeme, and start searching backwards
+	//for the first '\n', which would be the beginning of the newline.
 	const char* newline = scan->view.start + scan->lexeme_begin;
 	while (newline != scan->view.start)
 	{
@@ -79,8 +81,10 @@ void impl_scanner_print_error(const Scanner* scan, const char* error, ...)
 		newline--;
 	}
 
+	//starts with the size of the string from the beginning of the line till the end of the whole string.
 	size_t line_end = scan->view.end - newline;
-	newline = scan->view.start + scan->lexeme_begin;
+	//reset the newline pointer to after the lexeme, and start looking for a '\n'
+	newline = scan->view.start + scan->offset;
 	while (newline != scan->view.end)
 	{
 		if (*newline == '\n')
@@ -90,10 +94,18 @@ void impl_scanner_print_error(const Scanner* scan, const char* error, ...)
 		}
 		newline++;
 	}
+
+	//This offset variable allows to fix highlighting issues:
+	//When the lexeme is not the last one, we need to remove 1 from the size of the lexeme.
+	//But if it's the last one, doing this results in a character getting chopped off.
+	int offset = (impl_peek_next_char(scan, 0) == EOF ? 0 : 1);
+
+	//To highlight the error lexeme, we need to break down the line in 3 parts:
+	//
 	fprintf(stderr, "%.*s"CONSOLE_BACKGROUND_BRIGHT_RED"%.*s"CONSOLE_COLOR_RESET"%.*s\n",
 		(uint32_t)(scan->lexeme_begin - line_begin), scan->view.start + line_begin,
-		(uint32_t)(scan->offset - scan->lexeme_begin), scan->view.start + scan->lexeme_begin,
-		(uint32_t)(line_end - scan->offset), scan->view.end - (line_end - scan->offset)
+		(uint32_t)(scan->offset - scan->lexeme_begin - offset), scan->view.start + scan->lexeme_begin,
+		(uint32_t)(line_end - scan->offset), scan->view.end - (line_end - scan->offset) - offset
 	);
 }
 
