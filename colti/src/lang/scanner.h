@@ -73,21 +73,40 @@ char impl_peek_next_char(const Scanner* scan, uint64_t offset);
 /// @param scan The scanner from which to get the identifier
 /// @param current_char The pointer to the current char (which should be an alpha), which will be modified
 /// @return The Token representing the identifier
-Token impl_scanner_handle_identifier(Scanner* scan, char* current_char);
+Token impl_scanner_handle_identifier(Scanner* scan, char current_char);
 
 /// @brief Handles a digit case, searching for if it's a float or an integer
 /// @param scan The scanner from which to get the value
 /// @param current_char The pointer to the current char (which should be a digit)
 /// @return The Token representing the identifier
-Token impl_scanner_handle_digit(Scanner* scan, char* current_char);
+Token impl_scanner_handle_digit(Scanner* scan, char current_char);
 
 /// @brief Handles comparisons for determining if an identifier is a keyword
 /// @param str The string to compare
 /// @return A Token representing a keyword, or TKN_IDENTIFIER
 Token impl_token_identifier_or_keyword(const String* string);
 
+/// @brief Converts a scanner's identifier string to a double.
+/// This function also stores the result in the scanner's 'parsed_double',
+/// and handles any error.
+/// @param scan The scanner to modify
+/// @return TKN_DOUBLE or TKN_ERROR if an error is encountered
 Token impl_token_str_to_double(Scanner* scan);
 
+/// @brief Converts a scanner's identifier string to an int of base 'base'.
+/// This function also stores the result of the conversion in the scanner's
+/// 'parsed_integer' and handles any error.
+/// @param scan The scanner to modify
+/// @param base The base of the int to parse
+/// @return TKN_INTEGER or TKN_ERROR if an error is encountered
 Token impl_token_str_to_integer(Scanner* scan, int base);
+
+/// @brief Adds characters to the scanner's identifier string while they are alpha or digits
+/// @param scan The scanner to modify
+char impl_parse_alnum(Scanner* scan);
+
+/// @brief Adds characters to the scanner's identifier string while they are digits
+/// @param scan The scanner to modify
+char impl_parse_digits(Scanner* scan);
 
 #endif //HG_COLTI_SCANNER

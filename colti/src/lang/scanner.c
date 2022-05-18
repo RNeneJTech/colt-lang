@@ -43,10 +43,9 @@ Token ScannerGetNextToken(Scanner* scan)
 	}
 
 	if (isalpha(next_char))
-		//FIXME: there is no need to pass next_char as a pointer
-		return impl_scanner_handle_identifier(scan, &next_char);
+		return impl_scanner_handle_identifier(scan, next_char);
 	else if (isdigit(next_char))
-		return impl_scanner_handle_digit(scan, &next_char);
+		return impl_scanner_handle_digit(scan, next_char);
 	return TKN_EOF;
 }
 
@@ -68,13 +67,13 @@ char impl_peek_next_char(const Scanner* scan, uint64_t offset)
 	return EOF;
 }
 
-Token impl_scanner_handle_identifier(Scanner* scan, char* current_char)
+Token impl_scanner_handle_identifier(Scanner* scan, char current_char)
 {
 	//Clear the string
 	scan->parsed_identifier.size = 1;
 	scan->parsed_identifier.ptr[0] = '\0';
 
-	StringAppendChar(&scan->parsed_identifier, *current_char);
+	StringAppendChar(&scan->parsed_identifier, current_char);
 	
 	char next_char = impl_get_next_char(scan);
 	while (isalnum(next_char))
@@ -83,73 +82,77 @@ Token impl_scanner_handle_identifier(Scanner* scan, char* current_char)
 		next_char = impl_get_next_char(scan);
 	}
 
-	//We update the current character
-	*current_char = next_char;
 	return impl_token_identifier_or_keyword(&scan->parsed_identifier);
 }
 
-Token impl_scanner_handle_digit(Scanner* scan, char* current_char)
+Token impl_scanner_handle_digit(Scanner* scan, char current_char)
 {
 	//Clear the string
 	scan->parsed_identifier.size = 1;
 	scan->parsed_identifier.ptr[0] = '\0';
 
-	StringAppendChar(&scan->parsed_identifier, *current_char);
+	StringAppendChar(&scan->parsed_identifier, current_char);
 
-	if (*current_char == '0') //Could be 0x, 0b, 0o
+	if (current_char == '0') //Could be 0x, 0b, 0o
 	{
 		char after_0 = (char)tolower(impl_peek_next_char(scan, 0));
+		int base = 10;
 		switch (after_0)
 		{
 		break; case 'x': //HEXADECIMAL
-			return impl_token_str_to_integer(scan, 16);
+			base = 16;			
 		break; case 'b': //BINARY
-			return impl_token_str_to_integer(scan, 2);
-		break; case 'o': //OCTAL
-		{
-			//TODO: add cases for x, b, o
-			(void)impl_get_next_char(scan); //consume the 'o'
-			char next_char = impl_get_next_char(scan);
-			while (isalnum(next_char))
-			{
-				StringAppendChar(&scan->parsed_identifier, next_char);
-				next_char = impl_get_next_char(scan);
-			}
-			if (&scan->parsed_identifier.size == 1) //No character
-			{
-				print_error_string("0o expects to be followed by digits from [0-7]!");
-				return TKN_ERROR;
-			}
-			return impl_token_str_to_integer(scan, 8);
-		}
+			base = 2;
+		break; case 'o': //OCTAL	
+			base = 8;
 		break; default:
 			if (!isdigit(after_0))
 			{
 				scan->parsed_integer = 0;
 				return TKN_INTEGER;
 			}
+			else //We recurse now that we have popped the leading 0
+				return impl_scanner_handle_digit(scan, impl_get_next_char(scan));
 		}
+		//Handle the different bases: 0x, 0b, 0o
+		after_0 = (char)tolower(impl_get_next_char(scan)); //consume the x|b|o
+		impl_parse_alnum(scan);
+		if (scan->parsed_identifier.size == 2) //Contains only the '0'
+		{
+			const char* range_str;
+			switch (after_0)
+			{
+			break; case 'x':
+				range_str = "[0-9a-f]";
+			break; case 'b':
+				range_str = "[0-1]";
+			break; case 'o':
+				range_str = "[0-7]";
+			break; default: //should never happen
+				colti_assert(false, "after_0 was an unexpected value!");
+				range_str = "ERROR";
+			}
+			print_error_format("'0%c' should be followed by characters in range %s!", after_0, range_str);
+			return TKN_ERROR;
+		}
+		return impl_token_str_to_integer(scan, base);
 	}
-	char next_char = impl_get_next_char(scan);
-	while (isdigit(next_char))
-	{
-		StringAppendChar(&scan->parsed_identifier, next_char);
-		next_char = impl_get_next_char(scan);
-	}
+
+	//Parse as many digits as possible
+	char next_char = impl_parse_digits(scan);	
+
 	bool isfloat = false;
 	// [0-9]+ followed by a .[0-9] is a float
 	if (next_char == '.' && isdigit(impl_peek_next_char(scan, 0)))
 	{
 		isfloat = true;
 		StringAppendChar(&scan->parsed_identifier, next_char);
-		next_char = impl_get_next_char(scan);
-		while (isdigit(next_char))
-		{
-			StringAppendChar(&scan->parsed_identifier, next_char);
-			next_char = impl_get_next_char(scan);
-		}
+
+		//Parse as many digits as possible
+		next_char = impl_parse_digits(scan);
 	}
 	char after_e = impl_peek_next_char(scan, 0);
+	// [0-9]+(.[0-9]+)?e[+-][0-9]+ is a float
 	if (next_char == 'e' && (after_e == '+' || after_e == '-' || isdigit(after_e)))
 	{
 		isfloat = true;
@@ -158,13 +161,10 @@ Token impl_scanner_handle_digit(Scanner* scan, char* current_char)
 		if (next_char == '+') //skip the + after the exponent
 			next_char = impl_get_next_char(scan);
 
-		StringAppendChar(&scan->parsed_identifier, next_char);
-		next_char = impl_get_next_char(scan);
-		while (isdigit(next_char))
-		{
-			StringAppendChar(&scan->parsed_identifier, next_char);
-			next_char = impl_get_next_char(scan);
-		}
+		StringAppendChar(&scan->parsed_identifier, next_char);		
+		
+		//Parse as many digits as possible
+		(void)impl_parse_digits(scan);
 	}
 
 	if (isfloat)
@@ -232,11 +232,12 @@ Token impl_token_str_to_double(Scanner* scan)
 	double value = strtod(scan->parsed_identifier.ptr, &end);
 	if (end != scan->parsed_identifier.ptr + scan->parsed_identifier.size - 1)
 	{
-		print_error_format("Unexpected %c character while parsing floating point literal.", *end);
+		print_error_format("Unexpected character '%c' while parsing floating point literal.", *end);
 		return TKN_ERROR;
 	}
-	else if (value == HUGE_VAL)
+	else if (value == HUGE_VAL && errno == ERANGE)
 	{
+		errno = 0;
 		print_error_string("Floating point literal is not representable.");
 		return TKN_ERROR;
 	}
@@ -251,7 +252,7 @@ Token impl_token_str_to_integer(Scanner* scan, int base)
 	
 	if (end != scan->parsed_identifier.ptr + scan->parsed_identifier.size - 1)
 	{
-		print_error_format("Unexpected %c character while parsing integer literal.", *end);
+		print_error_format("Unexpected character '%c' while parsing integer literal.", *end);
 		return TKN_ERROR;
 	}
 	else if (value == ULLONG_MAX && errno == ERANGE)
@@ -262,4 +263,26 @@ Token impl_token_str_to_integer(Scanner* scan, int base)
 	}
 	scan->parsed_integer = value;
 	return TKN_INTEGER;
+}
+
+char impl_parse_alnum(Scanner* scan)
+{
+	char next_char = impl_get_next_char(scan);
+	while (isalnum(next_char))
+	{
+		StringAppendChar(&scan->parsed_identifier, next_char);
+		next_char = impl_get_next_char(scan);
+	}
+	return next_char;
+}
+
+char impl_parse_digits(Scanner* scan)
+{
+	char next_char = impl_get_next_char(scan);
+	while (isdigit(next_char))
+	{
+		StringAppendChar(&scan->parsed_identifier, next_char);
+		next_char = impl_get_next_char(scan);
+	}
+	return next_char;
 }
