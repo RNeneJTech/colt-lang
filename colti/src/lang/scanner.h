@@ -101,7 +101,7 @@ Token impl_token_str_to_double(Scanner* scan);
 /// @param scan The scanner to modify
 /// @param base The base of the int to parse
 /// @return TKN_INTEGER or TKN_ERROR if an error is encountered
-Token impl_token_str_to_integer(Scanner* scan, int base);
+Token impl_token_str_to_uinteger(Scanner* scan, int base);
 
 /// @brief Adds characters to the scanner's identifier string while they are alpha or digits
 /// @param scan The scanner to modify

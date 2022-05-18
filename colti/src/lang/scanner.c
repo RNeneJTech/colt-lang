@@ -135,7 +135,7 @@ Token impl_scanner_handle_digit(Scanner* scan, char current_char)
 			print_error_format("'0%c' should be followed by characters in range %s!", after_0, range_str);
 			return TKN_ERROR;
 		}
-		return impl_token_str_to_integer(scan, base);
+		return impl_token_str_to_uinteger(scan, base);
 	}
 
 	//Parse as many digits as possible
@@ -170,7 +170,7 @@ Token impl_scanner_handle_digit(Scanner* scan, char current_char)
 	if (isfloat)
 		return impl_token_str_to_double(scan);
 	else
-		return impl_token_str_to_integer(scan, 10);
+		return impl_token_str_to_uinteger(scan, 10);
 }
 
 Token impl_token_identifier_or_keyword(const String* string)
@@ -245,7 +245,7 @@ Token impl_token_str_to_double(Scanner* scan)
 	return TKN_DOUBLE;
 }
 
-Token impl_token_str_to_integer(Scanner* scan, int base)
+Token impl_token_str_to_uinteger(Scanner* scan, int base)
 {
 	char* end;
 	uint64_t value = strtoull(scan->parsed_identifier.ptr, &end, base);
