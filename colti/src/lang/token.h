@@ -22,7 +22,7 @@ typedef enum
 	/// @brief -
 	TKN_OPERATOR_MINUS,
 	/// @brief --
-	TKN_OPERATOR_MINUS_PLUS,
+	TKN_OPERATOR_MINUS_MINUS,
 	/// @brief -=
 	TKN_OPERATOR_MINUS_EQUAL,
 
