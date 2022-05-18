@@ -225,7 +225,7 @@ void impl_enum(int argc, const char** argv)
 {
 	if (argc == 2)
 	{
-		printf("The possible arguments are:"CONSOLE_BACKGROUND_BRIGHT_CYAN
+		printf("The possible arguments are:"CONSOLE_FOREGROUND_BRIGHT_CYAN
 			"\n\t-h, --help"
 			"\n\t-e, --enum"
 			"\n\t-v, --version"
