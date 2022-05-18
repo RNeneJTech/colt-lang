@@ -49,6 +49,45 @@ Token ScannerGetNextToken(Scanner* scan)
 		return impl_scanner_handle_identifier(scan, next_char);
 	else if (isdigit(next_char))
 		return impl_scanner_handle_digit(scan, next_char);
+	
+	switch (next_char)
+	{
+	case '{':
+	case '}':
+	case '(':
+	case ')':
+	case '[':
+	case ']':
+	case '+':
+		return impl_scanner_handle_plus(scan);
+	case '-':
+		return impl_scanner_handle_minus(scan);
+	case '*':
+		return impl_scanner_handle_star(scan);
+	case '/':
+		return impl_scanner_handle_slash(scan);
+	case '.':
+		return impl_scanner_handle_dot(scan);
+	case '<':
+		return impl_scanner_handle_less(scan);
+	case '>':
+		return impl_scanner_handle_greater(scan);
+	case ',':
+		return TKN_COMMA;
+	case ':':
+		if (impl_peek_next_char(scan, 0) == '>')
+		{
+			scan->offset++; //consume the '>'
+			return TKN_OPERATOR_COLON_GREATER;
+		}
+		return TKN_COLON;
+	case ';':
+		return TKN_SEMICOLON;
+	case '%':
+		return TKN_EOF;
+		//TKN_OPERATOR_MODULO
+	}
+
 	return TKN_EOF;
 }
 
@@ -227,6 +266,128 @@ Token impl_scanner_handle_digit(Scanner* scan, char current_char)
 		return impl_token_str_to_double(scan);
 	else
 		return impl_token_str_to_uinteger(scan, 10);
+}
+
+Token impl_scanner_handle_plus(Scanner* scan)
+{
+	Token to_ret;
+	switch (impl_peek_next_char(scan, 0))
+	{
+	break; case '=':
+		to_ret = TKN_OPERATOR_PLUS_EQUAL;
+	break; case '+':
+		to_ret = TKN_OPERATOR_PLUS_PLUS;
+	break; default:
+		return TKN_OPERATOR_PLUS;
+	}
+	scan->offset++; //consume the peeked character
+	return to_ret;
+}
+
+Token impl_scanner_handle_minus(Scanner* scan)
+{
+	Token to_ret;
+	switch (impl_peek_next_char(scan, 0))
+	{
+	break; case '=':
+		to_ret = TKN_OPERATOR_MINUS_EQUAL;
+	break; case '-':
+		to_ret = TKN_OPERATOR_MINUS_MINUS;
+	break; default:
+		return TKN_OPERATOR_MINUS;
+	}
+	scan->offset++; //consume the peeked character
+	return to_ret;
+}
+
+Token impl_scanner_handle_star(Scanner* scan)
+{
+	if (impl_peek_next_char(scan, 0) == '=')
+	{
+		scan->offset++; //consume the peeked character
+		return TKN_OPERATOR_STAR_EQUAL;
+	}
+	return TKN_OPERATOR_STAR;
+}
+
+Token impl_scanner_handle_slash(Scanner* scan)
+{
+	switch (impl_peek_next_char(scan, 0))
+	{
+	case '=':
+		scan->offset++; //consume the peeked character
+		return TKN_OPERATOR_SLASH_EQUAL;
+	case '/': // one line comment
+	{
+		scan->offset++; //consume the peeked character
+		char next_char = impl_get_next_char(scan);
+		while (next_char != EOF && next_char != '\n')
+			next_char = impl_get_next_char(scan);
+		if (next_char == '\n')
+			scan->current_line++;
+		return ScannerGetNextToken(scan); //recurse and return the token after the comment
+	}
+	case '*': // multi-line comment
+	{
+		scan->offset++; //consume the peeked character
+		char next_char = impl_get_next_char(scan);
+		while (next_char != EOF)
+		{
+			if (next_char == '\n')
+				scan->current_line++;
+			if (next_char == '*')
+			{
+				next_char = impl_get_next_char(scan);
+				if (next_char == '/')
+					return ScannerGetNextToken(scan); //recurse and return the token after the comment
+			}
+			next_char = impl_get_next_char(scan);
+		}
+		//TODO: error for unterminated multi-line comment
+		return TKN_ERROR;
+	}
+	default:
+		return TKN_OPERATOR_SLASH;
+	}
+}
+
+Token impl_scanner_handle_dot(Scanner* scan)
+{
+	//TODO: float or just point handling
+}
+
+Token impl_scanner_handle_less(Scanner* scan)
+{
+	Token to_ret;
+	switch (impl_peek_next_char(scan, 0))
+	{
+	break; case '=':
+		to_ret = TKN_OPERATOR_LESS_EQUAL;
+	break; case '<':
+		to_ret = TKN_OPERATOR_LESS_LESS;
+	break; case ':':
+		to_ret = TKN_OPERATOR_LESS_COLON;
+	break; default:
+		return TKN_OPERATOR_LESS;
+	}
+	scan->offset++; //consume the peeked character
+	return to_ret;
+}
+
+Token impl_scanner_handle_greater(Scanner* scan)
+{
+	Token to_ret;
+	switch (impl_peek_next_char(scan, 0))
+	{
+	break; case '=':
+		to_ret = TKN_OPERATOR_GREATER_EQUAL;
+	break; case '>':
+		to_ret = TKN_OPERATOR_GREATER_GREATER;
+	break; default:
+		return TKN_OPERATOR_GREATER;
+	}
+	scan->offset++; //consume the peeked character
+	return to_ret;
 }
 
 Token impl_token_identifier_or_keyword(const String* string)

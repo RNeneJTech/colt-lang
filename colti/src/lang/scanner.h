@@ -100,6 +100,20 @@ Token impl_scanner_handle_identifier(Scanner* scan, char current_char);
 /// @return The Token representing the identifier
 Token impl_scanner_handle_digit(Scanner* scan, char current_char);
 
+Token impl_scanner_handle_plus(Scanner* scan);
+
+Token impl_scanner_handle_minus(Scanner* scan);
+
+Token impl_scanner_handle_star(Scanner* scan);
+
+Token impl_scanner_handle_slash(Scanner* scan);
+
+Token impl_scanner_handle_dot(Scanner* scan);
+
+Token impl_scanner_handle_less(Scanner* scan);
+
+Token impl_scanner_handle_greater(Scanner* scan);
+
 /// @brief Handles comparisons for determining if an identifier is a keyword
 /// @param str The string to compare
 /// @return A Token representing a keyword, or TKN_IDENTIFIER
